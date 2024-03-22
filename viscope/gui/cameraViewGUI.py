@@ -2,12 +2,12 @@
 class for live viewing spectral images
 '''
 #%%
-import napari
+#import napari
 from magicgui import magicgui
-from typing import Annotated, Literal
+#from typing import Annotated, Literal
 
-from qtpy.QtWidgets import QLabel, QSizePolicy
-from qtpy.QtCore import Qt
+#from qtpy.QtWidgets import QLabel, QSizePolicy
+#from qtpy.QtCore import Qt
 from viscope.gui.baseGUI import BaseGUI
 
 from timeit import default_timer as timer
@@ -22,9 +22,9 @@ class CameraViewGUI(BaseGUI):
     DEFAULT = {'nameLayer': 'Camera'}
 
 
-    def __init__(self, viscope, vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
         
         self.lastUpdateTime = timer()
@@ -38,7 +38,7 @@ class CameraViewGUI(BaseGUI):
         ''' prepare the gui '''
 
         # create napari viewer
-        newGUI  = NapariGUI(self.viscope,self.vWindow)
+        newGUI  = NapariGUI(self.viscope,vWindow=self.vWindow)
         self.viewer = newGUI.viewer
 
         # set new napari layer
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
         print('starting main event loop')
         viscope = BaseMain()
-        newGUI  = CameraViewGUI(viscope,viscope.vWindow)
+        newGUI  = CameraViewGUI(viscope)
         newGUI.setDevice(camera)
         viscope.run()
 

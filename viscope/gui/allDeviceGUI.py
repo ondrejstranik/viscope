@@ -28,9 +28,9 @@ class AllDeviceGUI(BaseGUI):
     DEFAULT = {}
 
 
-    def __init__(self, viscope, vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
 
 
@@ -40,21 +40,19 @@ class AllDeviceGUI(BaseGUI):
         
         for ii in self.device:
             if isinstance(ii,BaseStage):
-                deviceGUI  = StageGUI(self.viscope,self.vWindow)
+                deviceGUI  = StageGUI(self.viscope)
                 deviceGUI.setDevice(ii)
             if isinstance(ii,BaseLaser):
-                deviceGUI  = LaserGUI(self.viscope,self.vWindow)
+                deviceGUI  = LaserGUI(self.viscope)
                 deviceGUI.setDevice(ii)
             if isinstance(ii,BaseSwitch):
-                deviceGUI  = SwitchGUI(self.viscope,self.vWindow)
+                deviceGUI  = SwitchGUI(self.viscope)
                 deviceGUI.setDevice(ii)
             if isinstance(ii,BaseCamera):
-                deviceGUI = CameraGUI(self.viscope,self.vWindow)
-                deviceGUI.setDevice(ii)
                 _vWindow = self.viscope.addViewerWindow()
-                deviceGUI = CameraViewGUI(self.viscope,_vWindow)
-                #deviceGUI = CameraViewGUI(self.viscope,self.vWindow)
-
+                deviceGUI = CameraGUI(self.viscope,vWindow=_vWindow)
+                deviceGUI.setDevice(ii)
+                deviceGUI = CameraViewGUI(self.viscope,vWindow=_vWindow)
                 deviceGUI.setDevice(ii)
 
 
@@ -95,7 +93,7 @@ if __name__ == "__main__":
 
     print('starting main event loop')
     viscope = BaseMain()
-    viewer  = AllDeviceGUI(viscope,viscope.vWindow)
+    viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([stage1,stage2,laser1,switch1,camera1,camera2])
     #viewer.setDevice([stage1,stage2,laser1,switch1,camera1])
 

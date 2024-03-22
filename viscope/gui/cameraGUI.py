@@ -2,24 +2,24 @@
 class for live viewing spectral images
 '''
 #%%
-import napari
+#import napari
 from magicgui import magicgui
 from typing import Annotated, Literal
 
-from qtpy.QtWidgets import QLabel, QSizePolicy
-from qtpy.QtCore import Qt
+#from qtpy.QtWidgets import QLabel, QSizePolicy
+#from qtpy.QtCore import Qt
 from viscope.gui.baseGUI import BaseGUI
 
-import numpy as np
+#import numpy as np
 
 class CameraGUI(BaseGUI):
     ''' main class to control camera'''
 
     DEFAULT = {'nameGUI': 'Camera'}
 
-    def __init__(self, viscope, vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
         # widget
         self.parameterCameraGui = None
@@ -58,8 +58,8 @@ if __name__ == "__main__":
         camera.connect()
 
         print('starting main event loop')
-        viscope = BaseMain(True)
-        newGUI  = CameraGUI(viscope,viscope.vWindow)
+        viscope = BaseMain()
+        newGUI  = CameraGUI(viscope)
         newGUI.setDevice(camera)
         viscope.run()
 

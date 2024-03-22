@@ -14,12 +14,10 @@ from qtpy.QtCore import QObject, Signal
 from skimage import data
 from skimage.transform import resize, rescale
 
-from napari.qt.threading import create_worker
-
-from viscope.instrument.base.baseInstrument import ThreadFlag
+from viscope.virtualDevice.baseVirtualMicroscope import BaseVirtualMicroscope
 
 
-class virtualMicroscope():
+class virtualMicroscope(BaseVirtualMicroscope):
     ''' class to emulate microscope '''
     DEFAULT = {'photonRateMax':1e6,
                 'samplePixelSize':1, # um
@@ -30,12 +28,8 @@ class virtualMicroscope():
         ''' initialisation '''
         super(virtualMicroscope,self).__init__(*args, **kwargs)
 
-        self.flagLoop = ThreadFlag()
-        self.worker = None
-
         self.sample = None
         self.camera = None
-
 
     def setSample(self):
         ''' define the sample.
@@ -52,26 +46,9 @@ class virtualMicroscope():
 
         self.sample = _sample
 
-
     def setVirtualDevice(self,device):
         ''' set instruments of the microscope '''
-
         self.camera = device
-
-    def connect(self):
-        ''' start the virtual microscope '''
-        self.worker = create_worker(self.loop)
-        self.worker.start()
-
-        # connect the signals from the instruments
-        #self.camera.sigGetLastImage.connect(lambda : setattr(self,'flagNewImageRequest',True))
-        #self.camera.sigSetParameter.connect(lambda: setattr(self,'flagNewState',True))
-
-
-    def disconnect(self):
-        ''' stop the virtual microscope '''
-        self.worker.quit()
-
 
     def calculateVirtualFrame(self):
         ''' update the virtual Frame of the camera '''
@@ -85,8 +62,8 @@ class virtualMicroscope():
         # camera
         ## field of view
         # 
-        print(f'virtual camera object { self.camera}')
-        print(f'camera size: { self.camera.getParameter("height")} {self.camera.getParameter("width")}')
+        #print(f'virtual camera object { self.camera}')
+        #print(f'camera size: { self.camera.getParameter("height")} {self.camera.getParameter("width")}')
 
         vFrame = np.zeros((self.camera.getParameter('height'),self.camera.getParameter('width')))
         minHeight = np.min((self.camera.getParameter('height'),sFrame.shape[0]))
@@ -96,9 +73,10 @@ class virtualMicroscope():
         ## integration time
         vFrame *= self.camera.exposureTime/1e6
 
+        print('virtual Frame updated')
+
         return vFrame
 
-        print('virtual Frame updated')
 
     def loop(self):
         ''' infinite loop to carry out the microscope state update
@@ -135,7 +113,7 @@ if __name__ == '__main__':
 
     print('starting main event loop')
     viscope = BaseMain()
-    viewer  = AllDeviceGUI(viscope,viscope.vWindow)
+    viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([camera1])
     
     viscope.run()

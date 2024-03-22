@@ -24,11 +24,12 @@ class BaseGUI():
     DEFAULT = {'nameGUI': 'baseGUI',
                 'threading': False}
 
-    def __init__(self, viscope, vWindow, threading = None, **kwargs ):
+    def __init__(self, viscope, vWindow=None, threading = None, **kwargs ):
         ''' initialise the class '''
 
         self.viscope = viscope
-        self.vWindow = vWindow
+        
+        self.vWindow = vWindow if vWindow is not None else viscope.vWindow 
 
         self.flagLoop = ThreadFlag()
         self.worker = None
@@ -44,39 +45,19 @@ class BaseGUI():
     def addParameterGui(self,newGUI,name=DEFAULT['nameGUI']):
         ''' add parameter GUI '''
 
-        if isinstance(self.vWindow.viewer,napari.Viewer):
-            dw = self.vWindow.viewer.window.add_dock_widget(newGUI, name = name, area= 'bottom')
-            # tabify the widget
-            if self.vWindow.dockWidgetParameter is not None:
-                self.vWindow.viewer.window._qt_window.tabifyDockWidget(self.vWindow.dockWidgetParameter,dw)
-                print(f'instance {self} has dockWidgetParameter')
-            else:
-                print(f'instance {self} DOES NOT has dockWidgetParameter')
-
-            self.vWindow.dockWidgetParameter = dw
-            #self.dockWidgetParameter = dw
-            self.vWindow.viewer.window._qt_window.resizeDocks([dw], [100], Qt.Vertical)
-        else:
-            dw=QDockWidget('Dockable',self.vWindow.viewer)
-            dw.setWindowTitle(name)
-            dw.setWidget(newGUI.native)
-            self.vWindow.viewer.addDockWidget(Qt.BottomDockWidgetArea,dw)
-            # tabify the widget
-            if self.vWindow.dockWidgetParameter is not None:
-                self.vWindow.viewer.tabifyDockWidget(self.vWindow.dockWidgetParameter,dw)
-            self.vWindow.dockWidgetParameter = dw
+        dw=QDockWidget('Dockable',self.vWindow.viewer)
+        dw.setWindowTitle(name)
+        dw.setWidget(newGUI.native)
+        self.vWindow.viewer.addDockWidget(Qt.BottomDockWidgetArea,dw)
+        # tabify the widget
+        if self.vWindow.dockWidgetParameter is not None:
+            self.vWindow.viewer.tabifyDockWidget(self.vWindow.dockWidgetParameter,dw)
+        self.vWindow.dockWidgetParameter = dw
             #self.dockWidgetParameter = dw
 
     def addMainGUI(self,newGUI,name=DEFAULT['nameGUI']):
         ''' add main GUI '''
         self.vWindow.viewer.setCentralWidget(newGUI)
-
-        '''
-        dock1 = QDockWidget(name)
-        dock1.setWidget(newGUI)
-        dock1.DockWidgetFloatable = False
-        self.vWindow.viewer.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, dock1)
-        '''
 
     def __setWidget(self):
         ''' prepare the gui '''
@@ -103,7 +84,7 @@ if __name__ == "__main__":
 
         viscope = BaseMain()
                 
-        base = BaseGUI(viscope,viscope.vWindow)
+        base = BaseGUI(viscope)
         print('starting main event loop')
 
         viscope.run()

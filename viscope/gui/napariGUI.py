@@ -20,9 +20,9 @@ class NapariGUI(BaseGUI):
 
     DEFAULT = {'nameGUI': 'Napari'}
 
-    def __init__(self, viscope, vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
         # prepare the gui of the class
         NapariGUI.__setWidget(self) 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
         print('starting main event loop')
         viscope = BaseMain()
-        newGUI  = NapariGUI(viscope,viscope.vWindow)
+        newGUI  = NapariGUI(viscope)
         viscope.run()
 
 

@@ -18,10 +18,10 @@ class SwitchGUI(BaseGUI):
     DEFAULT = {'nameGUI': 'Switch',
                 'napariViewer': False}
 
-    def __init__(self, viscope,vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
         
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
         # widget
         self.parameterSwitchGui = None
@@ -63,10 +63,10 @@ if __name__ == "__main__":
         switch.connect()
         #switch.setParameter('position',0)
 
-        viscope = BaseMain(True)
+        viscope = BaseMain()
         
         print('starting main Napari loop')
-        viewerSwitch  = SwitchGUI(viscope,viscope.vWindow)
+        viewerSwitch  = SwitchGUI(viscope)
         viewerSwitch.setDevice(switch)
         
         viscope.run()

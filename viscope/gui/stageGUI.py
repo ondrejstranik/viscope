@@ -6,8 +6,9 @@ import napari
 from magicgui import magicgui
 from typing import Annotated, Literal
 
-from qtpy.QtWidgets import QLabel, QSizePolicy
+from qtpy.QtWidgets import QLabel, QSizePolicy, QShortcut, QMessageBox
 from qtpy.QtCore import Qt
+from qtpy.QtGui import QKeySequence
 from viscope.gui.baseGUI import BaseGUI
 
 import numpy as np
@@ -19,9 +20,9 @@ class StageGUI(BaseGUI):
                 'napariViewer': False}
 
 
-    def __init__(self, viscope, vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
         # widget
         self.parameterStageGui = None
@@ -62,26 +63,30 @@ class StageGUI(BaseGUI):
             self.parameterStageGui.absY.value = self.device.position[1]
             self.parameterStageGui.absZ.value = self.device.position[2]
 
-        # adding keybinding for napari
-        if False:
-        
-        #if isinstance(self.viewer,napari.Viewer):
-            self.viewer.bind_key('Left')(lambda x: self.parameterStageGui(relX=-1) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Right')(lambda x: self.parameterStageGui(relX=1) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Up')(lambda x: self.parameterStageGui(relY=1) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Down')(lambda x: self.parameterStageGui(relY=-1) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('PageUp')(lambda x: self.parameterStageGui(relZ=1) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('PageDown')(lambda x: self.parameterStageGui(relZ=-1) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Shift-Left')(lambda x: self.parameterStageGui(relX=-10) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Shift-Right')(lambda x: self.parameterStageGui(relX=10) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Shift-Up')(lambda x: self.parameterStageGui(relY=10) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Shift-Down')(lambda x: self.parameterStageGui(relY=-10) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Shift-PageUp')(lambda x: self.parameterStageGui(relZ=10) if self.dockWidgetParameter.underMouse()==True else None)
-            self.viewer.bind_key('Shift-PageDown')(lambda x: self.parameterStageGui(relZ=-10) if self.dockWidgetParameter.underMouse()==True else None)
-
         # add widget parameterCameraGui 
         self.parameterStageGui = parameterStageGui
         self.addParameterGui(self.parameterStageGui,name=self.DEFAULT['nameGUI'])
+
+        # add keybinding
+        QShortcut(QKeySequence('Ctrl+X'), self.vWindow.viewer).activated.connect(
+            lambda : self.parameterStageGui(relX=+1) 
+            if self.parameterStageGui.native.underMouse()==True else None)
+        QShortcut(QKeySequence('Shift+X'), self.vWindow.viewer).activated.connect(
+            lambda : self.parameterStageGui(relX=-1) 
+            if self.parameterStageGui.native.underMouse()==True else None)
+        QShortcut(QKeySequence('Ctrl+Y'), self.vWindow.viewer).activated.connect(
+            lambda : self.parameterStageGui(relY=+1) 
+            if self.parameterStageGui.native.underMouse()==True else None)
+        QShortcut(QKeySequence('Shift+Y'), self.vWindow.viewer).activated.connect(
+            lambda : self.parameterStageGui(relY=-1) 
+            if self.parameterStageGui.native.underMouse()==True else None)
+        QShortcut(QKeySequence('Ctrl+Z'), self.vWindow.viewer).activated.connect(
+            lambda : self.parameterStageGui(relZ=+1) 
+            if self.parameterStageGui.native.underMouse()==True else None)
+        QShortcut(QKeySequence('Shift+Z'), self.vWindow.viewer).activated.connect(
+            lambda : self.parameterStageGui(relZ=-1) 
+            if self.parameterStageGui.native.underMouse()==True else None)
+
 
     def setDevice(self,device):
         ''' set the stage '''
@@ -103,8 +108,8 @@ if __name__ == "__main__":
         stage.connect()
 
         print('starting main event loop')
-        viscope = BaseMain(True)
-        viewerStage  = StageGUI(viscope,viscope.vWindow)
+        viscope = BaseMain()
+        viewerStage  = StageGUI(viscope)
         viewerStage.setDevice(stage)
         viscope.run()
 

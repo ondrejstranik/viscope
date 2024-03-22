@@ -13,9 +13,9 @@ class LaserGUI(BaseGUI):
     DEFAULT = {'nameGUI': 'Laser',
                 'napariViewer': False}
 
-    def __init__(self, viscope, vWindow, **kwargs):
+    def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        super().__init__(viscope, vWindow, **kwargs)
+        super().__init__(viscope, **kwargs)
 
         # widget
         self.parameterLaserGui = None
@@ -43,6 +43,15 @@ class LaserGUI(BaseGUI):
         self.addParameterGui(self.parameterLaserGui,name=self.DEFAULT['nameGUI'])
 
 
+    def setDevice(self,device):
+        ''' set the laser '''
+
+        super().setDevice(device)
+
+        # set gui parameters
+        self.parameterLaserGui.power.value = self.device.getParameter('power')
+        self.parameterLaserGui.emission.value = self.device.getParameter('keySwitch')
+
 
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualLaser import VirtualLaser
@@ -53,8 +62,8 @@ if __name__ == "__main__":
         laser.connect()
 
         print('starting main event loop')
-        viscope = BaseMain(True)
-        viewerLaser  = LaserGUI(viscope,viscope.vWindow)
+        viscope = BaseMain()
+        viewerLaser  = LaserGUI(viscope)
         viewerLaser.setDevice(laser)
         viscope.run()
 
