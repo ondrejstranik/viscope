@@ -14,6 +14,8 @@ from timeit import default_timer as timer
 
 import numpy as np
 
+from viscope.gui.napariGUI import NapariGUI
+
 class CameraViewGUI(BaseGUI):
     ''' main class to show images of a camera'''
 
@@ -28,14 +30,19 @@ class CameraViewGUI(BaseGUI):
         self.lastUpdateTime = timer()
         self.guiUpdateTime = 0.03
 
+
         # prepare the gui of the class
         CameraViewGUI.__setWidget(self) 
 
     def __setWidget(self):
         ''' prepare the gui '''
 
+        # create napari viewer
+        newGUI  = NapariGUI(self.viscope,self.vWindow)
+        self.viewer = newGUI.viewer
+
         # set new napari layer
-        self.rawLayer = self.vWindow.viewer.add_image(np.ones((2,2)),
+        self.rawLayer = self.viewer.add_image(np.ones((2,2)),
                         rgb=False, colormap="gray",
                         name='Raw',  blending='additive')
 
@@ -67,7 +74,7 @@ if __name__ == "__main__":
         camera.setParameter('threadingNow',True)
 
         print('starting main event loop')
-        viscope = BaseMain(True)
+        viscope = BaseMain()
         newGUI  = CameraViewGUI(viscope,viscope.vWindow)
         newGUI.setDevice(camera)
         viscope.run()

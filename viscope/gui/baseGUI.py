@@ -67,6 +67,17 @@ class BaseGUI():
             self.vWindow.dockWidgetParameter = dw
             #self.dockWidgetParameter = dw
 
+    def addMainGUI(self,newGUI,name=DEFAULT['nameGUI']):
+        ''' add main GUI '''
+        self.vWindow.viewer.setCentralWidget(newGUI)
+
+        '''
+        dock1 = QDockWidget(name)
+        dock1.setWidget(newGUI)
+        dock1.DockWidgetFloatable = False
+        self.vWindow.viewer.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, dock1)
+        '''
+
     def __setWidget(self):
         ''' prepare the gui '''
         self.viscope.GUIList.append(self)

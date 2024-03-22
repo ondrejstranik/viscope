@@ -51,8 +51,10 @@ class AllDeviceGUI(BaseGUI):
             if isinstance(ii,BaseCamera):
                 deviceGUI = CameraGUI(self.viscope,self.vWindow)
                 deviceGUI.setDevice(ii)
-                _vWindow = self.viscope.addViewerWindow(napariViewer=True)
+                _vWindow = self.viscope.addViewerWindow()
                 deviceGUI = CameraViewGUI(self.viscope,_vWindow)
+                #deviceGUI = CameraViewGUI(self.viscope,self.vWindow)
+
                 deviceGUI.setDevice(ii)
 
 
@@ -95,7 +97,9 @@ if __name__ == "__main__":
     viscope = BaseMain()
     viewer  = AllDeviceGUI(viscope,viscope.vWindow)
     viewer.setDevice([stage1,stage2,laser1,switch1,camera1,camera2])
-    
+    #viewer.setDevice([stage1,stage2,laser1,switch1,camera1])
+
+
     viscope.run()
 
     print('disconnecting')
