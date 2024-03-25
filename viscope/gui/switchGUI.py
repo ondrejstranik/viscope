@@ -38,7 +38,7 @@ class SwitchGUI(BaseGUI):
 
         # add widget parameterCameraGui 
         self.parameterSwitchGui = parameterSwitchGui
-        self.addParameterGui(self.parameterSwitchGui,name=self.DEFAULT['nameGUI'])
+        self.dw = self.vWindow.addParameterGui(self.parameterSwitchGui,name=self.DEFAULT['nameGUI'])
 
 
     def setDevice(self,device):
@@ -51,21 +51,19 @@ class SwitchGUI(BaseGUI):
         self.parameterSwitchGui.switchPosition.value = self.device.getParameter('position')
         self.parameterSwitchGui.switchPosition.label = self.device.positionList[self.device.getParameter('position')]
 
-
+        self.dw.setWindowTitle(self.device.name)
 
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualSwitch import VirtualSwitch
 
-        from viscope.main.baseMain import BaseMain
+        from viscope.main import Viscope
 
-        print('starting switcher')
+        print('starting switch')
         switch = VirtualSwitch()
         switch.connect()
         #switch.setParameter('position',0)
 
-        viscope = BaseMain()
-        
-        print('starting main Napari loop')
+        viscope = Viscope()
         viewerSwitch  = SwitchGUI(viscope)
         viewerSwitch.setDevice(switch)
         

@@ -35,7 +35,7 @@ class VirtualStage(BaseStage):
 
     def connect(self):
         ''' connect to all actuators'''
-
+        super().connect()
         self.motorX: motor = motor()
         self.motorY: motor = motor()
         self.motorZ: motor = motor()
@@ -46,6 +46,7 @@ class VirtualStage(BaseStage):
 
     def disconnect(self):
         ''' disconnect all actuators'''
+        super().disconnect()
         self.motorX = None
         self.motorY = None
         self.motorZ = None

@@ -2,12 +2,10 @@
 class for live viewing spectral images
 '''
 #%%
-import napari
-from magicgui import magicgui
-from typing import Annotated, Literal
+#import napari
+#from magicgui import magicgui
+#from typing import Annotated, Literal
 
-from qtpy.QtWidgets import QLabel, QSizePolicy
-from qtpy.QtCore import Qt
 from viscope.gui.baseGUI import BaseGUI
 from viscope.gui.stageGUI import StageGUI
 from viscope.gui.laserGUI import LaserGUI
@@ -19,8 +17,7 @@ from viscope.instrument.base.baseLaser import BaseLaser
 from viscope.instrument.base.baseSwitch import BaseSwitch
 from viscope.instrument.base.baseCamera import BaseCamera
 
-
-import numpy as np
+#import numpy as np
 
 class AllDeviceGUI(BaseGUI):
     ''' main class to control all devices'''
@@ -31,7 +28,6 @@ class AllDeviceGUI(BaseGUI):
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
         super().__init__(viscope, **kwargs)
-
 
 
     def setDevice(self,deviceList):
@@ -56,48 +52,32 @@ class AllDeviceGUI(BaseGUI):
                 deviceGUI.setDevice(ii)
 
 
-
 if __name__ == "__main__":
     from viscope.instrument.virtual.virtualStage import VirtualStage
     from viscope.instrument.virtual.virtualLaser import VirtualLaser
     from viscope.instrument.virtual.virtualSwitch import VirtualSwitch
     from viscope.instrument.virtual.virtualCamera import VirtualCamera
 
-    from viscope.main.baseMain import BaseMain
+    from viscope.main import Viscope
 
-    print('starting stage 1')
-    stage1 = VirtualStage()
+    stage1 = VirtualStage(name='Stage1')
     stage1.connect()
-
-    print('starting stage 2')
-    stage2 = VirtualStage()
+    stage2 = VirtualStage(name='Stage2')
     stage2.connect()
-
-    print('starting laser 1')
-    laser1 = VirtualLaser()
+    laser1 = VirtualLaser(name='Laser1')
     laser1.connect()
-
-    print('starting switch 1')
-    switch1 = VirtualSwitch()
+    switch1 = VirtualSwitch(name='Switch1')
     switch1.connect()
-
-    print('starting camera 1')
-    camera1 = VirtualCamera()
+    camera1 = VirtualCamera(name='Camera1')
     camera1.connect()
     camera1.setParameter('threadingNow',True)
-
-    print('starting camera 2')
-    camera2 = VirtualCamera()
+    camera2 = VirtualCamera(name='Camera2')
     camera2.connect()
     camera2.setParameter('threadingNow',True)
 
-    print('starting main event loop')
-    viscope = BaseMain()
+    viscope = Viscope()
     viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([stage1,stage2,laser1,switch1,camera1,camera2])
-    #viewer.setDevice([stage1,stage2,laser1,switch1,camera1])
-
-
     viscope.run()
 
     print('disconnecting')
@@ -106,5 +86,6 @@ if __name__ == "__main__":
     laser1.disconnect()
     switch1.disconnect()
     camera1.disconnect()
+    camera2.disconnect()
 
 

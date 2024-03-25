@@ -32,23 +32,14 @@ class NapariGUI(BaseGUI):
 
         self.viewer = napari.Viewer(show=False)
 
-        self.addMainGUI(self.viewer.window._qt_window, name=self.DEFAULT['nameGUI'])
-
-
-        #self.napariWindow = viewer.window._qt_window
-
-        #self.addMainGUI(self.viewer.window._qt_window,name=self.DEFAULT['nameGUI'])
-
-        #dock1 = QDockWidget(self.name)
-        #dock1.setWidget(viewer.window._qt_window)
-        #vWindow.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, dock1)
+        self.vWindow.addMainGUI(self.viewer.window._qt_window, name=self.DEFAULT['nameGUI'])
 
 
 if __name__ == "__main__":
-        from viscope.main.baseMain import BaseMain
+        from viscope.main import Viscope
 
         print('starting main event loop')
-        viscope = BaseMain()
+        viscope = Viscope()
         newGUI  = NapariGUI(viscope)
         viscope.run()
 

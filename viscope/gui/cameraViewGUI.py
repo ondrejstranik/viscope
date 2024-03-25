@@ -57,6 +57,8 @@ class CameraViewGUI(BaseGUI):
         super().setDevice(device)
         # connect signals
         self.device.worker.yielded.connect(self.guiUpdateTimed)
+        self.vWindow.setWindowTitle(self.device.name)
+
 
     def updateGui(self):
         ''' update the data in gui '''
@@ -66,15 +68,13 @@ class CameraViewGUI(BaseGUI):
 
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualCamera import VirtualCamera
-        from viscope.main.baseMain import BaseMain
+        from viscope.main import Viscope
 
-        print('starting  camera')
-        camera = VirtualCamera()
+        camera = VirtualCamera(name='camera1')
         camera.connect()
         camera.setParameter('threadingNow',True)
 
-        print('starting main event loop')
-        viscope = BaseMain()
+        viscope = Viscope()
         newGUI  = CameraViewGUI(viscope)
         newGUI.setDevice(camera)
         viscope.run()

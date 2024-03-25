@@ -65,25 +65,25 @@ class StageGUI(BaseGUI):
 
         # add widget parameterCameraGui 
         self.parameterStageGui = parameterStageGui
-        self.addParameterGui(self.parameterStageGui,name=self.DEFAULT['nameGUI'])
+        self.dw = self.vWindow.addParameterGui(self.parameterStageGui,name=self.DEFAULT['nameGUI'])
 
         # add keybinding
-        QShortcut(QKeySequence('Ctrl+X'), self.vWindow.viewer).activated.connect(
+        QShortcut(QKeySequence('Ctrl+X'), self.vWindow).activated.connect(
             lambda : self.parameterStageGui(relX=+1) 
             if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Shift+X'), self.vWindow.viewer).activated.connect(
+        QShortcut(QKeySequence('Shift+X'), self.vWindow).activated.connect(
             lambda : self.parameterStageGui(relX=-1) 
             if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Ctrl+Y'), self.vWindow.viewer).activated.connect(
+        QShortcut(QKeySequence('Ctrl+Y'), self.vWindow).activated.connect(
             lambda : self.parameterStageGui(relY=+1) 
             if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Shift+Y'), self.vWindow.viewer).activated.connect(
+        QShortcut(QKeySequence('Shift+Y'), self.vWindow).activated.connect(
             lambda : self.parameterStageGui(relY=-1) 
             if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Ctrl+Z'), self.vWindow.viewer).activated.connect(
+        QShortcut(QKeySequence('Ctrl+Z'), self.vWindow).activated.connect(
             lambda : self.parameterStageGui(relZ=+1) 
             if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Shift+Z'), self.vWindow.viewer).activated.connect(
+        QShortcut(QKeySequence('Shift+Z'), self.vWindow).activated.connect(
             lambda : self.parameterStageGui(relZ=-1) 
             if self.parameterStageGui.native.underMouse()==True else None)
 
@@ -99,16 +99,17 @@ class StageGUI(BaseGUI):
         self.parameterStageGui.absY.value = myXYZ[1]
         self.parameterStageGui.absZ.value = myXYZ[2]
 
+        self.dw.setWindowTitle(self.device.name)
+
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualStage import VirtualStage
-        from viscope.main.baseMain import BaseMain
+        from viscope.main import Viscope
 
         print('starting stage')
         stage = VirtualStage()
         stage.connect()
 
-        print('starting main event loop')
-        viscope = BaseMain()
+        viscope = Viscope()
         viewerStage  = StageGUI(viscope)
         viewerStage.setDevice(stage)
         viscope.run()

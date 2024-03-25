@@ -29,6 +29,7 @@ class BaseGUI():
 
         self.viscope = viscope
         
+        # if not specific window than set the window to the main window of viscope 
         self.vWindow = vWindow if vWindow is not None else viscope.vWindow 
 
         self.flagLoop = ThreadFlag()
@@ -42,22 +43,22 @@ class BaseGUI():
          # prepare the gui of the class
         BaseGUI.__setWidget(self)
 
-    def addParameterGui(self,newGUI,name=DEFAULT['nameGUI']):
-        ''' add parameter GUI '''
-
-        dw=QDockWidget('Dockable',self.vWindow.viewer)
-        dw.setWindowTitle(name)
-        dw.setWidget(newGUI.native)
-        self.vWindow.viewer.addDockWidget(Qt.BottomDockWidgetArea,dw)
-        # tabify the widget
-        if self.vWindow.dockWidgetParameter is not None:
-            self.vWindow.viewer.tabifyDockWidget(self.vWindow.dockWidgetParameter,dw)
-        self.vWindow.dockWidgetParameter = dw
-            #self.dockWidgetParameter = dw
-
-    def addMainGUI(self,newGUI,name=DEFAULT['nameGUI']):
-        ''' add main GUI '''
-        self.vWindow.viewer.setCentralWidget(newGUI)
+#    def addParameterGui(self,newGUI,name=DEFAULT['nameGUI']):
+#        ''' add parameter GUI '''
+#
+#        dw=QDockWidget('Dockable',self.vWindow.viewer)
+#        dw.setWindowTitle(name)
+#        dw.setWidget(newGUI.native)
+#        self.vWindow.viewer.addDockWidget(Qt.BottomDockWidgetArea,dw)
+#        # tabify the widget
+#        if self.vWindow.dockWidgetParameter is not None:
+#            self.vWindow.viewer.tabifyDockWidget(self.vWindow.dockWidgetParameter,dw)
+#        self.vWindow.dockWidgetParameter = dw
+#            #self.dockWidgetParameter = dw
+#
+#    def addMainGUI(self,newGUI,name=DEFAULT['nameGUI']):
+#        ''' add main GUI '''
+#        self.vWindow.viewer.setCentralWidget(newGUI)
 
     def __setWidget(self):
         ''' prepare the gui '''
@@ -80,9 +81,9 @@ class BaseGUI():
 
 
 if __name__ == "__main__":
-        from viscope.main.baseMain import BaseMain
+        from viscope.main import Viscope
 
-        viscope = BaseMain()
+        viscope = Viscope()
                 
         base = BaseGUI(viscope)
         print('starting main event loop')

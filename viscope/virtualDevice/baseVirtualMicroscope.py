@@ -9,13 +9,10 @@ sample: default image of astronaout
 #%%
 
 import time
-#import numpy as np
-#from qtpy.QtCore import QObject, Signal
-#from skimage import data
-#from skimage.transform import resize, rescale
 
 from napari.qt.threading import create_worker
 from viscope.instrument.base.baseInstrument import ThreadFlag
+from viscope.virtualDevice.component.sample import Sample
 
 
 class BaseVirtualMicroscope():
@@ -28,11 +25,13 @@ class BaseVirtualMicroscope():
 
         self.flagLoop = ThreadFlag()
         self.worker = None
+        
+        self.sample = Sample()
+        self.sample.setAstronaut()
 
-    def setSample(self):
-        ''' define the sample.
-        sample ... spatial distribution of photon rates [#/s/pixelSize^2] (no noise)'''
-        pass
+    def setSample(self, sample):
+        ''' set the sample.'''
+        self.sample = sample
 
     def setVirtualDevice(self,device):
         ''' set instruments of the microscope '''
@@ -40,13 +39,15 @@ class BaseVirtualMicroscope():
 
     def connect(self):
         ''' start the virtual microscope '''
+        print(f'starting thread loop of {self.DEFAULT["name"]}')
+        
         self.worker = create_worker(self.loop)
         self.worker.start()
 
     def disconnect(self):
         ''' stop the virtual microscope '''
         if self.worker is not None: 
-            print(f'quitting the thread loop of baseVirtualMicroscope')
+            print(f'quitting the thread loop of {self.DEFAULT["name"]}')
             self.worker.quit()
             self.worker = None
             self.flagLoop = None
@@ -62,7 +63,7 @@ class BaseVirtualMicroscope():
         it is a state machine, which should be run in separate thread '''
         while True:
             yield
-            print('loop of the baseVirtualMicroscope') 
+            print(f'loop of the {self.DEFAULT["name"]}') 
             time.sleep(1)
 
         
@@ -72,21 +73,16 @@ class BaseVirtualMicroscope():
 if __name__ == '__main__':
 
     from viscope.instrument.virtual.virtualCamera import VirtualCamera
-    from viscope.main.baseMain import BaseMain
+    from viscope.main import Viscope
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
 
-    print('starting virtual microscope')
     vM = BaseVirtualMicroscope()
     vM.connect()
-
-    print('starting main event loop')
-    viscope = BaseMain()
+    viscope = Viscope()
     viscope.run()
 
-    print('closing virtualMicroscope')
     vM.disconnect()
 
-    #time.sleep(3)
 
 

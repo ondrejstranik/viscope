@@ -24,14 +24,11 @@ class BaseLaser(BaseInstrument):
 
     def connect(self,*args):
         ''' connect to the laser '''
-        self.deviceName = 'virtualLaser'
+        #self.deviceName = 'virtualLaser'
+        super().connect()
         # prepare the laser
         self.setParameter('keySwitch',BaseLaser.DEFAULT['power'])
         self.setParameter('power',BaseLaser.DEFAULT['keySwitch'])
-
-    def disconnect(self):
-        ''' disconnect the laser'''
-        self.deviceName = None
 
     def _setPower(self,value):
         self.power = value

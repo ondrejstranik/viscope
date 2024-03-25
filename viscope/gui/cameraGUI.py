@@ -40,7 +40,7 @@ class CameraGUI(BaseGUI):
 
         # add widget parameterCameraGui 
         self.parameterCameraGui = parameterCameraGui
-        self.addParameterGui(self.parameterCameraGui,name=self.DEFAULT['nameGUI'])
+        self.dw = self.vWindow.addParameterGui(self.parameterCameraGui,name=self.DEFAULT['nameGUI'])
 
     def setDevice(self,device):
         ''' set the stage '''
@@ -48,17 +48,16 @@ class CameraGUI(BaseGUI):
 
         self.parameterCameraGui.exposure.value = int(self.device.getParameter('exposureTime'))
         self.parameterCameraGui.numberOfAverage.value = int(self.device.getParameter('nFrame'))
+        self.dw.setWindowTitle(self.device.name)
 
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualCamera import VirtualCamera
-        from viscope.main.baseMain import BaseMain
+        from viscope.main import Viscope
 
-        print('starting stage')
-        camera = VirtualCamera()
+        camera = VirtualCamera(name='camera1')
         camera.connect()
 
-        print('starting main event loop')
-        viscope = BaseMain()
+        viscope = Viscope()
         newGUI  = CameraGUI(viscope)
         newGUI.setDevice(camera)
         viscope.run()
