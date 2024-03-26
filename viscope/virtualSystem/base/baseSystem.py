@@ -12,34 +12,37 @@ import time
 
 from napari.qt.threading import create_worker
 from viscope.instrument.base.baseInstrument import ThreadFlag
-from viscope.virtualDevice.component.sample import Sample
+from viscope.virtualSystem.component.sample import Sample
 
 
-class BaseVirtualMicroscope():
+class BaseSystem():
     ''' base class for virtual microscope '''
-    DEFAULT = {'name':'baseVirtualMicroscope'}
+    DEFAULT = {}
     
     def __init__(self, **kwargs):
         ''' initialisation '''
-        super(BaseVirtualMicroscope,self).__init__(**kwargs)
+        super(BaseSystem,self).__init__(**kwargs)
 
         self.flagLoop = ThreadFlag()
         self.worker = None
         
+        # set default sample
         self.sample = Sample()
         self.sample.setAstronaut()
+
+        self.device = {}
 
     def setSample(self, sample):
         ''' set the sample.'''
         self.sample = sample
 
-    def setVirtualDevice(self,device):
+    def setVirtualDevice(self,device=None):
         ''' set instruments of the microscope '''
-        pass
+        self.device['device']= device
 
     def connect(self):
         ''' start the virtual microscope '''
-        print(f'starting thread loop of {self.DEFAULT["name"]}')
+        print(f'starting thread loop of {self.__class__.__name__}')
         
         self.worker = create_worker(self.loop)
         self.worker.start()
@@ -47,23 +50,32 @@ class BaseVirtualMicroscope():
     def disconnect(self):
         ''' stop the virtual microscope '''
         if self.worker is not None: 
-            print(f'quitting the thread loop of {self.DEFAULT["name"]}')
+            print(f'quitting the thread loop of {self.__class__.__name__}')
             self.worker.quit()
             self.worker = None
             self.flagLoop = None
             time.sleep(1)
 
+    def deviceParameterIsChanged(self):
+        ''' set true if any of the instruments changed parameter '''
+        flag = False
+        for key in self.device:
+            flag = flag or self.device[key].flagSetParameter.is_set()
+        return flag
+    
+    def deviceParameterFlagClear(self):
+        ''' set all flag of the devices to False '''
+        for key in self.device:
+            self.device[key].flagSetParameter.clear()
 
-    def calculateVirtualFrame(self):
-        ''' update the virtual Frame of the camera '''
-        pass        
+
 
     def loop(self):
         ''' infinite loop to carry out the microscope state update
         it is a state machine, which should be run in separate thread '''
         while True:
             yield
-            print(f'loop of the {self.DEFAULT["name"]}') 
+            print(f'loop of the {self.__class__.__name__}') 
             time.sleep(1)
 
         
@@ -77,7 +89,7 @@ if __name__ == '__main__':
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
 
-    vM = BaseVirtualMicroscope()
+    vM = BaseSystem()
     vM.connect()
     viscope = Viscope()
     viscope.run()

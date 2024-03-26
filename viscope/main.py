@@ -26,8 +26,10 @@ class Viscope():
         ''' initialise the class '''
 
         self.app = QApplication([])
+        self.app.aboutToQuit.connect(lambda : print('Viscope is closed'))
 
-        self.vWindow = ViewerWindow(name=Viscope.DEFAULT['nameGUI'])
+        self.vWindow = ViewerWindow(name=Viscope.DEFAULT['nameGUI'],topWindow=True)
+        self.vWindow.sigClose.connect(self.closeAllWindow)
 
         self.vWindowList = [self.vWindow]
 
@@ -38,6 +40,12 @@ class Viscope():
         newViewerWindow = ViewerWindow(name=name)
         self.vWindowList.append(newViewerWindow)
         return newViewerWindow
+
+    def closeAllWindow(self):
+        ''' close all vWindow '''
+        for vWindow in self.vWindowList:
+            #print(f'closing window {vWindow}')
+            vWindow.close()
 
     def run(self):
         ''' start the gui viewer'''

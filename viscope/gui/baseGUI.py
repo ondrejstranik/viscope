@@ -43,23 +43,6 @@ class BaseGUI():
          # prepare the gui of the class
         BaseGUI.__setWidget(self)
 
-#    def addParameterGui(self,newGUI,name=DEFAULT['nameGUI']):
-#        ''' add parameter GUI '''
-#
-#        dw=QDockWidget('Dockable',self.vWindow.viewer)
-#        dw.setWindowTitle(name)
-#        dw.setWidget(newGUI.native)
-#        self.vWindow.viewer.addDockWidget(Qt.BottomDockWidgetArea,dw)
-#        # tabify the widget
-#        if self.vWindow.dockWidgetParameter is not None:
-#            self.vWindow.viewer.tabifyDockWidget(self.vWindow.dockWidgetParameter,dw)
-#        self.vWindow.dockWidgetParameter = dw
-#            #self.dockWidgetParameter = dw
-#
-#    def addMainGUI(self,newGUI,name=DEFAULT['nameGUI']):
-#        ''' add main GUI '''
-#        self.vWindow.viewer.setCentralWidget(newGUI)
-
     def __setWidget(self):
         ''' prepare the gui '''
         self.viscope.GUIList.append(self)

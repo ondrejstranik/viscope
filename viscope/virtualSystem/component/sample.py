@@ -17,36 +17,43 @@ class Sample():
         ''' initialisation '''
         super(Sample,self).__init__(*args, **kwargs)
 
-        #sample ... spatial distribution of expected photon rates [#/s/pixelSize^2] (no noise)
-        self.sample = None
+        #data ... spatial distribution of expected photon rates [#/s/pixelSize^2] (no noise)
+        self.data = None
+        self.pixelSize = None
+        self.size = None
+        self.position = None
 
     def setAstronaut(self,samplePixelSize=None,
                         sampleSize= None,
-                        photonRateMax= None):
+                        photonRateMax= None,
+                        samplePosition = None):
         ''' define the sample.
         sample ... spatial distribution of photon rates [#/s/pixelSize^2] (no noise)'''
 
         DEFAULT = {'photonRateMax':1e6,
                     'samplePixelSize':1, # um
-                    'sampleSize': (200,400)} # pixels
+                    'sampleSize': (200,400),
+                    'samplePosition': np.array([0,0,0])} # pixels
 
-        samplePixelSize=DEFAULT['samplePixelSize'] if samplePixelSize is None else samplePixelSize
-        sampleSize=DEFAULT['sampleSize'] if sampleSize is None else sampleSize
+        self.pixelSize=DEFAULT['samplePixelSize'] if samplePixelSize is None else samplePixelSize
+        self.size=DEFAULT['sampleSize'] if sampleSize is None else sampleSize
+        self.position=DEFAULT['samplePosition'] if samplePosition is None else samplePosition
+
         photonRateMax=DEFAULT['photonRateMax'] if photonRateMax is None else photonRateMax        
 
         # define
         _sample = np.sum(data.astronaut(), axis=2)
 
         # resize 
-        _sample = resize(_sample, sampleSize)
+        _sample = resize(_sample, self.size)
 
         # normalise
         _sample = _sample/np.max(_sample)*photonRateMax
 
-        self.sample = _sample
+        self.data = _sample
 
     def get(self):
-        return self.sample
+        return self.data
 
 
 #%%

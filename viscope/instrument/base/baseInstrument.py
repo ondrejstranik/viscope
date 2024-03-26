@@ -65,7 +65,7 @@ class BaseInstrument():
     def disconnect(self):
         print(f'disconnecting instrument - {self.name} - with idx {self.idx}')
         if self.worker is not None: 
-            print(f'quitting the thread loop of instrument with idx {self.idx}')
+            print(f'quitting the thread loop of instrument  - {self.name} - with idx {self.idx}')
             self.worker.quit()
             self.flagLoop = None
 
@@ -93,7 +93,11 @@ class BaseInstrument():
 
     def _setWorker(self,value:bool):
         ''' set the worker for the base instrument '''
-        self.worker = create_worker(self.loop) if value else None
+        if value:
+            print(f'starting thread loop of instrument - {self.name}')
+            self.worker = create_worker(self.loop)
+        else:
+            self.worker = None
 
 
     def loop(self):

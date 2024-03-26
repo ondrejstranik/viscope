@@ -28,7 +28,7 @@ class BaseStage(BaseInstrument):
     def _setPosition(self,newPosition):
         ''' move the stage'''
         self.position= newPosition
-        time.sleep(.3)
+        #time.sleep(.3)
 
     def setParameter(self,name, value):
         ''' set parameters of the stage'''

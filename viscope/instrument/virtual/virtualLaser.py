@@ -4,7 +4,7 @@
 import numpy as np
 import time
 
-from qtpy.QtCore import QObject, Signal
+#from qtpy.QtCore import QObject, Signal
 from viscope.instrument.base.baseLaser import BaseLaser
 from viscope.instrument.base.baseInstrument import ThreadFlag
 
