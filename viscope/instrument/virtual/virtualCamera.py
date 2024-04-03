@@ -73,22 +73,5 @@ class VirtualCamera(BaseCamera):
 #%%
 
 if __name__ == '__main__':
-    import napari
-    from qtpy.QtCore import QTimer
-
-    cam = VirtualCamera()
-    cam.connect()
-    cam.setParameter('exposureTime',300)
-    cam.setParameter('nFrame', 1)
-    cam.setParameter('threadingNow',True)
-
-    cTime = time.time()
-    while time.time()-cTime < 3:    
-        if cam.flagLoop.is_set():
-            print(f'sum of the pixels {np.sum(cam.rawImage)}')
-            cam.flagLoop.clear()
-
-    cam.disconnect()
-
-
-# %%
+    import pytest
+    retcode = pytest.main(['tests/test_class.py::test_VirtualCamera'])
