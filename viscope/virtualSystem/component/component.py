@@ -108,11 +108,14 @@ class Component():
         # image -  magnify , ideal lens
         mag = magnification*iPixelSize/oPixelSize
         iFramePosition = (iFramePosition* mag).astype(int)
-        sFrame = rescale(iFrame,(mag,mag), preserve_range=True)
+        if iFrame.ndim==2: sFrame = rescale(iFrame,(mag,mag), preserve_range=True)
+        if iFrame.ndim==3: sFrame = rescale(iFrame,(1,mag,mag), preserve_range=True)
         # adjust the number of photons
         sFrame /= mag**2        
         # aperture
         cls._mapImageToImage(oFrame,sFrame, iFramePosition)
+
+        return oFrame
 
     @classmethod
     def ideal4fImagingOnCamera(cls,camera=None,iFrame=None,
@@ -120,6 +123,9 @@ class Component():
                                 magnification=1):
         ''' ideal 4f imaging onto a camera. uses ideal4fImaging function '''
 
+        # all spectral channels comes added on the same pixel
+        if iFrame.ndim >2:
+            iFrame = np.sum(iFrame,axis=0)
         oFrame = np.zeros((camera.getParameter('height'),
                     camera.getParameter('width')))
         cls.ideal4fImaging(iFrame,oFrame,iFramePosition,magnification,iPixelSize,

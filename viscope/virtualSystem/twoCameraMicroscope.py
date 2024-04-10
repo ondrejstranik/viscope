@@ -67,10 +67,10 @@ class TwoCameraMicroscope(BaseSystem):
 
         # camera 2 
         if cameraNumber ==2:
-            oFrame = Component.ideal4fImagingOnCamera(camera=self.device['camera1'],
+            oFrame = Component.ideal4fImagingOnCamera(camera=self.device['camera2'],
                     iFrame= oFrame,iPixelSize=self.sample.pixelSize,
                     iFramePosition = samplePositionXY,
-                    magnification= self.DEFAULT['magnification1'])
+                    magnification= self.DEFAULT['magnification2'])
             # switch
             if self.device['switch'].getParameter('position') ==1:
                 oFrame /= 2

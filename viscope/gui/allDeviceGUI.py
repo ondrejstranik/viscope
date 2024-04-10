@@ -32,7 +32,12 @@ class AllDeviceGUI(BaseGUI):
 
     def setDevice(self,deviceList):
 
-        self.device = deviceList
+        if type(deviceList) is list:
+            self.device = deviceList
+        else:
+            self.device = [deviceList]
+
+
         
         for ii in self.device:
             if isinstance(ii,BaseStage):

@@ -16,7 +16,8 @@ setuptools.setup(
     install_requires = [
         'numpy',
         'PyQt5',
-        'napari',],
+        'napari',
+        'pytest'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

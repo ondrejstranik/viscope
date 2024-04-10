@@ -19,7 +19,7 @@ class VirtualCamera(BaseCamera):
                 'exposureTime': 100,
                 'nFrames': 1,
                 'height': 500,
-                'width': 1000,
+                'width': 900,
                 'cameraOffset':10,
                 'electronicNoise': 3,
                 'cameraPixelSize': 1} # um
