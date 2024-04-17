@@ -46,7 +46,7 @@ class BaseInstrument():
     
     def __init__(self, idx=None, name=None,threading=None,*args, **kwargs):
         ''' initialisation '''
-        super(BaseInstrument,self).__init__(*args, **kwargs)
+        #super(BaseInstrument,self).__init__(*args, **kwargs)
 
         self.idx = idx if idx is not None else BaseInstrument.DEFAULT['idx']
         self.name = name if name is not None else BaseInstrument.DEFAULT['name']

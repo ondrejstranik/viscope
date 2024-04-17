@@ -28,7 +28,7 @@ class Sample():
                         photonRateMax= None,
                         samplePosition = None):
         ''' define the sample.
-        sample ... spatial distribution of photon rates [#/s/pixelSize^2] (no noise)'''
+        sample ... 2D spatial distribution of photon rates [#/s/pixelSize^2] (no noise)'''
 
         DEFAULT = {'photonRateMax':1e6,
                     'samplePixelSize':1, # um

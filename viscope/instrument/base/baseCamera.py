@@ -28,7 +28,7 @@ class BaseCamera(BaseInstrument):
     def __init__(self, name=DEFAULT['name'],*args, **kwargs):
         ''' initialisation '''
 
-        super(BaseCamera,self).__init__(name=name,*args, **kwargs)
+        super().__init__(name=name,*args, **kwargs)
 
         # camera parameters
         self.exposureTime = BaseCamera.DEFAULT['exposureTime']
