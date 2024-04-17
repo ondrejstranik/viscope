@@ -60,13 +60,15 @@ class BaseSystem():
         ''' set true if any of the instruments changed parameter '''
         flag = False
         for key in self.device:
-            flag = flag or self.device[key].flagSetParameter.is_set()
+            if hasattr(self.device[key],'flagSetParameter'):
+                flag = flag or self.device[key].flagSetParameter.is_set()
         return flag
     
     def deviceParameterFlagClear(self):
         ''' set all flag of the devices to False '''
         for key in self.device:
-            self.device[key].flagSetParameter.clear()
+            if hasattr(self.device[key],'flagSetParameter'):
+                self.device[key].flagSetParameter.clear()
 
 
 

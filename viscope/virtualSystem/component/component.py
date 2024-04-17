@@ -121,7 +121,8 @@ class Component():
     def ideal4fImagingOnCamera(cls,camera=None,iFrame=None,
                                 iFramePosition=np.array([0,0]),iPixelSize=1,
                                 magnification=1):
-        ''' ideal 4f imaging onto a camera. uses ideal4fImaging function '''
+        ''' ideal 4f imaging onto a camera. uses ideal4fImaging function
+        account for exposure time '''
 
         # all spectral channels comes added on the same pixel
         if iFrame.ndim >2:
