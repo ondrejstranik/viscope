@@ -59,13 +59,16 @@ def test_simpleMicroscope():
     from viscope.main import Viscope
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
-    camera1 = VirtualCamera()
+    from spectralCamera.instrument.camera.webCamera.webCamera import WebCamera
+
+    #camera1 = VirtualCamera()
+    camera1 = WebCamera(name='WebCamera',filterType='RGGB')
     camera1.connect()
     camera1.setParameter('threadingNow',True)
 
-    vM = SimpleMicroscope()
-    vM.setVirtualDevice(camera1)
-    vM.connect()
+    #vM = SimpleMicroscope()
+    #vM.setVirtualDevice(camera1)
+    #vM.connect()
 
     viscope = Viscope()
     viewer  = AllDeviceGUI(viscope)
