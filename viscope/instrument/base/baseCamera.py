@@ -25,9 +25,10 @@ class BaseCamera(BaseInstrument):
                   } 
     
     
-    def __init__(self, name=DEFAULT['name'],*args, **kwargs):
+    def __init__(self, name=None,*args, **kwargs):
         ''' initialisation '''
 
+        if name is None: name=BaseCamera.DEFAULT['name']
         super().__init__(name=name,*args, **kwargs)
 
         # camera parameters

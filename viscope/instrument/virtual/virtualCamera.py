@@ -25,9 +25,10 @@ class VirtualCamera(BaseCamera):
                 'cameraPixelSize': 1} # um
     
 
-    def __init__(self, name=DEFAULT['name'],*args, **kwargs):
+    def __init__(self, name=None,*args, **kwargs):
         ''' initialisation '''
 
+        if name is None: name=VirtualCamera.DEFAULT['name']
         super(VirtualCamera,self).__init__(name=name,*args, **kwargs)
 
         # camera parameters
