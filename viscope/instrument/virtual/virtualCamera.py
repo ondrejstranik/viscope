@@ -2,7 +2,7 @@
 virtual camera
 
 @author: ostranik
-"""
+""" 
 #%%
 
 import time
@@ -74,5 +74,4 @@ class VirtualCamera(BaseCamera):
 #%%
 
 if __name__ == '__main__':
-    import pytest
-    retcode = pytest.main(['tests/test_class.py::test_VirtualCamera'])
+    pass

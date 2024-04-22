@@ -28,7 +28,8 @@ class Viscope():
         self.app = QApplication([])
         self.app.aboutToQuit.connect(lambda : print('Viscope is closed'))
 
-        self.vWindow = ViewerWindow(name=Viscope.DEFAULT['nameGUI'],topWindow=True)
+        name= kwargs['name'] if 'name' in kwargs else Viscope.DEFAULT['nameGUI'] 
+        self.vWindow = ViewerWindow(name=name,topWindow=True)
         self.vWindow.sigClose.connect(self.closeAllWindow)
 
         self.vWindowList = [self.vWindow]
