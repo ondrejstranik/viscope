@@ -15,7 +15,6 @@ class Sample():
     
     def __init__(self,*args, **kwargs):
         ''' initialisation '''
-        super(Sample,self).__init__(*args, **kwargs)
 
         #data ... spatial distribution of expected photon rates [#/s/pixelSize^2] (no noise)
         self.data = None
