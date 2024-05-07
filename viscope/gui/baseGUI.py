@@ -9,7 +9,7 @@ import sys
 from qtpy.QtWidgets import QApplication, QMainWindow
 
 from qtpy.QtWidgets import QLabel, QSizePolicy, QDockWidget
-from qtpy.QtCore import Qt
+from qtpy.QtCore import Qt, QObject
 
 import numpy as np
 
@@ -18,7 +18,8 @@ from viscope.instrument.base.baseInstrument import ThreadFlag
 
 from magicgui.widgets import MainWindow, Container, MainFunctionGui, FunctionGui
 
-class BaseGUI():
+class BaseGUI(QObject):
+#class BaseGUI():
     ''' base class for all GUI'''
 
     DEFAULT = {'nameGUI': 'baseGUI',
@@ -26,6 +27,8 @@ class BaseGUI():
 
     def __init__(self, viscope, vWindow=None, threading = None, **kwargs ):
         ''' initialise the class '''
+        super().__init__()
+
 
         self.viscope = viscope
         
@@ -64,12 +67,5 @@ class BaseGUI():
 
 
 if __name__ == "__main__":
-        from viscope.main import Viscope
-
-        viscope = Viscope()
-                
-        base = BaseGUI(viscope)
-        print('starting main event loop')
-
-        viscope.run()
+    pass
 
