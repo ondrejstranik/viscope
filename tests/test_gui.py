@@ -31,6 +31,7 @@ def test_CameraGUI():
 
     camera.disconnect()
 
+@pytest.mark.GUI
 def test_CameraViewGUI():
     ''' check if gui works'''
     from viscope.gui.cameraViewGUI import CameraViewGUI

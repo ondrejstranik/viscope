@@ -22,6 +22,29 @@ def test_VirtualCamera():
 
     cam.disconnect()
 
+def test_BaseProcessor():
+    ''' check if the base processor loop is working '''
+    from viscope.instrument.virtual.virtualCamera import VirtualCamera
+    from viscope.instrument.base.baseProcessor import BaseProcessor
+    import time
+    import numpy as np
+    
+    cam = VirtualCamera()
+    cam.connect()
+    cam.setParameter('exposureTime',300)
+    cam.setParameter('nFrame', 1)
+    cam.setParameter('threadingNow',True)
+
+    pro = BaseProcessor()
+    pro.connect(cam.flagLoop)
+    pro.setParameter('threadingNow',True)
+
+    time.sleep(3)
+
+    pro.disconnect()
+    cam.disconnect()
+
+
 
 
 

@@ -35,20 +35,17 @@ class ThreadFlag:
 
 class BaseInstrument():
     ''' base class of all instruments 
-    idx ... identifier number of the instrument. 
-    It should be unique for each instrument
     name ... name of the instrument
+             It should be unique for each instrument
     threading ... if true a worker running a thread loop is prepared
     '''
-    DEFAULT = {'idx': 0,
-                'name': 'baseInstrument',
+    DEFAULT = {'name': 'baseInstrument',
                 'threading':False}
     
-    def __init__(self, idx=None, name=None,threading=None,*args, **kwargs):
+    def __init__(self, name=None,threading=None,*args, **kwargs):
         ''' initialisation '''
         #super(BaseInstrument,self).__init__(*args, **kwargs)
 
-        self.idx = idx if idx is not None else BaseInstrument.DEFAULT['idx']
         self.name = name if name is not None else BaseInstrument.DEFAULT['name']
 
         self.flagLoop = ThreadFlag()
@@ -60,19 +57,17 @@ class BaseInstrument():
             self._setWorker(BaseInstrument.DEFAULT['threading'])
 
     def connect(self):
-        print(f'connecting instrument - {self.name}  - with idx {self.idx}')
+        print(f'connecting instrument - {self.name}  ')
 
     def disconnect(self):
-        print(f'disconnecting instrument - {self.name} - with idx {self.idx}')
+        print(f'disconnecting instrument - {self.name} ')
         if self.worker is not None: 
-            print(f'quitting the thread loop of instrument  - {self.name} - with idx {self.idx}')
+            print(f'quitting the thread loop of instrument  - {self.name} ')
             self.worker.quit()
             self.flagLoop = None
 
     def setParameter(self,name,value):
         ''' set parameter of the instrument '''
-        if name== 'idx':
-            self.idx= value
         if name== 'name':
             self.name= value
         if name== 'threading':
@@ -84,8 +79,6 @@ class BaseInstrument():
 
     def getParameter(self,name):
         ''' get parameter of the instrument'''
-        if name=='idx':
-            return self.idx
         if name=='name':
             return self.name
         if name=='threading':
