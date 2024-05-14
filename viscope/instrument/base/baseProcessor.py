@@ -25,7 +25,7 @@ class BaseProcessor(BaseInstrument):
         self.flagToProcess = None
 
     def connect(self,flagToProcess=None):
-        ''' connect to the flag and start immediately threading '''
+        ''' connect to the flag '''
         super().connect()
         self.flagToProcess = flagToProcess
 
@@ -35,7 +35,7 @@ class BaseProcessor(BaseInstrument):
 
     def processData(self):
         ''' processing data '''
-        print('processing data') 
+        print(f"processing data from {self.DEFAULT['name']}")
         return None
 
     def loop(self):
