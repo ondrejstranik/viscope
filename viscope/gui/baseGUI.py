@@ -2,36 +2,43 @@
 class for live viewing spectral images
 '''
 #%%
-import napari
-from typing import Annotated, Literal
+#import napari
+#from typing import Annotated, Literal
 
-import sys
-from qtpy.QtWidgets import QApplication, QMainWindow
+#import sys
+#from qtpy.QtWidgets import QApplication, QMainWindow
 
-from qtpy.QtWidgets import QLabel, QSizePolicy, QDockWidget
+#from qtpy.QtWidgets import QLabel, QSizePolicy, QDockWidget
 from qtpy.QtCore import Qt, QObject
 
-import numpy as np
+#import numpy as np
 
 from napari.qt.threading import create_worker
 from viscope.instrument.base.baseInstrument import ThreadFlag
 
-from magicgui.widgets import MainWindow, Container, MainFunctionGui, FunctionGui
+#from magicgui.widgets import MainWindow, Container, MainFunctionGui, FunctionGui
+
+from timeit import default_timer as timer
+
 
 class BaseGUI(QObject):
 #class BaseGUI():
     ''' base class for all GUI'''
 
     DEFAULT = {'nameGUI': 'baseGUI',
+                'guiUpdateTime': 0.03, # [s]
+                # restrict update time of the gui in the stream of new data
                 'threading': False}
 
     def __init__(self, viscope, vWindow=None, threading = None, **kwargs ):
         ''' initialise the class '''
         super().__init__()
 
-
         self.viscope = viscope
-        
+
+        self.lastUpdateTime = timer()
+        self.guiUpdateTime = BaseGUI.DEFAULT['guiUpdateTime']
+
         # if not specific window than set the window to the main window of viscope 
         self.vWindow = vWindow if vWindow is not None else viscope.vWindow 
 
@@ -52,6 +59,7 @@ class BaseGUI(QObject):
 
     def setDevice(self,device):
         self.device = device
+        self.vWindow.setWindowTitle(self.device.name)
 
     def _setWorker(self,value:bool):
         ''' set the worker for the base gui '''
@@ -64,6 +72,19 @@ class BaseGUI(QObject):
             self.flagLoop.set('output')
             yield  
             time.sleep(1)
+
+    def guiUpdateTimed(self):
+        ''' update gui according the update time 
+        connect with corresponding yield of the device '''
+
+        timeNow = timer()
+        if (timeNow -self.lastUpdateTime) > self.guiUpdateTime:
+            self.updateGui()
+            self.lastUpdateTime = timeNow   
+
+    def updateGui(self):
+        ''' update the data in gui '''
+        pass 
 
 
 if __name__ == "__main__":
