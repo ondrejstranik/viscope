@@ -35,7 +35,7 @@ class BaseProcessor(BaseInstrument):
 
     def processData(self):
         ''' processing data '''
-        print(f"processing data from {self.DEFAULT['name']}")
+        #print(f"processing data from {self.DEFAULT['name']}")
         return None
 
     def loop(self):
