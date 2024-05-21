@@ -1,5 +1,5 @@
 #%%
-''' class to control virtual laser'''
+''' class to control laser'''
 
 import numpy as np
 import time
@@ -11,7 +11,7 @@ class BaseLaser(BaseInstrument):
     power ... laser power
     keySwitch ... with True the laser emits light'''
 
-    DEFAULT = {'name':'virtualLaser',
+    DEFAULT = {'name':'baseLaser',
                 'power': 0,
                 'keySwitch': False } 
     
@@ -24,7 +24,6 @@ class BaseLaser(BaseInstrument):
 
     def connect(self,*args):
         ''' connect to the laser '''
-        #self.deviceName = 'virtualLaser'
         super().connect()
         # prepare the laser
         self.setParameter('keySwitch',BaseLaser.DEFAULT['power'])
@@ -58,12 +57,7 @@ class BaseLaser(BaseInstrument):
 
 if __name__ == '__main__':
 
-    laser = BaseLaser()
-    laser.connect()
-
-    print(f'laser {laser.getParameter("power")}, KeySwitch {laser.getParameter("keySwitch")}')
-
-    laser.disconnect()
+    pass
 
 
 

@@ -103,13 +103,4 @@ class BaseInstrument():
 
 
 if __name__ == '__main__':
-    base = BaseInstrument()
-    base.connect()
-    base.setParameter('threadingNow',True)
-    for ii in range(5):
-        base.flagLoop.wait()
-        print('worker loop reported')
-        print(f' data: {base.flagLoop.data}')
-        base.flagLoop.clear()
-    base.disconnect()
-# %%
+    pass

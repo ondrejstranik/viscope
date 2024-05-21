@@ -61,29 +61,7 @@ class BaseStage(BaseInstrument):
 
 if __name__ == '__main__':
 
-    stage = BaseStage(threading=True)
-
-    stage.connect()
-    stage.setParameter('threadingNow',True)
-
-    cTime = time.time()
-
-    ii = 0
-
-    stage.flagLoop.set()
-    while time.time()-cTime < 2:
-        if stage.flagLoop.is_set():
-            stage.flagLoop.clear()
-            _position = stage.getParameter('position')
-            print(f'stage position {_position}')
-            ii += 10
-            print(f'next move to {ii}')
-            time.sleep(0.3)
-            stage.setParameter('position',[ii,ii])
-
-        time.sleep(.03)
-
-    stage.disconnect()
+    pass
 
 
 # %%

@@ -10,8 +10,7 @@ from viscope.gui.baseGUI import BaseGUI
 class LaserGUI(BaseGUI):
     ''' main class to control laser'''
 
-    DEFAULT = {'nameGUI': 'Laser',
-                'napariViewer': False}
+    DEFAULT = {'nameGUI': 'Laser'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''

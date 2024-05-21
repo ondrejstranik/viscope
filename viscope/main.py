@@ -2,22 +2,12 @@
 class for live viewing spectral images
 '''
 #%%
-#import napari
-#from typing import Annotated, Literal
 
 import sys
 from qtpy.QtWidgets import QApplication, QMainWindow
 from viscope.gui.window.viewerWindow import ViewerWindow
 
-
-#from qtpy.QtWidgets import QLabel, QSizePolicy, QDockWidget
-#from qtpy.QtCore import Qt
-
-#import numpy as np
-
-#from magicgui.widgets import MainWindow, Container, MainFunctionGui, FunctionGui
-
-class Viscope():
+class VISCOPE():
     ''' base top class for control'''
 
     DEFAULT = {'nameGUI': 'viscope'}
@@ -28,7 +18,7 @@ class Viscope():
         self.app = QApplication([])
         self.app.aboutToQuit.connect(lambda : print('Viscope is closed'))
 
-        name= kwargs['name'] if 'name' in kwargs else Viscope.DEFAULT['nameGUI'] 
+        name= kwargs['name'] if 'name' in kwargs else VISCOPE.DEFAULT['nameGUI'] 
         self.vWindow = ViewerWindow(name=name,topWindow=True)
         self.vWindow.sigClose.connect(self.closeAllWindow)
 
@@ -50,14 +40,9 @@ class Viscope():
 
     def run(self):
         ''' start the gui viewer'''
-        # start napari main gui
+        # start main event loop
         print('starting main viscope loop')
         self.app.exec()
 
-if __name__ == "__main__":
-
-        viscope = Viscope()
-
-
-        viscope.run()
+viscope = VISCOPE()
 

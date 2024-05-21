@@ -15,8 +15,7 @@ import numpy as np
 class SwitchGUI(BaseGUI):
     ''' main class to control discrete switch'''
 
-    DEFAULT = {'nameGUI': 'Switch',
-                'napariViewer': False}
+    DEFAULT = {'nameGUI': 'Switch'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''

@@ -2,13 +2,12 @@
 
 import pytest
 
-
+@pytest.mark.GUI
 def test_BaseGUI():
     ''' check if base gui is working '''
-    from viscope.main import Viscope
+    from viscope.main import viscope
     from viscope.gui.baseGUI import BaseGUI
 
-    viscope = Viscope()
     base = BaseGUI(viscope)
     viscope.run()
 
@@ -19,12 +18,11 @@ def test_CameraGUI():
     ''' check if gui works'''
     from viscope.gui.cameraGUI import CameraGUI
     from viscope.instrument.virtual.virtualCamera import VirtualCamera
-    from viscope.main import Viscope
+    from viscope.main import viscope
 
     camera = VirtualCamera(name='camera1')
     camera.connect()
 
-    viscope = Viscope()
     newGUI  = CameraGUI(viscope)
     newGUI.setDevice(camera)
     viscope.run()
@@ -36,13 +34,12 @@ def test_CameraViewGUI():
     ''' check if gui works'''
     from viscope.gui.cameraViewGUI import CameraViewGUI
     from viscope.instrument.virtual.virtualCamera import VirtualCamera
-    from viscope.main import Viscope
+    from viscope.main import viscope
 
     camera = VirtualCamera(name='camera1')
     camera.connect()
     camera.setParameter('threadingNow',True)
 
-    viscope = Viscope()
     newGUI  = CameraViewGUI(viscope)
     newGUI.setDevice(camera)
     viscope.run()
@@ -50,3 +47,20 @@ def test_CameraViewGUI():
     camera.disconnect()
 
 
+@pytest.mark.GUI
+def test_PumpGUI():
+    ''' check if gui works '''
+    from viscope.gui.pumpGUI import PumpGUI   
+    from viscope.instrument.virtual.virtualPump import VirtualPump
+    from viscope.main import viscope
+
+
+    print('starting pump')
+    pump = VirtualPump()
+    pump.connect()
+
+    viewer  = PumpGUI(viscope)
+    viewer.setDevice(pump)
+    viscope.run()
+
+    pump.disconnect()    

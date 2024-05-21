@@ -16,8 +16,7 @@ import numpy as np
 class StageGUI(BaseGUI):
     ''' main class to control stage'''
 
-    DEFAULT = {'nameGUI': 'Stage',
-                'napariViewer': False}
+    DEFAULT = {'nameGUI': 'Stage'}
 
 
     def __init__(self, viscope, **kwargs):
