@@ -34,7 +34,11 @@ class ViewerWindow(QMainWindow):
 
         dw=QDockWidget('Dockable',self)
         dw.setWindowTitle(name)
-        dw.setWidget(newGUI.native)
+        try:
+            dw.setWidget(newGUI)
+        except: # magicGui widgets
+            dw.setWidget(newGUI.native)
+
         self.addDockWidget(Qt.BottomDockWidgetArea,dw)
         # tabify the widget
         if self.dockWidgetParameter is not None:

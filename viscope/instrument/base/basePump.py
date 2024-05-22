@@ -40,18 +40,28 @@ class BasePump(BaseInstrument):
         return self.flow        
 
     def setParameter(self,name, value):
-        ''' set parameters of the laser'''
+        ''' set parameters'''
+        super().setParameter(name,value)
+
         if name== 'flowRate':
             self._setFlowRate(value)
         if name== 'flow':
             self._setFlow(value)
 
     def getParameter(self,name):
-        ''' get parameter of the laser '''
+        ''' get parameter'''
+        _value = super().getParameter(name)
+        if _value is not None: return _value
+
         if name=='flowRate':
-            return self._getFlowRate()
+            value = self._getFlowRate()
+            return value
         if name=='flow':
-            return self._getFlow()
+            value = self._getFlow()
+            return value 
+        if name=='flowRateReal':
+            value = 0 if not self._getFlow() else self._getFlowRate()
+            return value
 
 
 if __name__ == '__main__':

@@ -64,3 +64,45 @@ def test_PumpGUI():
     viscope.run()
 
     pump.disconnect()    
+
+@pytest.mark.GUI
+def test_allDeviceGUI():
+
+    from viscope.instrument.virtual.virtualStage import VirtualStage
+    from viscope.instrument.virtual.virtualLaser import VirtualLaser
+    from viscope.instrument.virtual.virtualSwitch import VirtualSwitch
+    from viscope.instrument.virtual.virtualCamera import VirtualCamera
+    from viscope.instrument.virtual.virtualPump import VirtualPump
+
+    from viscope.main import viscope
+    from viscope.gui.allDeviceGUI import AllDeviceGUI
+
+    stage1 = VirtualStage(name='Stage1')
+    stage1.connect()
+    stage2 = VirtualStage(name='Stage2')
+    stage2.connect()
+    laser1 = VirtualLaser(name='Laser1')
+    laser1.connect()
+    switch1 = VirtualSwitch(name='Switch1')
+    switch1.connect()
+    camera1 = VirtualCamera(name='Camera1')
+    camera1.connect()
+    camera1.setParameter('threadingNow',True)
+    camera2 = VirtualCamera(name='Camera2')
+    camera2.connect()
+    camera2.setParameter('threadingNow',True)
+    pump1 = VirtualPump(name='Pump1')
+    pump1.connect()
+
+    viewer  = AllDeviceGUI(viscope)
+    viewer.setDevice([stage1,stage2,laser1,switch1,camera1,camera2,pump1])
+    viscope.run()
+
+    print('disconnecting')
+    stage1.disconnect()
+    stage2.disconnect()
+    laser1.disconnect()
+    switch1.disconnect()
+    camera1.disconnect()
+    camera2.disconnect()
+    pump1.disconnect()
