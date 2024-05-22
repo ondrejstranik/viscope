@@ -21,21 +21,22 @@ class VirtualPump(BasePump):
         self.flagSetParameter = ThreadFlag()
 
     def setParameter(self,name, value):
-        ''' set parameters of the laser'''
+        ''' set parameters of the pump'''
         super().setParameter(name,value)
         self.flagSetParameter.set(name)
 
     def _setFlowRate(self,value):
         super()._setFlowRate(value)
         try:
-            print(f'flowRate = {self.flowRate*self.flow}')
+            print(f'setting FlowRate realFlowRate = {self.flowRate*self.flow}')
         except:
             print('flowRate not defined')
 
     def _setFlow(self,value):
         super()._setFlow(value)
         try:
-            print(f'flowRate = {self.flowRate*self.flow}')
+            print(f'setting flow realFlowRate = {self.flowRate*self.flow}')
+            print(f'setting flow flow = {self.flow}')
         except:
             print('flowRate not defined')
 

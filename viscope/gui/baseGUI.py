@@ -39,6 +39,10 @@ class BaseGUI(QObject):
         self.lastUpdateTime = timer()
         self.guiUpdateTime = BaseGUI.DEFAULT['guiUpdateTime']
 
+        # set new Window 
+        if vWindow == 'new':
+            vWindow = self.viscope.addViewerWindow()
+
         # if not specific window than set the window to the main window of viscope 
         self.vWindow = vWindow if vWindow is not None else viscope.vWindow 
 

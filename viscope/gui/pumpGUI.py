@@ -54,9 +54,13 @@ class PumpGUI(BaseGUI):
         super().setDevice(device)
 
         # set gui parameters
+        self.parameterPumpGui._auto_call = False
         self.parameterPumpGui.flowRate.value = self.device.getParameter('flowRate')
         self.parameterPumpGui.flow.value = self.device.getParameter('flow')
+        self.parameterPumpGui._auto_call = True
+
         self.dw.setWindowTitle(self.device.name)
+
 
 if __name__ == "__main__":
     pass
