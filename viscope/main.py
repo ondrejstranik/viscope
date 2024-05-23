@@ -7,10 +7,13 @@ import sys
 from qtpy.QtWidgets import QApplication, QMainWindow
 from viscope.gui.window.viewerWindow import ViewerWindow
 
+from pathlib import Path
+
 class VISCOPE():
     ''' base top class for control'''
 
-    DEFAULT = {'nameGUI': 'viscope'}
+    DEFAULT = {'nameGUI': 'viscope',
+                'dataFolder': 'DATA'}
 
     def __init__(self, **kwargs ):
         ''' initialise the class '''
@@ -25,6 +28,10 @@ class VISCOPE():
         self.vWindowList = [self.vWindow]
 
         self.GUIList = []
+
+        
+        self.dataFolder = str(Path(__file__).parent.joinpath(self.DEFAULT['dataFolder']))
+
 
     def addViewerWindow(self, name=None):
         ''' adding additional window '''
