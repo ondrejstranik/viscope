@@ -9,7 +9,7 @@ def test_twoCameraMicroscope():
 
     from viscope.virtualSystem.twoCameraMicroscope import TwoCameraMicroscope
 
-    from viscope.main import Viscope
+    from viscope.main import viscope
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
 
@@ -38,7 +38,6 @@ def test_twoCameraMicroscope():
     switch= switch, stage=stage)
     vM.connect()
 
-    viscope = Viscope()
     viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([camera1,camera2,laser,switch,stage])
     
