@@ -43,6 +43,8 @@ class BaseLaser(BaseInstrument):
 
     def setParameter(self,name, value):
         ''' set parameters of the laser'''
+        super().setParameter(name,value)
+
         if name== 'power':
             self._setPower(value)
         if name== 'keySwitch':
@@ -50,6 +52,10 @@ class BaseLaser(BaseInstrument):
 
     def getParameter(self,name):
         ''' get parameter of the laser '''
+
+        _value = super().getParameter(name)
+        if _value is not None: return _value
+
         if name=='power':
             return self._getPower()
         if name=='keySwitch':
