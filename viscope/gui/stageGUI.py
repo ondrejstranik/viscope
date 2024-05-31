@@ -30,34 +30,50 @@ class StageGUI(BaseGUI):
         StageGUI.__setWidget(self) 
 
 
+    def _shortcutCommand(self,axis=None,direction='+'):
+        ''' command for the short cut'''
+
+        if self.parameterStageGui.native.underMouse()==False: return
+        df = -1 if direction == '-' else 1
+        if axis == 'X':  
+            self.parameterStageGui(relX=df*np.abs(self.parameterStageGui.relX.value),relY=0,relZ=0)             
+        if axis == 'Y':  
+            self.parameterStageGui(relY=df*np.abs(self.parameterStageGui.relY.value),relX=0,relZ=0)             
+        if axis == 'Z':  
+            self.parameterStageGui(relZ=df*np.abs(self.parameterStageGui.relZ.value),relX=0,relY=0)             
+           
+
+
     def __setWidget(self):
         ''' prepare the gui '''
         @magicgui()
         def parameterStageGui(
-            relX: Annotated[int, {'widget_type': "Slider", 'min': -10, 'max': 10}] = 0,
-            absX: Annotated[int, {'widget_type': "LineEdit"}] = None,
-            relY: Annotated[int, {'widget_type': "Slider", 'min': -10, 'max': 10}] = 0,
-            absY: Annotated[int, {'widget_type': "LineEdit"}] = None,
-            relZ: Annotated[int, {'widget_type': "Slider", 'min': -10, 'max': 10}] = 0,
-            absZ: Annotated[int, {'widget_type': "LineEdit"}] = None
+            relX: Annotated[float, {'widget_type': "FloatSlider", 'min': -1, 'max': 1}] = 0,
+            absX: Annotated[float, {'widget_type': "LineEdit"}] = None,
+            relY: Annotated[float, {'widget_type': "FloatSlider", 'min': -1, 'max': 1}] = 0,
+            absY: Annotated[float, {'widget_type': "LineEdit"}] = None,
+            relZ: Annotated[float, {'widget_type': "FloatSlider", 'min': -1, 'max': 1}] = 0,
+            absZ: Annotated[float, {'widget_type': "LineEdit"}] = None
             ):
             
             # allow for absolute entry as well
-            try:
-                if int(absX) != self.device.position[0]:
-                    relX = int(absX) - self.device.position[0]
-                if int(absY) != self.device.position[1]:
-                    relY = int(absY) - self.device.position[1]
-                if int(absZ) != self.device.position[2]:
-                    relZ = int(absZ) - self.device.position[2]
-            except:
-                print('input invalid value in stage')
+            #try:
+            #if float(absX) != self.device.position[0]:
+            #    relX = float(absX) - self.device.position[0]
+            #if float(absY) != self.device.position[1]:
+            #    relY = float(absY) - self.device.position[1]
+            #if float(absZ) != self.device.position[2]:
+            #    relZ = float(absZ) - self.device.position[2]
+            ##except:
+            ##    print('input invalid value in stage')
 
             relP = [relX,relY,relZ]
 
-            self.device.setParameter('position',self.device.position + relP)
+            currentPosition = self.device.getParameter('position')
+
+            self.device.setParameter('position',currentPosition + relP)
             
-            # after the movement update the absolut values
+            # after the movement update the absolute values
             self.parameterStageGui.absX.value = self.device.position[0]
             self.parameterStageGui.absY.value = self.device.position[1]
             self.parameterStageGui.absZ.value = self.device.position[2]
@@ -67,24 +83,21 @@ class StageGUI(BaseGUI):
         self.dw = self.vWindow.addParameterGui(self.parameterStageGui,name=self.DEFAULT['nameGUI'])
 
         # add keybinding
+        QShortcut(QKeySequence('X'), self.vWindow).activated.connect(
+            lambda: self._shortcutCommand(axis='X',direction='+'))
         QShortcut(QKeySequence('Ctrl+X'), self.vWindow).activated.connect(
-            lambda : self.parameterStageGui(relX=+1) 
-            if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Shift+X'), self.vWindow).activated.connect(
-            lambda : self.parameterStageGui(relX=-1) 
-            if self.parameterStageGui.native.underMouse()==True else None)
+            lambda: self._shortcutCommand(axis='X',direction='-'))
+        QShortcut(QKeySequence('Y'), self.vWindow).activated.connect(
+            lambda: self._shortcutCommand(axis='Y',direction='+'))
         QShortcut(QKeySequence('Ctrl+Y'), self.vWindow).activated.connect(
-            lambda : self.parameterStageGui(relY=+1) 
-            if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Shift+Y'), self.vWindow).activated.connect(
-            lambda : self.parameterStageGui(relY=-1) 
-            if self.parameterStageGui.native.underMouse()==True else None)
+            lambda: self._shortcutCommand(axis='Y',direction='-'))
+        QShortcut(QKeySequence('Z'), self.vWindow).activated.connect(
+            lambda: self._shortcutCommand(axis='Z',direction='+'))
         QShortcut(QKeySequence('Ctrl+Z'), self.vWindow).activated.connect(
-            lambda : self.parameterStageGui(relZ=+1) 
-            if self.parameterStageGui.native.underMouse()==True else None)
-        QShortcut(QKeySequence('Shift+Z'), self.vWindow).activated.connect(
-            lambda : self.parameterStageGui(relZ=-1) 
-            if self.parameterStageGui.native.underMouse()==True else None)
+            lambda: self._shortcutCommand(axis='Z',direction='-'))
+      
+
+
 
 
     def setDevice(self,device):
