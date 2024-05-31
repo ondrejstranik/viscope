@@ -19,7 +19,7 @@ class BaseSLM(BaseInstrument):
         super().__init__(name=name, **kwargs)
 
         self.sizeX = BaseSLM.DEFAULT['sizeX']
-        self.sizeY = BaseSLM.DEFAULT['sizeX']
+        self.sizeY = BaseSLM.DEFAULT['sizeY']
 
         self.image = np.zeros((self.sizeY,self.sizeX))  
 
