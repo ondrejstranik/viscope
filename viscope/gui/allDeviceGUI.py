@@ -66,3 +66,5 @@ class AllDeviceGUI(BaseGUI):
 
 if __name__ == "__main__":
     pass
+
+#%%

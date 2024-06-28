@@ -37,6 +37,10 @@ class BaseCamera(BaseInstrument):
         self.height = BaseCamera.DEFAULT['height']
         self.width = BaseCamera.DEFAULT['width']
 
+        # recorded only in threading mode
+        self.dTime = 0 # acquisition/processing time
+        self.t0 = time.time()
+
         # camera output image
         self.rawImage = np.empty((self.height,self.width))
 
@@ -98,6 +102,8 @@ class BaseCamera(BaseInstrument):
         ''' infinite loop of the camera thread '''
         while True:
             self.rawImage = self.getLastImage()
+            self.dTime = time.time() -self.t0
+            self.t0 = self.t0 + self.dTime
             self.flagLoop.set()
             yield  
             time.sleep(0.03)
