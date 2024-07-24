@@ -6,8 +6,7 @@ base class for cameras
 #%%
 
 import time
-import numpy as np
-from viscope.instrument.base.baseInstrument import BaseInstrument, ThreadFlag
+from viscope.instrument.base.baseInstrument import BaseInstrument
 
 class BaseProcessor(BaseInstrument):
     ''' base class for data Processor

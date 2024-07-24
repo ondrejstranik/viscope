@@ -117,6 +117,25 @@ def test_BasePump():
     pump.disconnect()
 
 
+def test_BaseSequencer():
+    ''' check the functionality of the BaseSequencer'''
+    from viscope.instrument.base.baseSequencer import BaseSequencer
+    import time
 
+    seq = BaseSequencer()
+    seq.connect()
+    seq.setParameter('threadingNow',True)
+
+    print('wait till the sequencer thread it running')
+    while not seq.worker.is_running:
+        time.sleep(.1)        
+
+    # waiting till sequencer is finished
+    while seq.worker.is_running:
+        time.sleep(.1)
+    
+    seq.disconnect()
+
+    
 
 
