@@ -144,7 +144,7 @@ def test_BaseSequencer_2():
     seq = BaseSequencer()
     seq.connect()
 
-    # waiting till sequencer is finished
+    # run the sequencer
     for _ in seq.loop():
         pass
 
