@@ -136,6 +136,22 @@ def test_BaseSequencer():
     
     seq.disconnect()
 
+def test_BaseSequencer_2():
+    ''' check the functionality of the BaseSequencer- no treading'''
+    from viscope.instrument.base.baseSequencer import BaseSequencer
+    import time
+
+    seq = BaseSequencer()
+    seq.connect()
+
+    # waiting till sequencer is finished
+    for _ in seq.loop():
+        pass
+
+    time.sleep(.1)
     
+    seq.disconnect()    
+
+
 
 
