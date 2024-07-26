@@ -64,7 +64,8 @@ class BaseInstrument():
         if self.worker is not None: 
             print(f'quitting the thread loop of instrument  - {self.name} ')
             self.worker.quit()
-            self.flagLoop = None
+            # TODO: check if it not create errors!
+            #self.flagLoop = None
 
     def setParameter(self,name,value):
         ''' set parameter of the instrument '''

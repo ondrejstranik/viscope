@@ -30,7 +30,8 @@ class BaseProcessor(BaseInstrument):
 
     def disconnect(self):
         super().disconnect()
-        self.flagToProcess = None
+        # TODO: check if it not create errors!
+        #self.flagToProcess = None
 
     def processData(self):
         ''' processing data '''
