@@ -67,7 +67,16 @@ class StageGUI(BaseGUI):
             ##except:
             ##    print('input invalid value in stage')
 
-            relP = [relX,relY,relZ]
+            relP = np.array([relX,relY,relZ])
+            # round it to the second digits after comma
+            relP = np.trunc(relP*100)/100
+            self.parameterStageGui.relX.value = relP[0]
+            self.parameterStageGui.relY.value = relP[1]
+            self.parameterStageGui.relZ.value = relP[2]
+
+            print(f'relative movement X: {relP[0]:.04f}')
+            print(f'relative movement Y: {relP[1]:.04f}')
+            print(f'relative movement Z: {relP[2]:.04f}')
 
             currentPosition = self.device.getParameter('position')
 

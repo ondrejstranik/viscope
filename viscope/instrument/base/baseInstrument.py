@@ -6,7 +6,7 @@ base class for all instruments
 #%%
 import time
 from napari.qt.threading import create_worker
-from threading import Event
+from threading import Event, Lock
 #from dataclasses import dataclass,field
 
 
@@ -50,6 +50,8 @@ class BaseInstrument():
 
         self.flagLoop = ThreadFlag()
         self.worker = None
+
+        self.lock = Lock()
 
         if threading is not None:
             self._setWorker(threading) 
