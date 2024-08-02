@@ -17,17 +17,14 @@ class BaseLaser(BaseInstrument):
     
     def __init__(self,name=DEFAULT['name'],*args, **kwargs):
         ''' laser initialisation'''
-        super(BaseLaser,self).__init__(name=name,*args, **kwargs)
+        super().__init__(name=name,*args, **kwargs)
         
-        self.power = None
-        self.keySwitch = None
+        self.power = BaseLaser.DEFAULT['power']
+        self.keySwitch = BaseLaser.DEFAULT['keySwitch']
 
     def connect(self,*args):
         ''' connect to the laser '''
         super().connect()
-        # prepare the laser
-        self.setParameter('keySwitch',BaseLaser.DEFAULT['power'])
-        self.setParameter('power',BaseLaser.DEFAULT['keySwitch'])
 
     def _setPower(self,value):
         self.power = value
