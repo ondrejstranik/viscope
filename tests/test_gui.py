@@ -11,6 +11,14 @@ def test_BaseGUI():
     base = BaseGUI(viscope)
     viscope.run()
 
+@pytest.mark.GUI
+def test_napariGUI():
+    ''' check if base gui is working '''
+    from viscope.main import viscope
+    from viscope.gui.napariGUI import NapariGUI
+
+    newGUI = NapariGUI(viscope)
+    viscope.run()
 
 
 @pytest.mark.GUI

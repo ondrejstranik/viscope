@@ -36,12 +36,7 @@ class NapariGUI(BaseGUI):
 
 
 if __name__ == "__main__":
-        from viscope.main import Viscope
-
-        print('starting main event loop')
-        viscope = Viscope()
-        newGUI  = NapariGUI(viscope)
-        viscope.run()
+    pass
 
 
 

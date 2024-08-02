@@ -26,10 +26,7 @@ class CameraViewGUI(BaseGUI):
         ''' initialise the class '''
         super().__init__(viscope, **kwargs)
 
-        
-        self.lastUpdateTime = timer()
-        self.guiUpdateTime = 0.03
-
+        self.viewer = None
 
         # prepare the gui of the class
         CameraViewGUI.__setWidget(self) 
@@ -45,13 +42,7 @@ class CameraViewGUI(BaseGUI):
         self.rawLayer = self.viewer.add_image(np.ones((2,2)),
                         rgb=False, colormap="gray",
                         name='Raw',  blending='additive')
-
-    def guiUpdateTimed(self):
-        ''' update gui according the update time '''
-        timeNow = timer()
-        if (timeNow -self.lastUpdateTime) > self.guiUpdateTime:
-            self.updateGui()
-            self.lastUpdateTime = timeNow    
+  
 
     def setDevice(self,device):
         super().setDevice(device)
@@ -67,18 +58,6 @@ class CameraViewGUI(BaseGUI):
 
 
 if __name__ == "__main__":
-        from viscope.instrument.virtual.virtualCamera import VirtualCamera
-        from viscope.main import Viscope
-
-        camera = VirtualCamera(name='camera1')
-        camera.connect()
-        camera.setParameter('threadingNow',True)
-
-        viscope = Viscope()
-        newGUI  = CameraViewGUI(viscope)
-        newGUI.setDevice(camera)
-        viscope.run()
-
-        camera.disconnect()
+    pass
 
 
