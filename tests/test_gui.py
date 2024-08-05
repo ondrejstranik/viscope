@@ -114,3 +114,21 @@ def test_allDeviceGUI():
     camera1.disconnect()
     camera2.disconnect()
     pump1.disconnect()
+
+@pytest.mark.GUI
+def test_switchGUI():
+
+    from viscope.instrument.virtual.virtualSwitch import VirtualSwitch
+    from viscope.main import viscope
+    from viscope.gui.switchGUI import SwitchGUI
+
+    switch = VirtualSwitch(name='Switch1')
+    switch.connect(initialPosition=1)
+    switch.positionList = ['up','middle','down']
+
+
+    swGui  = SwitchGUI(viscope)
+    swGui.setDevice(switch)
+    viscope.run()
+
+    switch.disconnect()
