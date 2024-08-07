@@ -17,6 +17,8 @@ class SaveImageGUI(BaseGUI):
         ''' initialise the class '''
         super().__init__(viscope, **kwargs)
 
+        if 'name' in kwargs: self.DEFAULT['nameGUI']= kwargs['name']
+
         # prepare the gui of the class
         SaveImageGUI.__setWidget(self) 
 

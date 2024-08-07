@@ -25,7 +25,7 @@ class LaserGUI(BaseGUI):
     def __setWidget(self):
         ''' prepare the gui '''
         @magicgui(
-                power={'widget_type': "FloatSlider", 'min': 0, 'max': 100} 
+                power={'widget_type': "FloatSlider", 'min': 0, 'max': 240} 
         )
         def parameterLaserGui(
             power = 0.0,
