@@ -47,6 +47,7 @@ class CameraGUI(BaseGUI):
         super().setDevice(device)
 
         self.parameterCameraGui.exposure.value = int(self.device.getParameter('exposureTime'))
+        #print(f'camera exposure Value {self.parameterCameraGui.exposure.value}')
         self.parameterCameraGui.numberOfAverage.value = int(self.device.getParameter('nFrame'))
         self.dw.setWindowTitle(self.device.name)
 
