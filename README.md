@@ -1,5 +1,17 @@
 # Viscope
-Package for virtual microscope
+This is the  base package for virtual/real microscope controlling system
+
+## Add-on packages
+[spectralCamera](https://github.com/ondrejstranik/spectralCamera) - package to control various spectral cameras
+
+[plim](https://github.com/ondrejstranik/plim) -  package to control plasmon imaging sensors
+
+[hmflux](https://github.com/ondrejstranik/hmflux) - package to control holographic min-Flux localisation microscopy
+
+[aposim](https://github.com/ondrejstranik/aposim) -  package to control microsocpe with apoptome functionality
+
+
+
 
 ## Package installation
 0. start conda,create new environment (name = viscope) `conda create --name viscope python=3.9`
