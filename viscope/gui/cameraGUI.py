@@ -53,12 +53,12 @@ class CameraGUI(BaseGUI):
 
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualCamera import VirtualCamera
-        from viscope.main import Viscope
+        from viscope.main import VISCOPE #changed by Mehrad/to be verified
 
         camera = VirtualCamera(name='camera1')
         camera.connect()
 
-        viscope = Viscope()
+        viscope = VISCOPE() #changed by Mehrad/to be verified
         newGUI  = CameraGUI(viscope)
         newGUI.setDevice(camera)
         viscope.run()
