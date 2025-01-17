@@ -55,14 +55,14 @@ class SwitchGUI(BaseGUI):
 if __name__ == "__main__":
         from viscope.instrument.virtual.virtualSwitch import VirtualSwitch
 
-        from viscope.main import Viscope
+        from viscope.main import VISCOPE
 
         print('starting switch')
         switch = VirtualSwitch()
         switch.connect()
         #switch.setParameter('position',0)
 
-        viscope = Viscope()
+        viscope = VISCOPE()
         viewerSwitch  = SwitchGUI(viscope)
         viewerSwitch.setDevice(switch)
         

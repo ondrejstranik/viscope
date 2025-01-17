@@ -99,6 +99,8 @@ def test_BaseLaser():
     print(f'laser {laser.getParameter("power")}, KeySwitch {laser.getParameter("keySwitch")}')
     laser.disconnect()
 
+
+
 def test_BasePump():
     ''' check the functionality  of BasePump '''
     from viscope.instrument.base.basePump import BasePump
@@ -150,7 +152,35 @@ def test_BaseSequencer_2():
 
     time.sleep(.1)
     
-    seq.disconnect()    
+    seq.disconnect()
+
+#recently add by Mehrad/ to be verified
+
+
+#recently added by Mehrad, to be verified
+def test_BaseFilterChanger():
+    ''' Check the functionality of the BaseFilterChanger '''
+    from viscope.instrument.base.baseFilterChanger import BaseFilterChanger
+    import time
+
+    filter_changer = BaseFilterChanger()
+    filter_changer.connect()
+    filter_changer.setParameter('threadingNow', True)
+
+    # Test switching positions
+    for position in range(1, filter_changer.getParameter('num_positions') +1):
+        filter_changer.setParameter('position', position)
+        print(f'Switched to position {position}')
+
+        time.sleep(0.5)
+
+        # Checking to see if the position matches or not
+        current_position = filter_changer.getParameter('position')
+        print(f'Current position: {current_position}')
+        assert current_position == position, f"Expected position {position}, but got {current_position}"
+
+    filter_changer.disconnect()
+
 
 
 
