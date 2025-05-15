@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/ondrejstranik/viscope",
     packages = setuptools.find_packages(),
     install_requires = [
-        'numpy',
+        'numpy<2',
         'PyQt5',
         'napari',
         'pytest'],
