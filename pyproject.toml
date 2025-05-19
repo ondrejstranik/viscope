@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="viscope"
+version="0.0.1"
+dependencies = [
+        'numpy<2',
+        'PyQt5',
+        'napari',
+        'pytest'
+        ]
+requires-python='>=3.9'
+authors = [
+        {name = "Ondrej Stranik", email = "ondra.stranik@gmail.com"},
+]
+
+description="package to emulate optical microscope"
+readme = "README.md"
+license = "MIT"
+keywords = ["instrumentation"]
+classifiers = [
+  "Development Status :: 3- Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+]
+[project.urls]
+Repository = "https://github.com/ondrejstranik/viscope"
