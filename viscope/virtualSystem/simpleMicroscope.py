@@ -58,7 +58,7 @@ class SimpleMicroscope(BaseSystem):
 if __name__ == '__main__':
 
     from viscope.instrument.virtual.virtualCamera import VirtualCamera
-    from viscope.main import Viscope
+    from viscope.main import VISCOPE
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
     camera1 = VirtualCamera()
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     vM.setVirtualDevice(camera1)
     vM.connect()
 
-    viscope = Viscope()
+    viscope = VISCOPE()
     viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([camera1])
     
