@@ -55,21 +55,20 @@ def test_simpleMicroscope():
     ''' test that the simpleMicroscope is working'''
     from viscope.instrument.virtual.virtualCamera import VirtualCamera
     from viscope.virtualSystem.simpleMicroscope import SimpleMicroscope
-    from viscope.main import Viscope
+    from viscope.main import viscope
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
-    from spectralCamera.instrument.camera.webCamera.webCamera import WebCamera
+    #from spectralCamera.instrument.camera.webCamera.webCamera import WebCamera
 
-    #camera1 = VirtualCamera()
-    camera1 = WebCamera(name='WebCamera',filterType='RGGB')
+    camera1 = VirtualCamera()
+    #camera1 = WebCamera(name='WebCamera',filterType='RGGB')
     camera1.connect()
     camera1.setParameter('threadingNow',True)
 
-    #vM = SimpleMicroscope()
-    #vM.setVirtualDevice(camera1)
-    #vM.connect()
+    vM = SimpleMicroscope()
+    vM.setVirtualDevice(camera1)
+    vM.connect()
 
-    viscope = Viscope()
     viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([camera1])
     

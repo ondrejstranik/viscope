@@ -30,12 +30,7 @@ class VirtualLaser(BaseLaser):
 
 if __name__ == '__main__':
 
-    laser = VirtualLaser()
-    laser.connect()
-
-    print(f'laser {laser.getParameter("power")}, KeySwitch {laser.getParameter("keySwitch")}')
-
-    laser.disconnect()
+    pass
 
 
 

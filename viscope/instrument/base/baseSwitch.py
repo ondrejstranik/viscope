@@ -67,25 +67,7 @@ class BaseSwitch(BaseInstrument):
 
 if __name__ == '__main__':
 
-    switch = BaseSwitch()
-    switch.connect()
-    switch.setParameter('threadingNow',True)
-    print( f'worker {switch.worker}')
-
-    switch.setParameter('position',1)
-    print( f'flagSetPosition {switch.flagSetPosition.is_set()}')
-
-    switch.flagLoop.wait()
-    switch.flagLoop.clear()    
-    #print(f'switch position {switch.getParameter("positionList")[switch.getParameter("position")]}')
-    print(f'switch position {switch.getParameter("position")}')
-    switch.setParameter('position',0)
-    switch.flagLoop.wait()
-    switch.flagLoop.clear()
-    #print(f'switcher position {switch.getParameter("positionList")[switch.getParameter("position")]}')
-    print(f'switch position {switch.getParameter("position")}')
-    
-    switch.disconnect()
+    pass
 
 
 

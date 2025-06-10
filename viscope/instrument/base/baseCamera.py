@@ -144,21 +144,7 @@ class BaseCamera(BaseInstrument):
 #%%
 
 if __name__ == '__main__':
-
-    cam = BaseCamera()
-    cam.connect()
-    cam.setParameter('exposureTime',300)
-    cam.setParameter('nFrame', 1)
-    cam.setParameter('threading',True)
-    cam.worker.start()
-
-    cTime = time.time()
-    while time.time()-cTime < 10:
-        if cam.flagLoop.is_set():
-            print(cam.rawImage)
-            cam.flagLoop.clear()
-
-    cam.disconnect()
+    pass
 
 
 # %%

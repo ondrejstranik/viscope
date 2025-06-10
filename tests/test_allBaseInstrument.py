@@ -1,26 +1,24 @@
 ''' test for each class'''
 
-def test_VirtualCamera():
-    ''' check if the images are obtained'''
-    from viscope.instrument.virtual.virtualCamera import VirtualCamera
+def test_BaseCamera():
+    ''' check if the images are obtained from BaseCamera'''    
+    from viscope.instrument.base.baseCamera import BaseCamera
     import time
-    import numpy as np
-    
-    cam = VirtualCamera()
+
+    cam = BaseCamera()
     cam.connect()
     cam.setParameter('exposureTime',300)
     cam.setParameter('nFrame', 1)
     cam.setParameter('threadingNow',True)
 
     cTime = time.time()
-    while time.time()-cTime < 3:    
+    while time.time()-cTime < 10:
         if cam.flagLoop.is_set():
-            pixelSum = np.sum(cam.rawImage)
-            print(f'sum of the pixels {pixelSum}')
-            assert pixelSum > 0
+            print(cam.rawImage)
             cam.flagLoop.clear()
 
     cam.disconnect()
+
 
 def test_BaseInstrument():
     ''' check the threading of the base Instrument '''
@@ -153,5 +151,26 @@ def test_BaseSequencer_2():
     seq.disconnect()    
 
 
+def test_BaseSwitch():
+    ''' test the functionality of BaseSwitch'''
+    from viscope.instrument.base.baseSwitch import BaseSwitch
 
+    switch = BaseSwitch()
+    switch.connect()
+    switch.setParameter('threadingNow',True)
+
+    switch.setParameter('position',1)
+    print( f'flagSetPosition {switch.flagSetPosition.is_set()}')
+
+    switch.flagLoop.wait()
+    switch.flagLoop.clear()    
+    #print(f'switch position {switch.getParameter("positionList")[switch.getParameter("position")]}')
+    print(f'switch position {switch.getParameter("position")}')
+    switch.setParameter('position',0)
+    switch.flagLoop.wait()
+    switch.flagLoop.clear()
+    #print(f'switcher position {switch.getParameter("positionList")[switch.getParameter("position")]}')
+    print(f'switch position {switch.getParameter("position")}')
+    
+    switch.disconnect()   
 

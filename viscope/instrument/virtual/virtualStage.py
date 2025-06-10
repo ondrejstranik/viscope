@@ -82,23 +82,6 @@ class VirtualStage(BaseStage):
         self.flagSetParameter.set(name)
 
 if __name__ == '__main__':
-
-    stage = VirtualStage(threading=True)
-
-    stage.connect()
-
-    stage.setParameter('threadingNow',True)
-
-    print(f'stage position {stage.position}')
-
-    print('moving stage')    
-    relP = [10,0,0]
-    stage.setParameter('position',stage.position + relP)
-
-    stage.flagLoop.wait()
-
-    print(f'new stage position {stage.position} ')
-
-    stage.disconnect()
+    pass
     
 
