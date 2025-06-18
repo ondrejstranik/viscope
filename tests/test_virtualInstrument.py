@@ -75,3 +75,25 @@ def test_VirtualSwitch():
     print(f'switch position {switch.getParameter("position")}')
     
     switch.disconnect()    
+
+
+def test_VirtualADetector():
+    ''' check if the data are obtained'''
+    from viscope.instrument.virtual.virtualADetector import VirtualADetector
+    import time
+    import numpy as np
+    
+    det = VirtualADetector()
+    det.connect()
+    det.setParameter('threadingNow',True)
+    det.startAcquisition()
+
+    cTime = time.time()
+    while time.time()-cTime < 3:    
+        if det.flagLoop.is_set():
+            data = det.getStack()
+            print(f'stack \n {data}')
+            det.flagLoop.clear()
+
+    det.startAcquisition()
+    det.disconnect()

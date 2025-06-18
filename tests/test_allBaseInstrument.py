@@ -174,12 +174,12 @@ def test_BaseSwitch():
     
     switch.disconnect()   
 
-def test_BaseDetector():
-    ''' check the functionality  of BaseDetector '''
-    from viscope.instrument.base.baseDetector import BaseDetector
+def test_BaseADetector():
+    ''' check the functionality  of BaseADetector '''
+    from viscope.instrument.base.baseADetector import BaseADetector
     import time
 
-    detector = BaseDetector()
+    detector = BaseADetector()
     detector.connect()
 
     detector.startAcquisition()
@@ -188,7 +188,7 @@ def test_BaseDetector():
     ii = 0
 
     while time.time()-cTime < 2:
-        _dataStack = detector.getTestStack()
+        _dataStack = detector._getTestStack()
         print(f'dataStack: {_dataStack}\n')
         time.sleep(.03)
 
