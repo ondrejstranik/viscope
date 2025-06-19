@@ -91,7 +91,8 @@ def test_VirtualADetector():
     cTime = time.time()
     while time.time()-cTime < 3:    
         if det.flagLoop.is_set():
-            data = det.getStack()
+            #data = det.getStack()
+            data = det.stack
             print(f'stack \n {data}')
             det.flagLoop.clear()
 

@@ -82,7 +82,7 @@ class ADetectorProcessor(BaseProcessor):
                 #self.time = self.time - self.timeStart
 
         except:
-            print(f'from {self.DEFAULT['name']}: can not process the data')
+            print(f'from {self.DEFAULT["name"]}: can not process the data')
             #print(f'stack {self.aDetector.stack}')
             #print(f'time {self.time}')
             #print(f'signal {self.signal}')

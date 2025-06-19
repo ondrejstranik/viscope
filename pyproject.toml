@@ -9,6 +9,7 @@ dependencies = [
         'numpy<2',
         'PyQt5',
         'napari',
+        'pyqtgraph',
         'pytest'
         ]
 requires-python='>=3.9'

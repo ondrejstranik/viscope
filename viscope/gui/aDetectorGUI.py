@@ -45,19 +45,6 @@ class ADetectorGUI(BaseGUI):
         self.dw.setWindowTitle(self.device.name)
 
 if __name__ == "__main__":
-        from viscope.instrument.virtual.virtualLaser import VirtualLaser
-        from viscope.main import Viscope
-
-
-        print('starting laser')
-        laser = VirtualLaser()
-        laser.connect()
-
-        viscope = Viscope()
-        viewerLaser  = LaserGUI(viscope)
-        viewerLaser.setDevice(laser)
-        viscope.run()
-
-        laser.disconnect()
+        pass
 
 
