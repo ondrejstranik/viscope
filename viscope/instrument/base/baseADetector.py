@@ -59,9 +59,10 @@ class BaseADetector(BaseInstrument):
     def loop(self):
         ''' threading loop of the instrument '''
         while True:
-            self.getStack()
-            self.flagLoop.set('output')
-            yield  
+            if self.flagLoop.is_set() == False:
+                if self.getStack() is not None: # only if new data arrived then set flag
+                    self.flagLoop.set('output')
+                yield  
             time.sleep(self.stackTime)
 
 

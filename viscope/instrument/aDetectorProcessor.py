@@ -16,6 +16,7 @@ from viscope.instrument.base.baseProcessor import BaseProcessor
 class ADetectorProcessor(BaseProcessor):
     ''' class to collect data from virtual ADetector'''
     DEFAULT = {'name': 'ADetectorProcessor',
+               'timeSpan': 10 # time span for holding the data
                 }
 
     def __init__(self, name=None, **kwargs):
@@ -30,6 +31,8 @@ class ADetectorProcessor(BaseProcessor):
         # data
         self.time = None
         self.signal = None
+        #self.timeStart = 0
+        self.timeSpan = ADetectorProcessor.DEFAULT['timeSpan']
 
     def connect(self,aDetector=None):
         ''' connect data processor with aDetector'''
@@ -57,10 +60,41 @@ class ADetectorProcessor(BaseProcessor):
         ''' process newly arrived data '''
         #print(f"processing data from {self.DEFAULT['name']}")
         
-        # add the data
-        np.append(self.time,self.aDetector.stack[:,1])
-        np.append(self.signal,self.aDetector.stack[:,2])
- 
+        try:
+            # add the data
+            if self.time is None:
+                self.timeStart = self.aDetector.stack[0,0]
+                self.time = self.aDetector.stack[:,0] - self.timeStart
+                self.signal = self.aDetector.stack[:,1]
+            else:
+                self.time = np.append(self.time,self.aDetector.stack[:,0] - self.timeStart)
+                self.signal = np.append(self.signal,self.aDetector.stack[:,1])
+
+            # cut the data if too large
+            
+            #print(f'time {self.time}')
+            print(f'self.time shape {np.shape(self.time)}')
+            print(f'self.signal shape {np.shape(self.signal)}')
+            if self.time[-1]> self.timeSpan*1e9:
+                print('hallo')
+                idx = np.argmin(np.abs(self.time - self.timeSpan*1e9))
+                print(f'idx {idx}')
+                self.time = self.time[idx+1:-1] - self.time[idx+1]
+                self.signal = self.signal[idx+1:-1]
+                self.timeStart = self.timeStart + self.time[0]
+                #self.time = self.time - self.timeStart
+
+        except:
+            print(f'time {self.time}')
+            '''
+            print(f'stack {self.aDetector.stack}')
+            print(f'time {self.time}')
+            print(f'signal {self.signal}')
+            '''
+            pass
+
+        self.aDetector.flagLoop.clear()
+
 
 #%%
 

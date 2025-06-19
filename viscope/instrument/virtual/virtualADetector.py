@@ -24,39 +24,48 @@ class VirtualADetector(BaseADetector):
         self.value = self.DEFAULT['value']
         self.sigma = self.DEFAULT['sigma']
         self.signalRate = self.DEFAULT['signalRate']
-        self.acquisitionStopTime = None
-        self.acquisitionStartTime = None
-        self.lastStackTime = None
+        self.acquiring = False
+        if self.acquiring is False:
+            self.acquisitionStopTime = 0
+            self.lastStackTime = 0
 
     def startAcquisition(self):
         '''start detector collecting data in a stack '''
-        self.acquisitionStartTime = time.time_ns()
-        self.lastStackTime = self.acquisitionStartTime*1
+        super().startAcquisition()
+        #self.acquisitionStartTime = time.time_ns()
+        self.lastStackTime = time.time_ns() #self.acquisitionStartTime*1
         self.acquisitionStopTime = None
 
     def stopAcquisition(self):
         '''stop detector collecting data in a stack '''
+        super().stopAcquisition()
         self.acquisitionStopTime = time.time_ns()
 
-
-    def getStack(self):
-        ''' get data from the stack'''        
-
-        # check if acquisition is running
+    def _calculateStack(self):
+        ''' calculate the virtual stack'''
         currentTime = time.time_ns()
+        
         if self.acquisitionStopTime is not None:
             currentTime = self.acquisitionStopTime
 
         if self.acquisitionStopTime == self.lastStackTime:
-            self.stack = None
+            virtualStack = None
         else:
             # generate the signal        
-            dataTime = np.linspace(self.lastStackTime, currentTime,int(1e9/self.signalRate))
+            dataTime = np.arange(self.lastStackTime, currentTime,int(1e9/self.signalRate))
             nData = len(dataTime)
             signal = np.random.normal(self.value,self.sigma,nData)
-            self.stack = np.vstack([dataTime,signal]).T
+            virtualStack = np.vstack([dataTime,signal]).T
 
         self.lastStackTime = currentTime
+
+        return virtualStack
+
+    def getStack(self):
+        ''' get data from the stack'''        
+        #print(f'getStack from {self.DEFAULT["name"]}')
+
+        self.stack = self._calculateStack()
 
         return self.stack
 

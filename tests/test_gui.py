@@ -147,7 +147,7 @@ def test_ADetectorGUI():
     aDet.connect()
     aDet.setParameter('threadingNow',True)
 
-    aDProc = ADetectorProcessor(name='ADetector')
+    aDProc = ADetectorProcessor(name='ADetectorProcessor')
     aDProc.connect(aDetector=aDet)
     aDProc.setParameter('threadingNow',True)
 

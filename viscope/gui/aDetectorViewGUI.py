@@ -28,6 +28,9 @@ class ADetectorViewGUI(BaseGUI):
 
         self.graph = None
 
+        # reduce the frequency of graph redrawing
+        #self.guiUpdateTime = 0.3
+
         # prepare the gui of the class
         ADetectorViewGUI.__setWidget(self) 
 
@@ -69,7 +72,7 @@ class ADetectorViewGUI(BaseGUI):
             mypen = QPen()
             mypen.setWidth(0)
             lineplot = self.graph.plot()
-            lineplot.setData(self.device.time, self.device.time)
+            lineplot.setData(self.device.time/1e9, self.device.signal)
 
 
     def updateGui(self):
