@@ -96,5 +96,5 @@ def test_VirtualADetector():
             print(f'stack \n {data}')
             det.flagLoop.clear()
 
-    det.startAcquisition()
+    det.stopAcquisition()
     det.disconnect()

@@ -73,9 +73,7 @@ class ADetectorProcessor(BaseProcessor):
 
             # cut the data if too large
             if self.time[-1]/1e9> self.timeSpan:
-                print('hallo')
                 idx = int(np.argwhere((self.time/1e9 - self.timeSpan)>0)[0])
-                print(f'idx {idx}')
                 self.time = self.time[idx+1:-1] - self.time[idx+1]
                 self.signal = self.signal[idx+1:-1]
                 self.timeStart = self.timeStart + self.timeSpan*1e9
@@ -88,7 +86,7 @@ class ADetectorProcessor(BaseProcessor):
             #print(f'signal {self.signal}')
 
         # indicate that data from at ADetector were processed
-        self.aDetector.flagLoop.clear()
+        #self.aDetector.flagLoop.clear()
 
 
 #%%

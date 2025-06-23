@@ -159,5 +159,7 @@ def test_ADetectorGUI():
 
     viscope.run()
 
-    aDet.disconnect()
     aDProc.disconnect()
+
+    aDet.disconnect()
+   
