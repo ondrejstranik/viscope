@@ -54,7 +54,10 @@ class CameraViewGUI(BaseGUI):
     def updateGui(self):
         ''' update the data in gui '''
         # napari
-        self.rawLayer.data = self.device.rawImage
+        try:
+            self.rawLayer.data = self.device.rawImage
+        except Exception as e:
+            print(f'error in updateGui in cameraViewGUI: {e}')
 
 
 if __name__ == "__main__":
