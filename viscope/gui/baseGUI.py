@@ -28,7 +28,8 @@ class BaseGUI(QObject):
     DEFAULT = {'nameGUI': 'baseGUI',
                 'guiUpdateTime': 0.03, # [s]
                 # restrict update time of the gui in the stream of new data
-                'threading': False}
+                #'threading': False}
+    }
 
     def __init__(self, viscope, vWindow=None, threading = None, **kwargs ):
         ''' initialise the class '''
@@ -46,13 +47,13 @@ class BaseGUI(QObject):
         # if not specific window than set the window to the main window of viscope 
         self.vWindow = vWindow if vWindow is not None else viscope.vWindow 
 
-        self.flagLoop = ThreadFlag()
-        self.worker = None
+        #self.flagLoop = ThreadFlag()
+        #self.worker = None
 
-        if threading is not None:
-            self._setWorker(threading) 
-        else:
-            self._setWorker(BaseGUI.DEFAULT['threading'])
+        #if threading is not None:
+        #    self._setWorker(threading) 
+        #else:
+        #    self._setWorker(BaseGUI.DEFAULT['threading'])
 
          # prepare the gui of the class
         BaseGUI.__setWidget(self)
@@ -65,17 +66,17 @@ class BaseGUI(QObject):
         self.device = device
         self.vWindow.setWindowTitle(self.device.name)
 
-    def _setWorker(self,value:bool):
-        ''' set the worker for the base gui '''
-        self.worker = create_worker(self.loop) if value else None
+    #def _setWorker(self,value:bool):
+    #    ''' set the worker for the base gui '''
+    #    self.worker = create_worker(self.loop) if value else None
 
-    def loop(self):
-        ''' base threading loop of the data processing '''
-        while True:
-            print('output from BaseGUI thread loop')
-            self.flagLoop.set('output')
-            yield  
-            time.sleep(1)
+    #def loop(self):
+    #    ''' base threading loop of the data processing '''
+    #    while True:
+    #        print('output from BaseGUI thread loop')
+    #        self.flagLoop.set('output')
+    #        yield  
+    #        time.sleep(1)
 
     def guiUpdateTimed(self):
         ''' update gui according the update time 

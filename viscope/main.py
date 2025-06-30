@@ -42,7 +42,7 @@ class VISCOPE():
     def closeAllWindow(self):
         ''' close all vWindow '''
         for vWindow in self.vWindowList:
-            #print(f'closing window {vWindow}')
+            print(f'closing window {vWindow}')
             vWindow.close()
 
     def run(self):

@@ -32,6 +32,9 @@ class NapariGUI(BaseGUI):
 
         self.viewer = napari.Viewer(show=False)
 
+        # napari window do not throw error in dock Window,
+        # therefore it must run in the main Window
+        #self.dw =self.vWindow.addParameterGui(self.viewer.window._qt_window,name=self.DEFAULT['nameGUI'])
         self.vWindow.addMainGUI(self.viewer.window._qt_window, name=self.DEFAULT['nameGUI'])
 
 
