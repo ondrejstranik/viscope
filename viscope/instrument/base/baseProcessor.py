@@ -41,16 +41,19 @@ class BaseProcessor(BaseInstrument):
     def loop(self):
         ''' infinite loop of the data process thread '''
         try:
-            while self.flagToProcess is not None:
-                self.flagToProcess.wait()
-                self.processData()
-                self.flagLoop.set()
-                self.flagToProcess.clear()
-                yield  
+            while True:
+                if ((self.flagToProcess is not None) and
+                    (self.flagToProcess.is_set())):
+                    self.processData()
+                    self.flagLoop.set()
+                    self.flagToProcess.clear()
+                yield
+                #print(f'baseProcessor yielding')  
                 time.sleep(0.03)
 
         except Exception as error:
             print(f"An exception occurred in thread of {self.name}:\n", error)
+            yield
 
 
 #%%

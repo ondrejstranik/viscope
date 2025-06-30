@@ -64,7 +64,8 @@ class BaseADetector(BaseInstrument):
                 if self.flagLoop.is_set() == False:
                     if self.getStack() is not None: # only if new data arrived then set flag
                         self.flagLoop.set('output')
-                    yield  
+                yield
+                #print(f'baseADetector yielding')    
                 time.sleep(self.stackTime)
         except Exception as e:
             print(f'error in loop of BaseADetector: {e}')
