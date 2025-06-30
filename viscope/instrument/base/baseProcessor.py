@@ -47,7 +47,9 @@ class BaseProcessor(BaseInstrument):
                     self.processData()
                     self.flagLoop.set()
                     self.flagToProcess.clear()
-                yield
+                    yield True
+                else:
+                    yield False
                 print(f'baseProcessor yielding')  
                 time.sleep(0.03)
 

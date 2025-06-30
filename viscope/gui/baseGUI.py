@@ -78,14 +78,17 @@ class BaseGUI(QObject):
     #        yield  
     #        time.sleep(1)
 
-    def guiUpdateTimed(self):
+    def guiUpdateTimed(self,newData=True):
         ''' update gui according the update time 
         connect with corresponding yield of the device '''
 
         timeNow = timer()
         if (timeNow -self.lastUpdateTime) > self.guiUpdateTime:
             self.updateGui()
-            self.lastUpdateTime = timeNow   
+            self.lastUpdateTime = timeNow
+
+        if newData:
+            print('newDataArrived') 
 
     def updateGui(self):
         ''' update the data in gui '''
