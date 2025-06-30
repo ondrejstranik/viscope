@@ -5,7 +5,7 @@ class for live viewing spectral images
 #import napari
 #from typing import Annotated, Literal
 
-from qtpy.QtWidgets import QApplication, QDockWidget, QMainWindow
+from qtpy.QtWidgets import QApplication, QDockWidget, QMainWindow, QWidget
 
 #from qtpy.QtWidgets import QLabel, QSizePolicy, QDockWidget
 from qtpy.QtCore import Qt, Signal

@@ -46,6 +46,11 @@ class VISCOPE():
             vWindow.close()
 
     def run(self):
+        # in the case that napari is used, then it rewrite the self.app
+        # causing the at close it run gracefull exit, closing all the threads.
+        # this is not consistent with the case napari is not run.
+        # therefore, the self.app is initiated again.
+        self.app = QApplication([])
         ''' start the gui viewer'''
         # start main event loop
         print('starting main viscope loop')

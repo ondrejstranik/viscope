@@ -48,7 +48,7 @@ class BaseProcessor(BaseInstrument):
                     self.flagLoop.set()
                     self.flagToProcess.clear()
                 yield
-                #print(f'baseProcessor yielding')  
+                print(f'baseProcessor yielding')  
                 time.sleep(0.03)
 
         except Exception as error:

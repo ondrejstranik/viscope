@@ -5,10 +5,10 @@ base class for all instruments
 """
 #%%
 import time
-from napari.qt.threading import create_worker
+#from napari.qt.threading import create_worker
+from superqt.utils._qthreading import create_worker
 from threading import Event, Lock
 #from dataclasses import dataclass,field
-
 
 class ThreadFlag:
     def __init__(self):
@@ -63,9 +63,12 @@ class BaseInstrument():
 
     def disconnect(self):
         print(f'disconnecting instrument - {self.name} ')
-        if self.worker is not None: 
-            print(f'quitting the thread loop of instrument  - {self.name} ')
-            self.worker.quit()
+        if self.worker is not None:
+            if self.worker.is_running: 
+                print(f'quitting the thread loop of instrument  - {self.name} ')
+                self.worker.quit()
+            else:
+                print(f'the thread loop of instrument  - {self.name} is already closed')
             # TODO: check if it not create errors!
             #self.flagLoop = None
 
