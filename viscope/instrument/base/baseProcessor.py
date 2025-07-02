@@ -47,10 +47,11 @@ class BaseProcessor(BaseInstrument):
                     self.processData()
                     self.flagLoop.set()
                     self.flagToProcess.clear()
+                    print(f'baseProcessor data yielding')  
                     yield True
                 else:
                     yield False
-                print(f'baseProcessor yielding')  
+
                 time.sleep(0.03)
 
         except Exception as error:

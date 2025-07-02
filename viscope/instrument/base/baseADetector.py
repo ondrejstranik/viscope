@@ -10,7 +10,7 @@ class BaseADetector(BaseInstrument):
     ''' base class of detectors collecting data asynchronously via stack'''
 
     DEFAULT = {'name':'baseADetector',
-               'stackTime': 0.1} # in [s] time period of stack collection
+               'stackTime': 0.005} # in [s] time period of stack collection
     
     def __init__(self,name=DEFAULT['name'], **kwargs):
         ''' laser initialisation'''
@@ -61,11 +61,12 @@ class BaseADetector(BaseInstrument):
         try:
             while True:
                 # get new stack only if the data from the stack are processed
-                if self.flagLoop.is_set() == False:
-                    if self.getStack() is not None: # only if new data arrived then set flag
+                if ((self.flagLoop.is_set() == False) and (self.getStack() is not None)): # only if new data arrived then set flag
                         self.flagLoop.set('output')
-                yield
-                print(f'baseADetector yielding')    
+                        yield True
+                        print(f'baseADetector yielding new Data')
+                else:
+                    yield False
                 time.sleep(self.stackTime)
         except Exception as e:
             print(f'error in loop of BaseADetector: {e}')
