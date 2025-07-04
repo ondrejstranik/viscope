@@ -28,7 +28,10 @@ class ADetectorProcessor(BaseProcessor):
         # asynchronous Detector
         self.aDetector = None
         
-        # data
+        #input data (critical)
+        self.stack = None
+        
+        # output data
         self.time = None
         self.signal = None
         #self.timeStart = 0
@@ -56,21 +59,24 @@ class ADetectorProcessor(BaseProcessor):
             return self.aDetector
 
 
-    def processData(self):
+    def transferData(self):
+        ''' transfer all the critical data. This avoids cross over'''
+        self.stack = self.aDetector.getStack()
+
+    def _processData(self):
         ''' process newly arrived data '''
 
         #print(f"processing data from {self.DEFAULT['name']}")
         
         try:
-            stack = self.aDetector.getStack()
             # add the data
             if self.time is None:
-                self.timeStart = stack[0,0]
-                self.time = stack[:,0] - self.timeStart
-                self.signal = stack[:,1]
+                self.timeStart = self.stack[0,0]
+                self.time = self.stack[:,0] - self.timeStart
+                self.signal = self.stack[:,1]
             else:
-                self.time = np.append(self.time,stack[:,0] - self.timeStart)
-                self.signal = np.append(self.signal,stack[:,1])
+                self.time = np.append(self.time,self.stack[:,0] - self.timeStart)
+                self.signal = np.append(self.signal,self.stack[:,1])
 
             # cut the data if too large
             if self.time[-1]/1e9> self.timeSpan:
@@ -82,13 +88,18 @@ class ADetectorProcessor(BaseProcessor):
 
         except:
             print(f'from {self.DEFAULT["name"]}: can not process the data')
-            #print(f'stack {self.stack}')
+            #print(f'self.stack {self.self.stack}')
             #print(f'time {self.time}')
             #print(f'signal {self.signal}')
 
         # indicate that data from at ADetector were processed
         #self.aDetector.flagLoop.clear()
 
+    def processData(self):
+        ''' secure input data and process them'''
+        self.transferData()
+        self._processData()
+        
 
 #%%
 
