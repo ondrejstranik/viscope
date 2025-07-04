@@ -54,9 +54,11 @@ class BaseADetector(BaseInstrument):
 
     def getStack(self):
         ''' return stack with data and clear the stack'''
-        with self.lock:
-            wholeChunkOfStack = self.stack
-            self.stack = None
+        #with self.lock:
+        #    wholeChunkOfStack = self.stack
+        #    self.stack = None
+        wholeChunkOfStack = self.stack
+        self.stack = None
         self.flagLoop.clear()
         return wholeChunkOfStack
 
@@ -68,8 +70,9 @@ class BaseADetector(BaseInstrument):
         ''' threading loop of the instrument '''
         try:
             while True:
-                with self.lock:
-                    self.updateStack()
+                #with self.lock:
+                #    self.updateStack()
+                self.updateStack()
                 if self.stack is not None: # only if new data arrived then set flag
                         self.flagLoop.set('output')
                         yield True
