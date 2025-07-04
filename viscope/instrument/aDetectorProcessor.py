@@ -62,14 +62,15 @@ class ADetectorProcessor(BaseProcessor):
         #print(f"processing data from {self.DEFAULT['name']}")
         
         try:
+            stack = self.aDetector.getStack()
             # add the data
             if self.time is None:
-                self.timeStart = self.aDetector.stack[0,0]
-                self.time = self.aDetector.stack[:,0] - self.timeStart
-                self.signal = self.aDetector.stack[:,1]
+                self.timeStart = stack[0,0]
+                self.time = stack[:,0] - self.timeStart
+                self.signal = stack[:,1]
             else:
-                self.time = np.append(self.time,self.aDetector.stack[:,0] - self.timeStart)
-                self.signal = np.append(self.signal,self.aDetector.stack[:,1])
+                self.time = np.append(self.time,stack[:,0] - self.timeStart)
+                self.signal = np.append(self.signal,stack[:,1])
 
             # cut the data if too large
             if self.time[-1]/1e9> self.timeSpan:
@@ -81,7 +82,7 @@ class ADetectorProcessor(BaseProcessor):
 
         except:
             print(f'from {self.DEFAULT["name"]}: can not process the data')
-            #print(f'stack {self.aDetector.stack}')
+            #print(f'stack {self.stack}')
             #print(f'time {self.time}')
             #print(f'signal {self.signal}')
 

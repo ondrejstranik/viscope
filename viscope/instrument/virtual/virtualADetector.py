@@ -61,11 +61,15 @@ class VirtualADetector(BaseADetector):
 
         return virtualStack
 
-    def getStack(self):
+    def updateStack(self):
         ''' get data from the stack'''        
         #print(f'getStack from {self.DEFAULT["name"]}')
 
-        self.stack = self._calculateStack()
+        res = self._calculateStack()
+        if self.stack is None:
+            self.stack = res
+        else:
+            self.stack = np.vstack([self.stack,res])
 
         return self.stack
 
