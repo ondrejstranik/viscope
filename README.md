@@ -14,7 +14,15 @@ This is the  base package for virtual/real microscope controlling system
 
 
 ## Package installation
-0. start conda,create new environment (name = viscope) `conda create --name viscope python=3.9`
-1. start conda, activate your environment `conda activate xxx` (xxx .. name of your environment)
-2. move to the package folder `cd yyy` (yyy ... name of the folder)
-3. type `python -m pip install -e. --config-settings editable_mode=strict`
+0. start conda,create new environment (e.g. environment'name  = viscope) `conda create --name viscope python=3.9`
+1. start conda, activate your environment `conda activate viscope`
+2. move to the package folder `cd path\to\the\package\folder` 
+3. type `python -m pip install -e.`
+
+4. if you use pylance in vscode you have to add into the file .vscode\settings.json following
+```
+    "python.languageServer": "Pylance",
+    "python.analysis.extraPaths": [
+        "path\to\the\package\folder"
+    ],
+
