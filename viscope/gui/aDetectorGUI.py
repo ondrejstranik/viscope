@@ -27,7 +27,8 @@ class ADetectorGUI(BaseGUI):
         def parameterADetectorGui(
             acquisition = False,
             ):
-            if acquisition: self.device.startAcquisition()
+            if acquisition: 
+                 self.device.startAcquisition()
             else:
                  self.device.stopAcquisition()
 
