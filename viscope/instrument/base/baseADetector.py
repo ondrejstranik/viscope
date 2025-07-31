@@ -4,6 +4,7 @@
 import numpy as np
 from viscope.instrument.base.baseInstrument import BaseInstrument
 import time
+import traceback
 
 
 class BaseADetector(BaseInstrument):
@@ -66,23 +67,33 @@ class BaseADetector(BaseInstrument):
         ''' update the stack'''
         pass
 
+    def isEmptyStack(self):
+        ''' check if stack is empty'''
+        res = False
+        #with self.lock:
+        #    if (self.stack is None) or (self.stack.size == 0):
+        #        res = True
+        if (self.stack is None) or (self.stack.size == 0):
+            res = True
+        return res
+
     def loop(self):
         ''' threading loop of the instrument '''
-        try:
-            while True:
+        while True:
+            try:
                 #with self.lock:
                 #    self.updateStack()
                 self.updateStack()
-                if self.stack is not None: # only if new data arrived then set flag
+                if not self.isEmptyStack(): # only if new data arrived then set flag
                         self.flagLoop.set('output')
                         yield True
                         print(f'{self.name} yielding new Data')
                 else:
                     yield False
                 time.sleep(self.stackTime)
-        except Exception as e:
-            print(f'error in loop of BaseADetector: {e}')
-            yield
+            except:
+                traceback.print_exc()
+                yield False
 
 
 if __name__ == '__main__':
