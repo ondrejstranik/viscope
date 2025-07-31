@@ -92,6 +92,7 @@ class BaseADetector(BaseInstrument):
                     yield False
                 time.sleep(self.stackTime)
             except:
+                print(f"An exception occurred in thread of {self.name}:\n")
                 traceback.print_exc()
                 yield False
 

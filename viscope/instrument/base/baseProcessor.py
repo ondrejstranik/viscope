@@ -7,6 +7,7 @@ base class for cameras
 
 import time
 from viscope.instrument.base.baseInstrument import BaseInstrument
+import traceback
 
 class BaseProcessor(BaseInstrument):
     ''' base class for data Processor
@@ -40,8 +41,8 @@ class BaseProcessor(BaseInstrument):
 
     def loop(self):
         ''' infinite loop of the data process thread '''
-        try:
-            while True:
+        while True:
+            try:
                 if ((self.flagToProcess is not None) and
                     (self.flagToProcess.is_set())):
                     self.processData()
@@ -53,10 +54,10 @@ class BaseProcessor(BaseInstrument):
                     yield False
 
                 time.sleep(0.03)
-
-        except Exception as error:
-            print(f"An exception occurred in thread of {self.name}:\n", error)
-            yield
+            except:
+                print(f"An exception occurred in thread of {self.name}:\n")
+                traceback.print_exc()
+                yield False
 
 
 #%%

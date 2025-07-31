@@ -7,6 +7,7 @@ base class for cameras
 
 import time
 from viscope.instrument.base.baseInstrument import BaseInstrument
+import traceback
 
 class BaseSequencer(BaseInstrument):
     ''' base class for carry out a sequence of hardware / software steps
@@ -26,14 +27,17 @@ class BaseSequencer(BaseInstrument):
         try:
             for ii in range(10):
                 print(f'sequence step number {ii}')
-                yield  
+                yield True
                 time.sleep(1)
             
             # finishing
             self.flagLoop = None
 
-        except Exception as error:
-            print(f"An exception occurred in thread of {self.name}:\n", error)
+        except:
+            print(f"An exception occurred in thread of {self.name}:\n")
+            traceback.print_exc()
+            # finishing
+            self.flagLoop = None
 
 
 #%%

@@ -3,7 +3,7 @@
 
 import numpy as np
 import time
-
+import traceback
 from viscope.instrument.base.baseInstrument import BaseInstrument, ThreadFlag
 
 class BaseSwitch(BaseInstrument):
@@ -56,14 +56,18 @@ class BaseSwitch(BaseInstrument):
     def loop(self):
         ''' infinite loop of the thread '''
         while True:
-            if self.flagSetPosition.is_set():
-                _newPosition = self.flagSetPosition.getLastData()
-                self._setPosition(_newPosition)
-                self.flagSetPosition.clear()
-                self.flagLoop.set()
-                yield
-            time.sleep(0.03)
-
+            try:
+                if self.flagSetPosition.is_set():
+                    _newPosition = self.flagSetPosition.getLastData()
+                    self._setPosition(_newPosition)
+                    self.flagSetPosition.clear()
+                    self.flagLoop.set()
+                    yield True
+                time.sleep(0.03)
+            except:
+                print(f"An exception occurred in thread of {self.name}:\n")
+                traceback.print_exc()
+                yield False                
 
 if __name__ == '__main__':
 

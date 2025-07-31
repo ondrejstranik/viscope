@@ -8,6 +8,7 @@ import time
 #from napari.qt.threading import create_worker
 from superqt.utils._qthreading import create_worker
 from threading import Event, Lock
+import traceback
 #from dataclasses import dataclass,field
 
 class ThreadFlag:
@@ -102,10 +103,15 @@ class BaseInstrument():
     def loop(self):
         ''' base threading loop of the instrument '''
         while True:
-            print('output from BaseInstrument thread loop')
-            self.flagLoop.set('output')
-            yield  
-            time.sleep(1)
+            try:
+                print('output from BaseInstrument thread loop')
+                self.flagLoop.set('output')
+                yield True 
+                time.sleep(1)
+            except:
+                print(f"An exception occurred in thread of {self.name}:\n")
+                traceback.print_exc()
+                yield False                
 
 
 if __name__ == '__main__':

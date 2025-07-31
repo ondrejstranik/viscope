@@ -8,6 +8,7 @@ base class for cameras
 import time
 import numpy as np
 from viscope.instrument.base.baseInstrument import BaseInstrument
+import traceback
 
 class BaseCamera(BaseInstrument):
     ''' base class for camera
@@ -101,12 +102,18 @@ class BaseCamera(BaseInstrument):
     def loop(self):
         ''' infinite loop of the camera thread '''
         while True:
-            self.rawImage = self.getLastImage()
-            self.dTime = time.time() -self.t0
-            self.t0 = self.t0 + self.dTime
-            self.flagLoop.set()
-            yield  
-            time.sleep(0.03)
+            try:
+                self.rawImage = self.getLastImage()
+                self.dTime = time.time() -self.t0
+                self.t0 = self.t0 + self.dTime
+                self.flagLoop.set()
+                yield
+                time.sleep(0.03)
+            except:
+                print(f"An exception occurred in thread of {self.name}:\n")
+                traceback.print_exc()
+                yield False                
+
 
     def _displayStreamOfImages(self):
         ''' internal viewer for checking camera functionality
