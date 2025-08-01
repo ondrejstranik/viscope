@@ -87,7 +87,7 @@ class BaseADetector(BaseInstrument):
                 if not self.isEmptyStack(): # only if new data arrived then set flag
                         self.flagLoop.set('output')
                         yield True
-                        print(f'{self.name} yielding new Data')
+                        #print(f'{self.name} yielding new Data')
                 else:
                     yield False
                 time.sleep(self.stackTime)

@@ -48,7 +48,7 @@ class BaseProcessor(BaseInstrument):
                     self.processData()
                     self.flagLoop.set()
                     self.flagToProcess.clear()
-                    print(f'baseProcessor data yielding')  
+                    #print(f'{self.name} yielding new Data')  
                     yield True
                 else:
                     yield False

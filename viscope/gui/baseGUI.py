@@ -87,8 +87,8 @@ class BaseGUI(QObject):
             self.updateGui()
             self.lastUpdateTime = timeNow
 
-        if newData:
-            print('newDataArrived') 
+        #if newData:
+        #    print('newDataArrived') 
 
     def updateGui(self):
         ''' update the data in gui '''
