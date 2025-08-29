@@ -10,6 +10,8 @@ This is the  base package for virtual/real microscope controlling system
 
 [aposim](https://github.com/ondrejstranik/aposim) -  package to control microsocpe with apoptome functionality
 
+[scanImaging](https://github.com/ondrejstranik/scanImaging) - package to control fluorescence lifetime image scanning microscope (FLIM/ISM) 
+
 
 
 
