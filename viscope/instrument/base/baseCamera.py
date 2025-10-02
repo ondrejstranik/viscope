@@ -120,7 +120,7 @@ class BaseCamera(BaseInstrument):
         implemented with napari'''
 
         import napari
-        from napari.qt.threading import thread_worker, create_worker
+        from napari.qt.threading import create_worker
         import time        
 
         def yieldHSImage():
