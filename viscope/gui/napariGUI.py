@@ -2,7 +2,7 @@
 class for live viewing spectral images
 '''
 #%%
-import napari
+#import napari
 from magicgui import magicgui
 from typing import Annotated, Literal
 
@@ -11,7 +11,7 @@ from qtpy.QtCore import Qt
 from viscope.gui.baseGUI import BaseGUI
 
 from timeit import default_timer as timer
-import napari
+from viscope.gui.napariViewer.napariViewer import NapariViewer
 
 import numpy as np
 
@@ -30,7 +30,7 @@ class NapariGUI(BaseGUI):
     def __setWidget(self):
         ''' prepare the gui '''
 
-        self.viewer = napari.Viewer(show=False)
+        self.viewer = NapariViewer()
 
         # napari window do throw error in dock Window,
         # therefore it must run in the main Window
