@@ -138,10 +138,13 @@ class NapariViewer:
             }
         """)
 
-        layout = QHBoxLayout(container)
-        layout.setContentsMargins(6, 6, 6, 6)
-        layout.setSpacing(6)
-        layout.setSizeConstraint(QLayout.SetFixedSize)
+        # get existing layout
+        layout = dock.layout()
+
+        h = QHBoxLayout(container)
+        h.setContentsMargins(6, 6, 6, 6)
+        h.setSpacing(6)
+        h.setSizeConstraint(QLayout.SetFixedSize)
 
         # ---- 2D / 3D toggle button ----
         icon2d = self._load_icon(os.path.join(ICON_FOLDER, "2D.svg"))
@@ -184,11 +187,11 @@ class NapariViewer:
         btn_home = cls._make_button(self, "home.svg", "Reset view", viewer.reset_view)
 
         # ---- Add all buttons in order ----
-        layout.addWidget(btn_2d3d)
-        layout.addWidget(btn_reorder)
-        layout.addWidget(btn_transpose)
-        layout.addWidget(btn_grid)
-        layout.addWidget(btn_home)
+        h.addWidget(btn_2d3d)
+        h.addWidget(btn_reorder)
+        h.addWidget(btn_transpose)
+        h.addWidget(btn_grid)
+        h.addWidget(btn_home)
 
         container.adjustSize()
 
@@ -204,40 +207,9 @@ class NapariViewer:
         dock.resizeEvent = new_resize
         reposition()
 
-
-
-
-def main():
-    app = QApplication.instance() or QApplication([])
-
-    main_win = QMainWindow()
-    main_win.setWindowTitle("Two Napari Viewers — Fixed-spacing floating toolbar")
-
-    central = QWidget()
-    central_layout = QVBoxLayout(central)
-    main_win.setCentralWidget(central)
-
-    splitter = QSplitter(Qt.Horizontal)
-    central_layout.addWidget(splitter)
-
-    viewer_left = CustomNapariViewer()
-    left_widget = viewer_left.window._qt_window
-    left_widget.setWindowFlags(Qt.Widget)
-
-    viewer_right = CustomNapariViewer()
-    right_widget = viewer_right.window._qt_window
-    right_widget.setWindowFlags(Qt.Widget)
-
-    splitter.addWidget(left_widget)
-    splitter.addWidget(right_widget)
-
-    viewer_left.add_image(np.random.random((512, 512)), name="Left")
-    viewer_right.add_image(np.random.random((512, 512)), name="Right")
-
-    main_win.resize(1200, 700)
-    main_win.show()
-    app.exec()
-
+        # Insert into napari's layout (napari will own it)
+        # Napari uses: header (0), list view (1), status (last)
+        layout.insertWidget(layout.count()- 1, container)   # <-- this makes it part of napari UI
 
 if __name__ == "__main__":
-    main()
+    pass

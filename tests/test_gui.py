@@ -12,6 +12,18 @@ def test_BaseGUI():
     viscope.run()
 
 @pytest.mark.GUI
+def test_napariViewer():
+    ''' check if napariGUI is working '''
+    from viscope.gui.napariViewer.napariViewer import NapariViewer
+    import napari
+    import numpy as np
+
+    viewer = NapariViewer()
+    viewer.add_image(np.random.rand(100,100))
+    napari.run()
+
+
+@pytest.mark.GUI
 def test_napariGUI():
     ''' check if napariGUI is working '''
     from viscope.main import viscope
@@ -32,9 +44,6 @@ def test_napariGUI2():
     newGUI2 = NapariGUI(viscope,vWindow='new')
     newGUI2.viewer.add_image(np.random.rand(100,100))
     viscope.run()
-
-
-
 
 @pytest.mark.GUI
 def test_CameraGUI():
