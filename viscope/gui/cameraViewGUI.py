@@ -9,24 +9,23 @@ from magicgui import magicgui
 #from qtpy.QtWidgets import QLabel, QSizePolicy
 #from qtpy.QtCore import Qt
 from viscope.gui.baseGUI import BaseGUI
-
 from timeit import default_timer as timer
-
+from viscope.gui.napariViewer.napariViewer import NapariViewer
 import numpy as np
 
-from viscope.gui.napariGUI import NapariGUI
 
 class CameraViewGUI(BaseGUI):
     ''' main class to show images of a camera'''
 
-    DEFAULT = {'nameLayer': 'Camera'}
+    DEFAULT = {'nameLayer': 'Camera',
+               'nameGUI': 'Camera'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
         super().__init__(viscope, **kwargs)
 
-        self.viewer = None
+        self.rawLayer = None
 
         # prepare the gui of the class
         CameraViewGUI.__setWidget(self) 
@@ -35,14 +34,15 @@ class CameraViewGUI(BaseGUI):
         ''' prepare the gui '''
 
         # create napari viewer
-        newGUI  = NapariGUI(self.viscope,vWindow=self.vWindow)
-        self.viewer = newGUI.viewer
+        self.viewer = NapariViewer()
+        # napari can not work in a dock Window,
+        # therefore it must run in the main Window
+        self.vWindow.addMainGUI(self.viewer.window._qt_window, name=self.DEFAULT['nameGUI'])
 
         # set new napari layer
         self.rawLayer = self.viewer.add_image(np.ones((2,2)),
                         rgb=False, colormap="gray",
                         name='Raw',  blending='additive')
-  
 
     def setDevice(self,device):
         super().setDevice(device)

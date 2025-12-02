@@ -10,6 +10,7 @@ class for live viewing spectral images
 
 #from qtpy.QtWidgets import QLabel, QSizePolicy, QDockWidget
 from qtpy.QtCore import Qt, QObject
+from qtpy.QtWidgets import QWidget
 
 #import numpy as np
 
@@ -21,7 +22,7 @@ from viscope.instrument.base.baseInstrument import ThreadFlag
 from timeit import default_timer as timer
 
 
-class BaseGUI(QObject):
+class BaseGUI(QWidget):
 #class BaseGUI():
     ''' base class for all GUI'''
 

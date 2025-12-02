@@ -16,6 +16,7 @@ from viscope.gui.napariViewer.napariViewer import NapariViewer
 import numpy as np
 
 class NapariGUI(BaseGUI):
+
     ''' main class to show napari viewer'''
 
     DEFAULT = {'nameGUI': 'Napari'}
@@ -32,9 +33,8 @@ class NapariGUI(BaseGUI):
 
         self.viewer = NapariViewer()
 
-        # napari window do throw error in dock Window,
+        # napari can not work in a dock Window,
         # therefore it must run in the main Window
-        #self.dw =self.vWindow.addParameterGui(self.viewer.window._qt_window,name=self.DEFAULT['nameGUI'])
         self.vWindow.addMainGUI(self.viewer.window._qt_window, name=self.DEFAULT['nameGUI'])
 
 

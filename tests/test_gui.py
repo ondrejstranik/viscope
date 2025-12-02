@@ -13,12 +13,27 @@ def test_BaseGUI():
 
 @pytest.mark.GUI
 def test_napariGUI():
-    ''' check if base gui is working '''
+    ''' check if napariGUI is working '''
     from viscope.main import viscope
     from viscope.gui.napariGUI import NapariGUI
 
     newGUI = NapariGUI(viscope)
     viscope.run()
+
+@pytest.mark.GUI
+def test_napariGUI2():
+    ''' check if two napari gui are working properly - buttom issue'''
+    from viscope.main import viscope
+    from viscope.gui.napariGUI import NapariGUI
+    import numpy as np
+
+    newGUI = NapariGUI(viscope)
+    newGUI.viewer.add_image(np.random.rand(100,100))
+    newGUI2 = NapariGUI(viscope,vWindow='new')
+    newGUI2.viewer.add_image(np.random.rand(100,100))
+    viscope.run()
+
+
 
 
 @pytest.mark.GUI
