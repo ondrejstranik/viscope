@@ -31,7 +31,7 @@ class NapariGUI(BaseGUI):
     def __setWidget(self):
         ''' prepare the gui '''
 
-        self.viewer = NapariViewer()
+        self.viewer = NapariViewer(show=False)
 
         # napari can not work in a dock Window,
         # therefore it must run in the main Window

@@ -44,13 +44,13 @@ class NapariViewer:
     ICON_COLOR = "#CCCCCC"  # light gray
 
     def __new__(cls,**kwargs):
-        self = super().__new__(cls,**kwargs)
+        self = super().__new__(cls)
 
         # ---- Create the napari viewer ----
         if 'show' in kwargs:        
             viewer = napari.Viewer(show=kwargs['show'])
         else:
-            viewer = napari.Viewer(show=False)
+            viewer = napari.Viewer()
         
         # Hide axes
         viewer.axes.visible = False

@@ -34,7 +34,7 @@ class CameraViewGUI(BaseGUI):
         ''' prepare the gui '''
 
         # create napari viewer
-        self.viewer = NapariViewer()
+        self.viewer = NapariViewer(show=False)
         # napari can not work in a dock Window,
         # therefore it must run in the main Window
         self.vWindow.addMainGUI(self.viewer.window._qt_window, name=self.DEFAULT['nameGUI'])
