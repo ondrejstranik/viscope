@@ -22,9 +22,8 @@ from viscope.instrument.base.baseInstrument import ThreadFlag
 from timeit import default_timer as timer
 
 
-class BaseGUI(QWidget):
-#class BaseGUI():
-    ''' base class for all GUI'''
+class BaseGUI(QObject):
+    ''' base class for all GUI. It is inherited from QObject, so that it can generate Signals'''
 
     DEFAULT = {'nameGUI': 'baseGUI',
                 'guiUpdateTime': 0.03, # [s]
