@@ -5,7 +5,7 @@ class for live viewing spectral images
 
 import sys
 from qtpy.QtWidgets import QApplication, QMainWindow
-from viscope.gui.window.viewerWindow import ViewerWindow
+from viscope.gui.window.viewerWindow import ViewerWindow, WindowManager
 
 from pathlib import Path
 
@@ -21,14 +21,14 @@ class VISCOPE():
         self.app = QApplication([])
         self.app.aboutToQuit.connect(lambda : print('Viscope is closed'))
 
-        name= kwargs['name'] if 'name' in kwargs else VISCOPE.DEFAULT['nameGUI'] 
-        self.vWindow = ViewerWindow(name=name,topWindow=True)
-        self.vWindow.sigClose.connect(self.closeAllWindow)
+        self.wManager = WindowManager()
 
-        self.vWindowList = [self.vWindow]
+        name= kwargs['name'] if 'name' in kwargs else VISCOPE.DEFAULT['nameGUI'] 
+        # vWindow ...this is the main Window of Viscope
+        self.vWindow = ViewerWindow(name=name)
+        self.wManager.register(self.vWindow)
 
         self.GUIList = []
-
         
         self.dataFolder = str(Path(__file__).parent.joinpath(self.DEFAULT['dataFolder']))
 
@@ -36,14 +36,8 @@ class VISCOPE():
     def addViewerWindow(self, name=None):
         ''' adding additional window '''
         newViewerWindow = ViewerWindow(name=name)
-        self.vWindowList.append(newViewerWindow)
+        self.wManager.register(newViewerWindow)
         return newViewerWindow
-
-    def closeAllWindow(self):
-        ''' close all vWindow '''
-        for vWindow in self.vWindowList:
-            print(f'closing window {vWindow}')
-            vWindow.close()
 
     def run(self):
         # in the case that napari is used, then it rewrite the self.app

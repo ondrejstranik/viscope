@@ -103,7 +103,7 @@ if __name__ == '__main__':
     from viscope.instrument.virtual.virtualLaser import VirtualLaser
     from viscope.instrument.virtual.virtualSwitch import VirtualSwitch
 
-    from viscope.main import Viscope
+    from viscope.main import viscope
     from viscope.gui.allDeviceGUI import AllDeviceGUI
 
 
@@ -132,7 +132,6 @@ if __name__ == '__main__':
     switch= switch, stage=stage)
     vM.connect()
 
-    viscope = Viscope()
     viewer  = AllDeviceGUI(viscope)
     viewer.setDevice([camera1,camera2,laser,switch,stage])
     
