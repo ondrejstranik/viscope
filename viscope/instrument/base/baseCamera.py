@@ -107,7 +107,7 @@ class BaseCamera(BaseInstrument):
                 self.dTime = time.time() -self.t0
                 self.t0 = self.t0 + self.dTime
                 self.flagLoop.set()
-                yield
+                yield True
                 time.sleep(0.03)
             except:
                 print(f"An exception occurred in thread of {self.name}:\n")

@@ -57,7 +57,7 @@ class BaseStage(BaseInstrument):
                     self._setPosition(_newPosition)
                     self.flagSetPosition.clear()
                     self.flagLoop.set()
-                    yield
+                    yield True
                 time.sleep(0.03)
             except:
                 print(f"An exception occurred in thread of {self.name}:\n")

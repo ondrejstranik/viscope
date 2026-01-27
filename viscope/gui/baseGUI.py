@@ -83,7 +83,7 @@ class BaseGUI(QObject):
         connect with corresponding yield of the device '''
 
         timeNow = timer()
-        if (timeNow -self.lastUpdateTime) > self.guiUpdateTime:
+        if newData and ((timeNow -self.lastUpdateTime) > self.guiUpdateTime):
             self.updateGui()
             self.lastUpdateTime = timeNow
 

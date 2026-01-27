@@ -40,7 +40,9 @@ class BaseProcessor(BaseInstrument):
         return None
 
     def loop(self):
-        ''' infinite loop of the data process thread '''
+        ''' infinite loop of the data process thread 
+        the loop yields regularly so that that the thread can be exited
+        yield True .... indicates new data'''
         while True:
             try:
                 if ((self.flagToProcess is not None) and
