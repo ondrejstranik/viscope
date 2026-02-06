@@ -54,9 +54,11 @@ def test_CameraGUI():
 
     camera = VirtualCamera(name='camera1')
     camera.connect()
+    camera.setParameter('threadingNow',True)
 
     newGUI  = CameraGUI(viscope)
     newGUI.setDevice(camera)
+
     viscope.run()
 
     camera.disconnect()
@@ -77,6 +79,33 @@ def test_CameraViewGUI():
     viscope.run()
 
     camera.disconnect()
+
+@pytest.mark.GUI
+def test_HistogramGUI():
+    ''' check if gui works'''
+    from viscope.gui.cameraViewGUI import CameraViewGUI
+    from viscope.gui.cameraGUI import CameraGUI
+    from viscope.gui.histogramGUI import HistogramGUI
+    from viscope.instrument.virtual.virtualCamera import VirtualCamera
+    from viscope.main import viscope
+
+    camera = VirtualCamera(name='camera1')
+    camera.connect()
+    camera.setParameter('threadingNow',True)
+
+    newGUI  = CameraGUI(viscope)
+    newGUI.setDevice(camera)
+
+    newGUI  = CameraViewGUI(viscope)
+    newGUI.setDevice(camera)
+
+    newGUI  = HistogramGUI(viscope)
+    newGUI.setDevice(camera)
+
+    viscope.run()
+    camera.disconnect()
+
+
 
 
 @pytest.mark.GUI
