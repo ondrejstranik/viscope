@@ -8,6 +8,7 @@ from qtpy.QtWidgets import QApplication, QMainWindow
 from viscope.gui.window.viewerWindow import ViewerWindow, WindowManager
 
 from pathlib import Path
+import napari
 
 class VISCOPE():
     ''' base top class for control'''
@@ -43,8 +44,11 @@ class VISCOPE():
         # in the case that napari is used, then it rewrite the self.app
         # causing the at close it run gracefull exit, closing all the threads.
         # this is not consistent with the case napari is not run.
-        # therefore, the self.app is initiated again.
-        self.app = QApplication([])
+        # therefore, the self.app is initiated again 
+        # if napari is started in viscope
+        
+        if napari.current_viewer() is not None:
+            self.app = QApplication([])
         ''' start the gui viewer'''
         # start main event loop
         print('starting main viscope loop')
