@@ -43,6 +43,28 @@ class CameraView2GUI(BaseGUI):
         layout = QVBoxLayout(central)
         # add graph
         self.viewer = pg.ImageView()
+    
+        # set color map - min/max blue/red
+        #lut = np.linspace(0, 255, 256, dtype=np.ubyte)
+        #lut = np.stack([lut, lut, lut], axis=1)
+        #lut[0]   = [255, 0, 0]
+        #lut[255] = [0, 0, 255]
+        #self.viewer.getImageItem().setLookupTable(lut)
+
+
+        positions = np.array([0.0,0.99, 1.0])
+
+        colors = np.array([
+            [0,0,0],                # red  (low)
+            [255, 255, 255],    # gray (middle)
+            [0, 0, 255]         # blue (high)
+        ], dtype=np.ubyte)
+
+        cmap = pg.ColorMap(positions, colors)
+
+        #cmap = pg.colormap.get('CET-D3')
+        self.viewer.setColorMap(cmap)
+
         layout.addWidget(self.viewer)
         # add label
         self.label = QLabel("Value:")
