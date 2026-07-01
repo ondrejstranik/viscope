@@ -1,0 +1,17 @@
+site_name: Viscope
+nav:
+  - Home: index.md
+  - About: about.md
+theme: readthedocs
+
+hooks:
+  - docs/hooks.py
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            merge_init_into_class: true

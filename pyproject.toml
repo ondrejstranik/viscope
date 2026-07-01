@@ -26,5 +26,12 @@ classifiers = [
   "Intended Audience :: Developers",
   "Programming Language :: Python :: 3",
 ]
+
+[project.optional-dependencies]
+docs = [
+        'mkdocs',
+        'mkdocstrings[python]',
+        ]
+
 [project.urls]
 Repository = "https://github.com/ondrejstranik/viscope"
