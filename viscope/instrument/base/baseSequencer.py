@@ -1,7 +1,8 @@
 """
-base class for cameras
+Base class for hardware/software sequencers.
 
-@author: ostranik
+Sequencers execute a finite (or infinite) series of steps in a dedicated
+worker thread, yielding between steps to keep the thread interruptible.
 """
 #%%
 

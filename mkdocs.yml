@@ -2,10 +2,15 @@ site_name: Viscope
 nav:
   - Home: index.md
   - About: about.md
+  - Class Hierarchy: class_hierarchy.md
 theme: readthedocs
 
 hooks:
   - docs/hooks.py
+
+markdown_extensions:
+  - pymdownx.snippets:
+      base_path: .
 
 plugins:
   - search

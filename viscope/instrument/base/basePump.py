@@ -1,13 +1,20 @@
+"""
+Base class for pump instruments.
+
+Provides flow-rate and on/off control shared by all pump subclasses.
+"""
 #%%
-''' class to control pump'''
 
 from viscope.instrument.base.baseInstrument import BaseInstrument
 
 
 class BasePump(BaseInstrument):
-    ''' base class of a pump
-    power ... laser power
-    keySwitch ... with True the laser emits light'''
+    """Base class for all pumps.
+
+    Attributes:
+        flowRate: Desired flow rate in device-specific units.
+        flow: True when the pump is actively flowing.
+    """
 
     DEFAULT = {'name':'basePump',
                 'flowRate': 0,
@@ -27,29 +34,33 @@ class BasePump(BaseInstrument):
         self.setParameter('flowRate',self.flowRate)
         self.setParameter('flow',self.flow)
 
-    def _setFlowRate(self,value):
+    def _setFlowRate(self, value):
+        """Set the target flow rate."""
         self.flowRate = value
 
     def _getFlowRate(self):
+        """Return the current target flow rate."""
         return self.flowRate
 
-    def _setFlow(self,value):
+    def _setFlow(self, value):
+        """Enable or disable active flow."""
         self.flow = value
 
     def _getFlow(self):
-        return self.flow        
+        """Return True if the pump is currently flowing."""
+        return self.flow
 
-    def setParameter(self,name, value):
-        ''' set parameters'''
-        super().setParameter(name,value)
+    def setParameter(self, name, value):
+        """Set a named pump parameter (flowRate, flow, or any base parameter)."""
+        super().setParameter(name, value)
 
         if name== 'flowRate':
             self._setFlowRate(value)
         if name== 'flow':
             self._setFlow(value)
 
-    def getParameter(self,name):
-        ''' get parameter'''
+    def getParameter(self, name):
+        """Return the value of a named pump parameter."""
         _value = super().getParameter(name)
         if _value is not None: return _value
 

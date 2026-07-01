@@ -1,7 +1,8 @@
 """
-base class for all instruments
+Base class for all instruments in the viscope package.
 
-@author: ostranik
+Provides threading support, parameter get/set interface, and a flag-based
+synchronisation mechanism shared by every instrument subclass.
 """
 #%%
 import time
@@ -12,34 +13,48 @@ import traceback
 #from dataclasses import dataclass,field
 
 class ThreadFlag:
+    """Thread-safe flag that can carry a list of data payloads.
+
+    Wraps threading.Event and adds an optional data queue so that the
+    thread that sets the flag can pass information to the thread that
+    waits on it.
+    """
+
     def __init__(self):
         self.event = Event()
         self.data: list = []
 
-    def set(self,info=None):
+    def set(self, info=None):
+        """Set the flag and optionally append a data payload."""
         self.event.set()
         if info is not None: self.data.append(info)
 
     def clear(self):
+        """Clear the flag and discard all stored payloads."""
         self.event.clear()
         self.data = []
 
     def is_set(self):
+        """Return True if the flag is currently set."""
         return self.event.is_set()
 
-    def wait(self,timeout=None):
+    def wait(self, timeout=None):
+        """Block until the flag is set, with an optional timeout in seconds."""
         return self.event.wait(timeout)
 
     def getLastData(self):
+        """Return the most recently appended data payload."""
         return self.data[-1]
 
 
 class BaseInstrument():
-    ''' base class of all instruments 
-    name ... name of the instrument
-             It should be unique for each instrument
-    threading ... if true a worker running a thread loop is prepared
-    '''
+    """Base class for all viscope instruments.
+
+    Args:
+        name: Unique identifier for the instrument instance.
+        threading: If True, a superqt worker running ``loop()`` is created
+            immediately. Pass False (default) to defer threading.
+    """
     DEFAULT = {'name': 'baseInstrument',
                 'threading':False}
     
@@ -60,9 +75,11 @@ class BaseInstrument():
             self._setWorker(BaseInstrument.DEFAULT['threading'])
 
     def connect(self):
+        """Connect to the instrument hardware."""
         print(f'connecting instrument - {self.name}  ')
 
     def disconnect(self):
+        """Disconnect from the instrument and stop the worker thread if running."""
         print(f'disconnecting instrument - {self.name} ')
         if self.worker is not None:
             if self.worker.is_running: 

@@ -1,7 +1,8 @@
 """
-base class for cameras
+Base class for data processors.
 
-@author: ostranik
+Processors watch a ThreadFlag set by a source instrument and run
+processData() each time new data arrives.
 """
 #%%
 
@@ -10,9 +11,15 @@ from viscope.instrument.base.baseInstrument import BaseInstrument
 import traceback
 
 class BaseProcessor(BaseInstrument):
-    ''' base class for data Processor
-    name ... name of the camera
-    '''
+    """Base class for all data processors.
+
+    Args:
+        name: Unique identifier for the processor instance.
+
+    Attributes:
+        flagToProcess: ThreadFlag from the source instrument; the loop
+            calls processData() each time this flag is set.
+    """
     DEFAULT = {'name':'baseProcessor',
                   } 
         
@@ -30,6 +37,7 @@ class BaseProcessor(BaseInstrument):
         self.flagToProcess = flagToProcess
 
     def disconnect(self):
+        """Disconnect the processor and stop the worker thread."""
         super().disconnect()
         # TODO: check if it not create errors!
         #self.flagToProcess = None
@@ -40,9 +48,11 @@ class BaseProcessor(BaseInstrument):
         return None
 
     def loop(self):
-        ''' infinite loop of the data process thread 
-        the loop yields regularly so that that the thread can be exited
-        yield True .... indicates new data'''
+        """Infinite loop of the data process thread.
+
+        Yields True when new data was processed, False otherwise.
+        Yields regularly so the thread can be interrupted cleanly.
+        """
         while True:
             try:
                 if ((self.flagToProcess is not None) and

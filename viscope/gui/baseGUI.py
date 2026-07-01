@@ -1,6 +1,9 @@
-'''
-class for live viewing spectral images
-'''
+"""
+Base GUI class for all viscope instrument panels.
+
+Provides rate-limited GUI refresh and window management shared by every
+device-specific GUI subclass.
+"""
 #%%
 #import napari
 #from typing import Annotated, Literal
@@ -62,7 +65,8 @@ class BaseGUI(QObject):
         ''' prepare the gui '''
         self.viscope.GUIList.append(self)
 
-    def setDevice(self,device):
+    def setDevice(self, device):
+        """Attach a device to this GUI and update the window title."""
         self.device = device
         self.vWindow.setWindowTitle(self.device.name)
 

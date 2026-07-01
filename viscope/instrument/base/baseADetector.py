@@ -1,5 +1,11 @@
+"""
+Base class for asynchronous detector instruments.
+
+Detectors accumulate data into a stack between calls to getStack().
+The threaded loop calls updateStack() at a fixed rate (stackTime) and
+sets flagLoop whenever new data is present.
+"""
 #%%
-''' module to control asynchronous detectors  '''
 
 import numpy as np
 from viscope.instrument.base.baseInstrument import BaseInstrument
@@ -13,8 +19,8 @@ class BaseADetector(BaseInstrument):
     DEFAULT = {'name':'baseADetector',
                'stackTime': 0.005} # in [s] time period of stack collection
     
-    def __init__(self,name=DEFAULT['name'], **kwargs):
-        ''' laser initialisation'''
+    def __init__(self, name=DEFAULT['name'], **kwargs):
+        """Initialise the asynchronous detector."""
         super().__init__(name=name, **kwargs)
 
         self.stack = None
@@ -29,10 +35,12 @@ class BaseADetector(BaseInstrument):
         ''' some detector have this to stop filling the stack '''
         self.acquiring = False
 
-    def _setStackTime(self,value):
+    def _setStackTime(self, value):
+        """Set the stack polling interval in seconds."""
         self.stackTime = value
 
     def _getStackTime(self):
+        """Return the stack polling interval in seconds."""
         return self.stackTime
 
     def setParameter(self,name, value):
@@ -49,7 +57,7 @@ class BaseADetector(BaseInstrument):
             return self._getStackTime()
 
     def _getTestStack(self):
-        ''' set testing stack (for internal use only) '''
+        """Generate and return a random test stack (for internal use only)."""
         self.stack = np.random.rand(50)
         return self.stack
 

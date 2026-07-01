@@ -1,7 +1,9 @@
 """
-base class for cameras
+Base class for camera instruments.
 
-@author: ostranik
+Defines the standard camera interface (exposure time, frame averaging,
+image dimensions) and the threaded acquisition loop used by all camera
+subclasses.
 """
 #%%
 
@@ -11,13 +13,18 @@ from viscope.instrument.base.baseInstrument import BaseInstrument
 import traceback
 
 class BaseCamera(BaseInstrument):
-    ''' base class for camera
-    name ... name of the camera
-    exposureTime ... exposure time of camera in ms
-    nFrames ... averaging of the image over the number of frames
-    height ... height of the camera image
-    width ... width of the camera image
-    '''
+    """Base class for all cameras.
+
+    Args:
+        name: Unique identifier for the camera instance.
+
+    Attributes:
+        exposureTime: Exposure time in milliseconds.
+        nFrame: Number of frames averaged per acquisition.
+        height: Image height in pixels.
+        width: Image width in pixels.
+        rawImage: Most recently acquired image as a numpy array.
+    """
     DEFAULT = {'name':'baseCamera',
                 'exposureTime': 100, 
                 'nFrame': 1,
@@ -61,35 +68,43 @@ class BaseCamera(BaseInstrument):
         ''' some camera have this implementation '''
         pass
 
-    def _setExposureTime(self,value):
+    def _setExposureTime(self, value):
+        """Set exposure time in milliseconds."""
         self.exposureTime = value
 
     def _getExposureTime(self):
+        """Return current exposure time in milliseconds."""
         return self.exposureTime
 
-    def _setNFrame(self,value):
+    def _setNFrame(self, value):
+        """Set the number of frames to average per acquisition."""
         self.nFrame = value
 
     def _getNFrame(self):
+        """Return the current frame-averaging count."""
         return self.nFrame
 
     def _getWidth(self):
+        """Return image width in pixels."""
         return self.width
 
     def _getHeight(self):
+        """Return image height in pixels."""
         return self.height
 
-    def setParameter(self,name,value):
-        super().setParameter(name,value)
+    def setParameter(self, name, value):
+        """Set a named camera parameter (exposureTime, nFrame, or any base parameter)."""
+        super().setParameter(name, value)
         if name=='exposureTime':
             self._setExposureTime(value)
         if name=='nFrame':
             self._setNFrame(value)
 
-    def getParameter(self,name):
+    def getParameter(self, name):
+        """Return the value of a named camera parameter."""
         _value = super().getParameter(name)
         if _value is not None: return _value
-        
+
         if name=='exposureTime':
             return self._getExposureTime()
         if name=='nFrame':

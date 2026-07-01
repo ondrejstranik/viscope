@@ -26,14 +26,15 @@ class VirtualSwitch(BaseSwitch):
         self.position = positionNumber
         time.sleep(VirtualSwitch.DEFAULT['switchingTime'])
 
-    def setParameter(self,name, value):
-        ''' set parameters of the laser'''
-        super().setParameter(name,value)
+    def setParameter(self, name, value):
+        """Set a switch parameter and notify the virtual microscope of the change."""
+        super().setParameter(name, value)
         self.flagSetParameter.set(name)
 
-    def connect(self,initialPosition=DEFAULT['initialPosition']):
+    def connect(self, initialPosition=DEFAULT['initialPosition']):
+        """Connect and move the switch to its initial position."""
         super().connect()
-        self.setParameter('position',initialPosition)
+        self.setParameter('position', initialPosition)
 
 
 

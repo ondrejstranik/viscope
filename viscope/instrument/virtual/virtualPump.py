@@ -1,5 +1,10 @@
+"""
+Virtual pump instrument for simulation.
+
+Extends BasePump to print flow-rate changes to stdout, making pump
+state visible during virtual-microscope experiments.
+"""
 #%%
-''' class to control virtual laser'''
 
 import numpy as np
 import time
@@ -25,14 +30,16 @@ class VirtualPump(BasePump):
         super().setParameter(name,value)
         self.flagSetParameter.set(name)
 
-    def _setFlowRate(self,value):
+    def _setFlowRate(self, value):
+        """Set flow rate and print the resulting effective flow rate."""
         super()._setFlowRate(value)
         try:
             print(f'setting FlowRate realFlowRate = {self.flowRate*self.flow}')
         except:
             print('flowRate not defined')
 
-    def _setFlow(self,value):
+    def _setFlow(self, value):
+        """Enable or disable flow and print the resulting effective flow rate."""
         super()._setFlow(value)
         try:
             print(f'setting flow realFlowRate = {self.flowRate*self.flow}')

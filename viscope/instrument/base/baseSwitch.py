@@ -1,5 +1,10 @@
+"""
+Base class for discrete-position switch instruments.
+
+Provides position get/set control over a named list of switch positions
+and an optional threaded switching loop.
+"""
 #%%
-''' base class for a switch'''
 
 import numpy as np
 import time
@@ -26,11 +31,11 @@ class BaseSwitch(BaseInstrument):
         self.position = positionNumber
 
     def _getPosition(self):
-        ''' set the position of the switcher '''
+        """Return the current switch position."""
         return self.position
 
-    def setParameter(self,name, value):
-        ''' set parameters of the laser'''
+    def setParameter(self, name, value):
+        """Set a named switch parameter (position, positionList, or any base parameter)."""
         super().setParameter(name,value)
         
         if name== 'position':

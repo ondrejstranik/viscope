@@ -1,18 +1,15 @@
-'''
-class for live viewing spectral images
-'''
+"""
+Camera viewer GUI using pyqtgraph ImageView.
+
+Displays a live camera image with a custom black-to-blue colour map and
+shows pixel coordinates and value under the mouse cursor.
+"""
 #%%
 #import napari
-from magicgui import magicgui
-#from typing import Annotated, Literal
-
 import pyqtgraph as pg
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
-#from qtpy.QtWidgets import QLabel, QSizePolicy
-#from qtpy.QtCore import Qt
 from viscope.gui.baseGUI import BaseGUI
-from timeit import default_timer as timer
 import numpy as np
 
 
@@ -87,16 +84,18 @@ class CameraView2GUI(BaseGUI):
         )
 
     def mouse_moved(self, evt):
+        """Update the pixel-value label when the mouse moves over the image."""
         pos = evt[0]
         if self.view.sceneBoundingRect().contains(pos):
             self.last_mouse_pos = pos
             self.update_label()
 
     def image_changed(self):
-        # Called whenever setImage() is used
+        """Refresh the pixel-value label after a new image is set."""
         self.update_label()
 
     def update_label(self):
+        """Write current mouse position and pixel value to the status label."""
         if self.last_mouse_pos is None:
             return
 
@@ -117,9 +116,9 @@ class CameraView2GUI(BaseGUI):
 
 
 
-    def setDevice(self,device):
+    def setDevice(self, device):
+        """Attach a camera device and connect its worker signal to the GUI refresh."""
         super().setDevice(device)
-        # connect signals
         self.device.worker.yielded.connect(self.guiUpdateTimed)
         self.vWindow.setWindowTitle(self.device.name)
 

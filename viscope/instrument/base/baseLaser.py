@@ -1,5 +1,9 @@
+"""
+Base class for laser instruments.
+
+Provides power and key-switch control shared by all laser subclasses.
+"""
 #%%
-''' class to control laser'''
 
 import numpy as np
 import time

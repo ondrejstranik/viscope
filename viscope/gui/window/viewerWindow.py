@@ -1,6 +1,10 @@
-'''
-class for live viewing spectral images
-'''
+"""
+Main viewer window and window manager for the viscope GUI.
+
+ViewerWindow is a QMainWindow subclass that hosts dockable parameter panels
+and a central viewer widget. WindowManager tracks all open windows and
+synchronises the Windows menu on the top window.
+"""
 #%%
 #import napari
 #from typing import Annotated, Literal
@@ -71,8 +75,8 @@ class ViewerWindow(QMainWindow):
     titleChangedSignal = Signal(str)
 
 
-    def __init__(self, name=DEFAULT['nameGUI'],**kwarg):
-        ''' initalisation'''
+    def __init__(self, name=DEFAULT['nameGUI'], **kwarg):
+        """Initialise the viewer window and show it."""
         super().__init__()
         self.setWindowTitle(name)
         self.dockWidgetParameter = None
@@ -130,12 +134,12 @@ class ViewerWindow(QMainWindow):
             pass
 
     def showEvent(self, event):
-        ''' visibility (show) signals fow windows'''
+        """Emit visibilityChanged(True) when the window is shown."""
         super().showEvent(event)
         self.visibilityChanged.emit(True)
 
     def hideEvent(self, event):
-        ''' visibility (hide) signals fow windows'''
+        """Emit visibilityChanged(False) when the window is hidden."""
         super().hideEvent(event)
         self.visibilityChanged.emit(False)
 
@@ -148,8 +152,8 @@ class ViewerWindow(QMainWindow):
             self.top_window_closed.emit()
 
 
-    def addParameterGui(self,newGUI,name=DEFAULT['nameGUI']):
-        ''' add  GUI as a dockable widget in this window (for parameters, position bottom)'''
+    def addParameterGui(self, newGUI, name=DEFAULT['nameGUI']):
+        """Add a GUI panel as a dockable widget at the bottom of the window."""
 
         dw=QDockWidget('Dockable',self)
         dw.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable)
@@ -169,7 +173,7 @@ class ViewerWindow(QMainWindow):
         
         return dw
 
-    def addMainGUI(self,newGUI,name=DEFAULT['nameGUI']):
-        ''' add GUI as a main widget (for viewers, position center)'''
+    def addMainGUI(self, newGUI, name=DEFAULT['nameGUI']):
+        """Set a GUI widget as the central (viewer) widget of the window."""
         self.setCentralWidget(newGUI)
 

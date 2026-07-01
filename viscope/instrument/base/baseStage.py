@@ -1,5 +1,10 @@
+"""
+Base class for motorised stage instruments.
+
+Provides position get/set control and an optional threaded movement loop
+shared by all stage subclasses.
+"""
 #%%
-''' base class for the stage'''
 
 
 import time
@@ -9,7 +14,13 @@ from viscope.instrument.base.baseInstrument import BaseInstrument, ThreadFlag
 
 
 class BaseStage(BaseInstrument):
-    ''' main class to control virtual stage'''
+    """Base class for all motorised stages.
+
+    Attributes:
+        position: Current stage position as a numpy array [x, y, z].
+        flagSetPosition: ThreadFlag used to request a position move from
+            the worker thread.
+    """
 
     DEFAULT = {'name':'baseStage'}
 

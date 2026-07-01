@@ -1,6 +1,8 @@
-'''
-module for live viewing of histogram from Camera
-'''
+"""
+Histogram GUI panel for camera images.
+
+Displays a live log-scale histogram of pixel values using pyqtgraph.
+"""
 #%%
 from magicgui import magicgui
 
@@ -55,10 +57,9 @@ class HistogramGUI(BaseGUI):
         self.vWindow.addParameterGui(self.graph,name=self.DEFAULT['nameGUI'])
         #self.vWindow.addMainGUI(self.graph, name=self.DEFAULT['nameGUI'])
 
-    def setDevice(self,device):
+    def setDevice(self, device):
+        """Attach a camera device and connect its worker signal to the GUI refresh."""
         super().setDevice(device)
-
-        # connect signals
         self.device.worker.yielded.connect(self.guiUpdateTimed)
 
     def drawGraph(self):
@@ -71,7 +72,7 @@ class HistogramGUI(BaseGUI):
         self.histLine.setData(self.x, self.y)
 
     def calculateHistogram(self):
-        '''' calculate the histogram '''
+        """Calculate the histogram of the current image data into self.x and self.y."""
         self.y , self.x = np.histogram(self.data, bins=50)         
 
 

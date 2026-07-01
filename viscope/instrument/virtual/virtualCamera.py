@@ -67,8 +67,9 @@ class VirtualCamera(BaseCamera):
         self.rawImage = myFrame
         return self.rawImage
 
-    def setParameter(self,name,value):
-        super().setParameter(name,value)
+    def setParameter(self, name, value):
+        """Set a camera parameter and notify the virtual microscope of the change."""
+        super().setParameter(name, value)
         self.flagSetParameter.set(name)
 
 #%%
