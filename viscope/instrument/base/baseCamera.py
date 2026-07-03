@@ -33,7 +33,7 @@ class BaseCamera(BaseInstrument):
                   } 
     
     
-    def __init__(self, name=None,*args, **kwargs):
+    def __init__(self, name: str = None,*args, **kwargs):
         ''' initialisation '''
 
         if name is None: name=BaseCamera.DEFAULT['name']

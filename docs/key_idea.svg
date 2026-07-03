@@ -1,0 +1,142 @@
+<svg viewBox="0 0 900 660" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="kiArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2b5aa0"/>
+    </marker>
+    <marker id="kiArrowRev" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M10,0 L0,5 L10,10 z" fill="#2b5aa0"/>
+    </marker>
+    <marker id="kiArrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#888888"/>
+    </marker>
+    <marker id="kiArrowGrayRev" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M10,0 L0,5 L10,10 z" fill="#888888"/>
+    </marker>
+    <marker id="kiArrowBlack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <marker id="kiArrowBlackRev" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M10,0 L0,5 L10,10 z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="660" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="700" fill="#222">
+    Software development for the instrument control (<tspan font-style="italic">viscope</tspan>)
+  </text>
+
+  <!-- Laptop icon -->
+  <g transform="translate(450,90)">
+    <rect x="-42" y="-30" width="84" height="52" rx="4" fill="#ffffff" stroke="#333" stroke-width="2"/>
+    <rect x="-35" y="-23" width="70" height="38" fill="#cfe3f7"/>
+    <path d="M -52,22 L 52,22 L 44,32 L -44,32 Z" fill="#333"/>
+  </g>
+
+  <!-- Side labels -->
+  <text x="150" y="80" text-anchor="middle" font-size="15" fill="#333">
+    <tspan x="150" dy="0">Rapid path for the development</tspan>
+    <tspan x="150" dy="20">of the control software</tspan>
+  </text>
+  <text x="750" y="80" text-anchor="middle" font-size="15" fill="#333">
+    <tspan x="750" dy="0">Implementation of the</tspan>
+    <tspan x="750" dy="20">control software</tspan>
+  </text>
+
+  <!-- GUI box -->
+  <rect x="340" y="150" width="220" height="60" rx="8" fill="#ffffff" stroke="#2b5aa0" stroke-width="2"/>
+  <text x="450" y="176" text-anchor="middle" font-size="15" fill="#222">Control software with</text>
+  <text x="450" y="196" text-anchor="middle" font-size="15" fill="#222">Graphical user interface</text>
+
+  <!-- Double arrows GUI -> instruments -->
+  <line x1="400" y1="215" x2="235" y2="285" stroke="#2b5aa0" stroke-width="2.5" marker-end="url(#kiArrow)" marker-start="url(#kiArrowRev)"/>
+  <line x1="500" y1="215" x2="665" y2="285" stroke="#2b5aa0" stroke-width="2.5" marker-end="url(#kiArrow)" marker-start="url(#kiArrowRev)"/>
+
+  <!-- Virtual instruments (gray path) / Real instruments (black path) boxes -->
+  <rect x="120" y="290" width="200" height="50" rx="8" fill="#ffffff" stroke="#888888" stroke-width="2"/>
+  <text x="220" y="320" text-anchor="middle" font-size="16" font-weight="600" fill="#888888">Virtual instruments</text>
+
+  <rect x="580" y="290" width="200" height="50" rx="8" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="680" y="320" text-anchor="middle" font-size="16" font-weight="600" fill="#000000">Real instruments</text>
+
+  <!-- Instrument icons: camera, laser, stage (gray, virtual) -->
+  <g stroke="#888888" fill="none">
+    <g transform="translate(150,385)">
+      <rect x="-20" y="-12" width="40" height="26" rx="4" stroke-width="2"/>
+      <rect x="-9" y="-19" width="14" height="8" rx="2" stroke-width="2"/>
+      <circle cx="0" cy="2" r="9" stroke-width="2"/>
+      <circle cx="0" cy="2" r="3.5" fill="#888888"/>
+    </g>
+    <g transform="translate(220,385)">
+      <circle cx="0" cy="-6" r="13" stroke-width="2"/>
+      <line x1="-6" y1="6" x2="-6" y2="14" stroke-width="2"/>
+      <line x1="6" y1="6" x2="6" y2="14" stroke-width="2"/>
+      <line x1="-6" y1="14" x2="6" y2="14" stroke-width="2"/>
+    </g>
+    <g transform="translate(290,385)">
+      <rect x="-16" y="-10" width="32" height="20" rx="2" stroke-width="2"/>
+      <line x1="-24" y1="0" x2="24" y2="0" stroke-width="1.5" marker-end="url(#kiArrowGray)" marker-start="url(#kiArrowGrayRev)"/>
+      <line x1="0" y1="-18" x2="0" y2="18" stroke-width="1.5" marker-end="url(#kiArrowGray)" marker-start="url(#kiArrowGrayRev)"/>
+    </g>
+  </g>
+
+  <!-- Instrument icons: camera, laser, stage (black, real) -->
+  <g stroke="#000000" fill="none">
+    <g transform="translate(610,385)">
+      <rect x="-20" y="-12" width="40" height="26" rx="4" stroke-width="2"/>
+      <rect x="-9" y="-19" width="14" height="8" rx="2" stroke-width="2"/>
+      <circle cx="0" cy="2" r="9" stroke-width="2"/>
+      <circle cx="0" cy="2" r="3.5" fill="#000000"/>
+    </g>
+    <g transform="translate(680,385)">
+      <circle cx="0" cy="-6" r="13" stroke-width="2"/>
+      <line x1="-6" y1="6" x2="-6" y2="14" stroke-width="2"/>
+      <line x1="6" y1="6" x2="6" y2="14" stroke-width="2"/>
+      <line x1="-6" y1="14" x2="6" y2="14" stroke-width="2"/>
+    </g>
+    <g transform="translate(750,385)">
+      <rect x="-16" y="-10" width="32" height="20" rx="2" stroke-width="2"/>
+      <line x1="-24" y1="0" x2="24" y2="0" stroke-width="1.5" marker-end="url(#kiArrowBlack)" marker-start="url(#kiArrowBlackRev)"/>
+      <line x1="0" y1="-18" x2="0" y2="18" stroke-width="1.5" marker-end="url(#kiArrowBlack)" marker-start="url(#kiArrowBlackRev)"/>
+    </g>
+  </g>
+
+  <!-- Bidirectional arrows instruments <-> probe row -->
+  <line x1="220" y1="415" x2="220" y2="478" stroke="#888888" stroke-width="2.5" marker-end="url(#kiArrowGray)" marker-start="url(#kiArrowGrayRev)"/>
+  <line x1="680" y1="415" x2="680" y2="478" stroke="#000000" stroke-width="2.5" marker-end="url(#kiArrowBlack)" marker-start="url(#kiArrowBlackRev)"/>
+
+  <!-- Virtual probe response (gray) / Real probe measurement (black) boxes -->
+  <rect x="100" y="480" width="240" height="50" rx="8" fill="#ffffff" stroke="#888888" stroke-width="2"/>
+  <text x="220" y="510" text-anchor="middle" font-size="16" font-weight="600" fill="#888888">Virtual probe response</text>
+
+  <rect x="560" y="480" width="240" height="50" rx="8" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="680" y="510" text-anchor="middle" font-size="16" font-weight="600" fill="#000000">Real probe measurement</text>
+
+  <!-- Calculator icon (virtual probe: response is only calculated, not measured) -->
+  <g transform="translate(220,590)" stroke="#888888" fill="none">
+    <rect x="-14" y="-18" width="28" height="36" rx="3" stroke-width="2"/>
+    <rect x="-10" y="-14" width="20" height="9" rx="1" stroke-width="1.5"/>
+    <circle cx="-7" cy="0" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="0" cy="0" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="7" cy="0" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="-7" cy="7" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="0" cy="7" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="7" cy="7" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="-7" cy="14" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="0" cy="14" r="1.8" fill="#888888" stroke="none"/>
+    <circle cx="7" cy="14" r="1.8" fill="#888888" stroke="none"/>
+  </g>
+
+  <!-- Syringe icon (real probe: an actual physical measurement) -->
+  <g transform="translate(680,590)" stroke="#000000" fill="none">
+    <rect x="-23" y="-4" width="4" height="8" fill="#000000" stroke="none"/>
+    <line x1="-19" y1="0" x2="-14" y2="0" stroke-width="3"/>
+    <line x1="-14" y1="-5" x2="-14" y2="5" stroke-width="2"/>
+    <rect x="-14" y="-5" width="24" height="10" rx="2" stroke-width="2"/>
+    <line x1="-6" y1="-5" x2="-6" y2="5" stroke-width="1"/>
+    <line x1="0" y1="-5" x2="0" y2="5" stroke-width="1"/>
+    <line x1="10" y1="0" x2="22" y2="0" stroke-width="2"/>
+  </g>
+
+</svg>

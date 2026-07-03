@@ -23,7 +23,7 @@ class BaseProcessor(BaseInstrument):
     DEFAULT = {'name':'baseProcessor',
                   } 
         
-    def __init__(self, name=None, **kwargs):
+    def __init__(self, name: str = None, **kwargs):
         ''' initialisation '''
 
         if name is None: name=BaseProcessor.DEFAULT['name']

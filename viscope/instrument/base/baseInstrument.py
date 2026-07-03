@@ -58,7 +58,7 @@ class BaseInstrument():
     DEFAULT = {'name': 'baseInstrument',
                 'threading':False}
     
-    def __init__(self, name=None,threading=None,*args, **kwargs):
+    def __init__(self, name: str = None,threading:bool=None,*args, **kwargs):
         ''' initialisation '''
         #super(BaseInstrument,self).__init__(*args, **kwargs)
 

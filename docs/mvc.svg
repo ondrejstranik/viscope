@@ -1,0 +1,53 @@
+<svg viewBox="0 0 700 575" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="700" height="575" fill="#ffffff"/>
+  <text x="350" y="25" text-anchor="middle" font-size="18" font-weight="700" fill="#111">Viscope -- MVC Overview</text>
+
+  <!-- VIEW -->
+  <rect x="20" y="55" width="660" height="115" rx="10" fill="#eef4fc" stroke="#2b5aa0" stroke-width="1.5"/>
+  <text x="350" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#2b5aa0">VIEW</text>
+  <text x="350" y="100" text-anchor="middle" font-size="12" fill="#222">Application / Window Layer + GUI Layer</text>
+  <text x="350" y="120" text-anchor="middle" font-size="10" fill="#444">VISCOPE, WindowManager, ViewerWindow,</text>
+  <text x="350" y="135" text-anchor="middle" font-size="10" fill="#444">BaseGUI and its device / viewer panels</text>
+  <text x="350" y="155" text-anchor="middle" font-size="9" font-style="italic" fill="#555">renders device state, forwards user input to the Model</text>
+
+  <!-- MODEL -->
+  <rect x="20" y="250" width="660" height="155" rx="10" fill="#fff8e6" stroke="#9c6f00" stroke-width="1.5"/>
+  <text x="350" y="275" text-anchor="middle" font-size="16" font-weight="700" fill="#9c6f00">MODEL</text>
+  <text x="350" y="295" text-anchor="middle" font-size="12" fill="#222">Instrument Layer + Virtual System Layer</text>
+  <text x="350" y="310" text-anchor="middle" font-size="10" fill="#444">BaseInstrument, Base Device Classes,</text>
+  <text x="350" y="325" text-anchor="middle" font-size="10" fill="#444">Virtual/Real Device Implementations, Managers</text>
+  <text x="350" y="340" text-anchor="middle" font-size="10" fill="#444">BaseSystem / Forward Model (e.g. SimpleMicroscope), Sample, Component</text>
+  <text x="350" y="360" text-anchor="middle" font-size="9" font-style="italic" fill="#555">holds device state; Virtual System keeps it realistic with no hardware attached</text>
+  <text x="350" y="375" text-anchor="middle" font-size="9" font-style="italic" fill="#555">never talks to Qt directly; Real Device Implementations call into the Controller below</text>
+
+  <!-- CONTROLLER -->
+  <rect x="20" y="475" width="660" height="90" rx="10" fill="#f1eaf9" stroke="#6a3fa0" stroke-width="1.5"/>
+  <text x="350" y="500" text-anchor="middle" font-size="16" font-weight="700" fill="#6a3fa0">CONTROLLER</text>
+  <text x="350" y="520" text-anchor="middle" font-size="12" fill="#222">Low-level hardware driver libraries / SDKs</text>
+  <text x="350" y="539" text-anchor="middle" font-size="9" font-style="italic" fill="#555">not Base-Device-Classes-shaped -- wrapped by a Real Device Implementation</text>
+  <text x="350" y="554" text-anchor="middle" font-size="9" font-style="italic" fill="#555">e.g. cv2 (OpenCV) for a webcam, vendor SDKs, OS device drivers</text>
+
+  <!-- Arrows -->
+  <!-- View -> Model -->
+  <line x1="230" y1="170" x2="230" y2="250" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="120" y="200" text-anchor="start" font-size="9" fill="#333">setDevice(),</text>
+  <text x="120" y="213" text-anchor="start" font-size="9" fill="#333">getParameter() / setParameter()</text>
+
+  <!-- Model -> View -->
+  <line x1="470" y1="250" x2="470" y2="170" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="480" y="200" text-anchor="start" font-size="9" fill="#333">worker.yielded</text>
+  <text x="480" y="213" text-anchor="start" font-size="9" fill="#333">(Qt signal/slot)</text>
+
+  <!-- Model -> Controller (Real Device Implementations call into it) -->
+  <line x1="350" y1="405" x2="350" y2="475" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="360" y="422" text-anchor="start" font-size="9" fill="#333">Real Device Implementations call into it</text>
+  <text x="360" y="435" text-anchor="start" font-size="9" font-style="italic" fill="#555">(e.g. WebCamera.connect() -&gt; cv2.VideoCapture())</text>
+
+  <text x="350" y="460" text-anchor="middle" font-size="9" font-style="italic" fill="#777">Virtual System substitutes for the Controller in test/dev mode -- View and Model code never change</text>
+</svg>

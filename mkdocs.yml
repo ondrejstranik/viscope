@@ -1,16 +1,18 @@
 site_name: Viscope
 nav:
   - Home: index.md
-  - About: about.md
+  - Installation: installation.md
+  - Extensions: extensions.md
+  - Software Architecture: architecture.md
   - Class Hierarchy: class_hierarchy.md
+  - Examples: examples.md
 theme: readthedocs
 
 hooks:
   - docs/hooks.py
 
 markdown_extensions:
-  - pymdownx.snippets:
-      base_path: .
+  - pymdownx.superfences
 
 plugins:
   - search

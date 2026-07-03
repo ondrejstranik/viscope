@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1000 1085"
+   font-family="Segoe UI, Helvetica, Arial, sans-serif"
+   version="1.1"
+   id="svg1011"
+   sodipodi:docname="architecture.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1013"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.79539171"
+     inkscape:cx="498.49652"
+     inkscape:cy="340.71263"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1011" />
+  <defs
+     id="defs719">
+    <marker
+       id="arrow"
+       viewBox="0 0 10 10"
+       refX="9"
+       refY="5"
+       markerWidth="7"
+       markerHeight="7"
+       orient="auto">
+      <path
+         d="M 0,0 10,5 0,10 Z"
+         fill="#333333"
+         id="path713" />
+    </marker>
+    <marker
+       id="arrowDashed"
+       viewBox="0 0 10 10"
+       refX="9"
+       refY="5"
+       markerWidth="7"
+       markerHeight="7"
+       orient="auto">
+      <path
+         d="M0,0 L10,5 L0,10 z"
+         fill="#666"
+         id="path716" />
+    </marker>
+  </defs>
+  <rect
+     x="0"
+     y="0"
+     width="1000"
+     height="1085"
+     fill="#ffffff"
+     id="rect721" />
+  <text
+     x="500"
+     y="25"
+     text-anchor="middle"
+     font-size="20"
+     font-weight="700"
+     fill="#111"
+     id="text723">Viscope -- Software Architecture</text>
+  <!-- ===================== MVC grouping brackets (left margin) ===================== -->
+  <rect
+     x="3"
+     y="30"
+     width="28"
+     height="270"
+     rx="4"
+     fill="#e4e4e4"
+     stroke="#bbb"
+     id="rect725" />
+  <text
+     x="17"
+     y="165"
+     text-anchor="middle"
+     font-size="12"
+     font-weight="700"
+     fill="#555"
+     transform="rotate(-90,17,165)"
+     id="text727">VIEW</text>
+  <rect
+     x="3"
+     y="320"
+     width="28"
+     height="525"
+     rx="4"
+     fill="#e4e4e4"
+     stroke="#bbb"
+     id="rect729" />
+  <text
+     x="17"
+     y="582"
+     text-anchor="middle"
+     font-size="12"
+     font-weight="700"
+     fill="#555"
+     transform="rotate(-90,17,582)"
+     id="text731">MODEL</text>
+  <rect
+     x="3"
+     y="855"
+     width="28"
+     height="130"
+     rx="4"
+     fill="#e4e4e4"
+     stroke="#bbb"
+     id="rect733" />
+  <text
+     x="17"
+     y="920"
+     text-anchor="middle"
+     font-size="12"
+     font-weight="700"
+     fill="#555"
+     transform="rotate(-90,17,920)"
+     id="text735">CONTROLLER</text>
+  <!-- Lane backgrounds (start after the wider MVC bracket bars, x=35) -->
+  <rect
+     x="35"
+     y="30"
+     width="945"
+     height="110"
+     rx="6"
+     fill="#eef4fc"
+     stroke="#cddcef"
+     id="rect737" />
+  <text
+     x="45"
+     y="48"
+     font-size="13"
+     font-weight="600"
+     fill="#2b5aa0"
+     id="text739">Application / Window Layer</text>
+  <rect
+     x="35"
+     y="160"
+     width="945"
+     height="140"
+     rx="6"
+     fill="#eefcf2"
+     stroke="#c9ecd6"
+     id="rect741" />
+  <text
+     x="45"
+     y="178"
+     font-size="13"
+     font-weight="600"
+     fill="#1f7a44"
+     id="text743">GUI Layer -- Qt widgets, one panel per device</text>
+  <rect
+     x="35"
+     y="320"
+     width="945"
+     height="315"
+     rx="6"
+     fill="#fff8e6"
+     stroke="#f0e0ad"
+     id="rect745" />
+  <text
+     x="45"
+     y="338"
+     font-size="13px"
+     font-weight="600"
+     fill="#9c6f00"
+     id="text747">Instrument Layer -- device implementation</text>
+  <rect
+     x="35"
+     y="655"
+     width="945"
+     height="190"
+     rx="6"
+     fill="#fdeef4"
+     stroke="#f2c9dd"
+     id="rect749" />
+  <text
+     x="45"
+     y="673"
+     font-size="13px"
+     font-weight="600"
+     fill="#a31e5b"
+     id="text751">Virtual System Layer -- physics simulation</text>
+  <rect
+     x="35"
+     y="855"
+     width="945"
+     height="130"
+     rx="6"
+     fill="#f1eaf9"
+     stroke="#ddc9f2"
+     id="rect753" />
+  <text
+     x="45"
+     y="873"
+     font-size="13"
+     font-weight="600"
+     fill="#6a3fa0"
+     id="text755">Controller Layer -- real-world hardware I/O</text>
+  <!-- ===================== LANE A boxes ===================== -->
+  <!-- A1 VISCOPE -->
+  <rect
+     x="40"
+     y="55"
+     width="190"
+     height="70"
+     rx="8"
+     fill="#ffffff"
+     stroke="#2b5aa0"
+     stroke-width="1.5"
+     id="rect757" />
+  <text
+     x="135"
+     y="75"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text759">VISCOPE</text>
+  <text
+     x="135"
+     y="89"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text761">(viscope/main.py)</text>
+  <text
+     x="135"
+     y="103"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#444"
+     id="text763">app + top-level state</text>
+  <!-- A2 WindowManager -->
+  <rect
+     x="260"
+     y="55"
+     width="190"
+     height="70"
+     rx="8"
+     fill="#ffffff"
+     stroke="#2b5aa0"
+     stroke-width="1.5"
+     id="rect765" />
+  <text
+     x="355"
+     y="75"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text767">WindowManager</text>
+  <text
+     x="355"
+     y="89"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text769">(tracks windows,</text>
+  <text
+     x="355"
+     y="103"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text771">Windows menu)</text>
+  <!-- A3 ViewerWindow -->
+  <rect
+     x="480"
+     y="55"
+     width="300"
+     height="70"
+     rx="8"
+     fill="#ffffff"
+     stroke="#2b5aa0"
+     stroke-width="1.5"
+     id="rect773" />
+  <text
+     x="630"
+     y="75"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text775">ViewerWindow</text>
+  <text
+     x="630"
+     y="89"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text777">(QMainWindow: dockable parameter</text>
+  <text
+     x="630"
+     y="103"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text779">panels + central viewer widget)</text>
+  <!-- ===================== LANE B boxes ===================== -->
+  <!-- B1 BaseGUI -->
+  <rect
+     x="40"
+     y="190"
+     width="150"
+     height="100"
+     rx="8"
+     fill="#ffffff"
+     stroke="#1f7a44"
+     stroke-width="1.5"
+     id="rect781" />
+  <text
+     x="115"
+     y="210"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text783">BaseGUI</text>
+  <text
+     x="115"
+     y="224"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text785">(QObject base</text>
+  <text
+     x="115"
+     y="238"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text787">for all panels)</text>
+  <!-- B3 Viewer GUIs -->
+  <rect
+     x="550"
+     y="190"
+     width="210"
+     height="100"
+     rx="8"
+     fill="#ffffff"
+     stroke="#1f7a44"
+     stroke-width="1.5"
+     id="rect789" />
+  <text
+     x="655"
+     y="210"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text791">Viewer GUIs</text>
+  <text
+     x="655"
+     y="224"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text793">(extends BaseGUI)</text>
+  <text
+     x="655"
+     y="238"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text795">NapariGUI, CameraViewGUI,</text>
+  <text
+     x="655"
+     y="252"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text797">HistogramGUI</text>
+  <!-- extends: B3 -> B1, straight line drawn behind (occluded by) the Device GUIs box below -->
+  <line
+     x1="550"
+     y1="222"
+     x2="190"
+     y2="222"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line799" />
+  <!-- B2 Device GUIs (drawn after the line above so it visually passes behind this box) -->
+  <rect
+     x="220"
+     y="190"
+     width="300"
+     height="100"
+     rx="8"
+     fill="#ffffff"
+     stroke="#1f7a44"
+     stroke-width="1.5"
+     id="rect801" />
+  <text
+     x="370"
+     y="210"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text803">Device GUIs</text>
+  <text
+     x="370"
+     y="224"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text805">(extends BaseGUI)</text>
+  <text
+     x="370"
+     y="238"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text807">CameraGUI, LaserGUI, StageGUI,</text>
+  <text
+     x="370"
+     y="252"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text809">PumpGUI, SwitchGUI, SaveImageGUI, ...</text>
+  <!-- extends: B2 -> B1 (adjacent, direct) -->
+  <line
+     x1="220"
+     y1="258"
+     x2="190"
+     y2="258"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line811" />
+  <!-- ===================== LANE C row 1: base / interface tier ===================== -->
+  <!-- C1 BaseInstrument -->
+  <rect
+     x="40"
+     y="350"
+     width="210"
+     height="110"
+     rx="8"
+     fill="#ffffff"
+     stroke="#9c6f00"
+     stroke-width="1.5"
+     id="rect813" />
+  <text
+     x="145"
+     y="370"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text815">BaseInstrument</text>
+  <text
+     x="145"
+     y="384"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text817">threading (superqt</text>
+  <text
+     x="145"
+     y="398"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text819">create_worker), param</text>
+  <text
+     x="145"
+     y="412"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text821">get/set, ThreadFlag</text>
+  <text
+     x="145"
+     y="426"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text823">sync primitive (Model-internal)</text>
+  <!-- C2 Base Device Classes -->
+  <rect
+     x="275"
+     y="350"
+     width="330"
+     height="110"
+     rx="8"
+     fill="#ffffff"
+     stroke="#9c6f00"
+     stroke-width="1.5"
+     id="rect825" />
+  <text
+     x="440"
+     y="370"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text827">Base Device Classes</text>
+  <text
+     x="440"
+     y="384"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text829">(extend BaseInstrument)</text>
+  <text
+     x="440"
+     y="398"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text831">BaseCamera, BaseLaser, BaseStage,</text>
+  <text
+     x="440"
+     y="412"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text833">BasePump, BaseSLM, BaseSwitch,</text>
+  <text
+     x="440"
+     y="426"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text835">BaseADetector, BaseProcessor,</text>
+  <text
+     x="440"
+     y="440"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text837">BaseSequencer</text>
+  <!-- extends: C2 -> C1 -->
+  <line
+     x1="275"
+     y1="405"
+     x2="250"
+     y2="405"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line839" />
+  <!-- ===================== LANE C row 2: concrete implementation tier ===================== -->
+  <!-- C5 Managers -->
+  <rect
+     x="40"
+     y="475"
+     width="280"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#9c6f00"
+     stroke-width="1.5"
+     id="rect841" />
+  <text
+     x="180"
+     y="495"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text843">Managers</text>
+  <text
+     x="180"
+     y="509"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text845">(extend BaseProcessor /</text>
+  <text
+     x="180"
+     y="523"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text847">BaseSequencer)</text>
+  <text
+     x="180"
+     y="537"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text849">e.g. ADetectorProcessor --</text>
+  <text
+     x="180"
+     y="551"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text851">process collected data &amp;</text>
+  <text
+     x="180"
+     y="565"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text853">synchronize acquisition</text>
+  <!-- C3 Virtual Device Implementations -->
+  <rect
+     x="350"
+     y="475"
+     width="280"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#9c6f00"
+     stroke-width="1.5"
+     id="rect855" />
+  <text
+     x="490"
+     y="495"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text857">Virtual Device</text>
+  <text
+     x="490"
+     y="509"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text859">Implementations</text>
+  <text
+     x="490"
+     y="523"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text861">(extend Base Device Classes)</text>
+  <text
+     x="490"
+     y="537"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text863">VirtualCamera, VirtualLaser,</text>
+  <text
+     x="490"
+     y="551"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text865">VirtualStage, VirtualPump, ...</text>
+  <!-- C4 Real Device Implementations -->
+  <rect
+     x="660"
+     y="475"
+     width="280"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#9c6f00"
+     stroke-width="1.5"
+     id="rect867" />
+  <text
+     x="800"
+     y="495"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text869">Real Device</text>
+  <text
+     x="800"
+     y="509"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text871">Implementations</text>
+  <text
+     x="800"
+     y="523"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text873">(extend Base Device Classes;</text>
+  <text
+     x="800"
+     y="537"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text875">often in add-on packages)</text>
+  <text
+     x="800"
+     y="551"
+     text-anchor="middle"
+     font-size="9"
+     fill="#444"
+     id="text877">e.g. WebCamera -- calls into the Controller</text>
+  <!-- extends: C3 -> C2, C4 -> C2, C5 -> C2 (routed through the thin gap between row 1 and row 2) -->
+  <line
+     x1="180"
+     y1="475"
+     x2="320"
+     y2="460"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line879" />
+  <line
+     x1="490"
+     y1="475"
+     x2="490"
+     y2="460"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line881" />
+  <line
+     x1="800"
+     y1="475"
+     x2="560"
+     y2="460"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line883" />
+  <!-- ===================== LANE D boxes ===================== -->
+  <!-- D1 BaseSystem -->
+  <rect
+     x="40"
+     y="685"
+     width="200"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#a31e5b"
+     stroke-width="1.5"
+     id="rect885" />
+  <text
+     x="140"
+     y="705"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text887">BaseSystem</text>
+  <text
+     x="140"
+     y="719"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text889">device registry +</text>
+  <text
+     x="140"
+     y="733"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text891">state-machine loop</text>
+  <text
+     x="140"
+     y="747"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text893">(threaded)</text>
+  <text
+     x="140"
+     y="761"
+     text-anchor="middle"
+     font-size="9"
+     font-style="italic"
+     fill="#555"
+     id="text895">creates default Sample</text>
+  <!-- D2 Forward Model -->
+  <rect
+     x="270"
+     y="685"
+     width="240"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#a31e5b"
+     stroke-width="1.5"
+     id="rect897" />
+  <text
+     x="390"
+     y="705"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text899">Forward Model</text>
+  <text
+     x="390"
+     y="719"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text901">(extends BaseSystem;</text>
+  <text
+     x="390"
+     y="733"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text903">e.g. SimpleMicroscope,</text>
+  <text
+     x="390"
+     y="747"
+     text-anchor="middle"
+     font-size="10"
+     font-style="italic"
+     fill="#555"
+     id="text905">TwoCameraMicroscope)</text>
+  <text
+     x="390"
+     y="761"
+     text-anchor="middle"
+     font-size="9"
+     fill="#444"
+     id="text907">computes synthetic camera frame/loop</text>
+  <!-- D3 Sample (interacts directly with the Forward Model) -->
+  <rect
+     x="540"
+     y="685"
+     width="200"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#a31e5b"
+     stroke-width="1.5"
+     id="rect909" />
+  <text
+     x="640"
+     y="705"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text911">Sample</text>
+  <text
+     x="640"
+     y="719"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text913">test image source,</text>
+  <text
+     x="640"
+     y="733"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text915">e.g. astronaut image,</text>
+  <text
+     x="640"
+     y="747"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text917">pixel size metadata</text>
+  <!-- D4 Component (used by the Forward Model for the optics calculation) -->
+  <rect
+     x="770"
+     y="685"
+     width="190"
+     height="140"
+     rx="8"
+     fill="#ffffff"
+     stroke="#a31e5b"
+     stroke-width="1.5"
+     id="rect919" />
+  <text
+     x="865"
+     y="705"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text921">Component</text>
+  <text
+     x="865"
+     y="719"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text923">optics simulation:</text>
+  <text
+     x="865"
+     y="733"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text925">ideal4fImagingOnCamera()</text>
+  <text
+     x="865"
+     y="747"
+     text-anchor="middle"
+     font-size="9"
+     font-style="italic"
+     fill="#555"
+     id="text927">(sample -&gt; camera image)</text>
+  <!-- ===================== LANE E box (Controller) ===================== -->
+  <rect
+     x="40"
+     y="877"
+     width="600"
+     height="100"
+     rx="8"
+     fill="#ffffff"
+     stroke="#6a3fa0"
+     stroke-width="1.5"
+     id="rect929" />
+  <text
+     x="340"
+     y="897"
+     text-anchor="middle"
+     font-size="13"
+     font-weight="700"
+     fill="#222"
+     id="text931">Real Hardware Drivers / SDKs</text>
+  <text
+     x="340"
+     y="912"
+     text-anchor="middle"
+     font-size="10px"
+     font-style="italic"
+     fill="#555555"
+     id="text933">(the Controller in MVC terms -- low-level libraries</text>
+  <text
+     x="340"
+     y="927"
+     text-anchor="middle"
+     font-size="10px"
+     font-style="italic"
+     fill="#555555"
+     id="text935">e.g. cv2 (OpenCV), vendor SDKs</text>
+  <text
+     x="340"
+     y="942"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text937">Called by Real Device Implementations in the Instrument Layer --</text>
+  <text
+     x="340"
+     y="957"
+     text-anchor="middle"
+     font-size="10"
+     fill="#444"
+     id="text939">never called directly by GUIs or Virtual Device Implementations</text>
+  <!-- ===================== ARROWS ===================== -->
+  <!-- 1: A1 -> A2 -->
+  <line
+     x1="230"
+     y1="80"
+     x2="260"
+     y2="80"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line941" />
+  <text
+     x="245"
+     y="72"
+     text-anchor="middle"
+     font-size="9"
+     fill="#333"
+     id="text943">owns</text>
+  <!-- 2: A2 -> A3 -->
+  <line
+     x1="450"
+     y1="100"
+     x2="480"
+     y2="100"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line945" />
+  <text
+     x="465"
+     y="92"
+     text-anchor="middle"
+     font-size="9"
+     fill="#333"
+     id="text947">registers</text>
+  <!-- 3: B2 -> A3 (addParameterGui) -->
+  <line
+     x1="370"
+     y1="190"
+     x2="560"
+     y2="125"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line949" />
+  <text
+     x="432.99585"
+     y="153.33273"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#333333"
+     id="text951">addParameterGui()</text>
+  <!-- 4: B3 -> A3 (addMainGUI) -->
+  <line
+     x1="655"
+     y1="190"
+     x2="655"
+     y2="125"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line953" />
+  <text
+     x="661.70996"
+     y="153.45741"
+     text-anchor="start"
+     font-size="9px"
+     fill="#333333"
+     id="text955">addMainGUI()</text>
+  <!-- 5: B2 -> C2 (setDevice) -->
+  <line
+     x1="390"
+     y1="290"
+     x2="440"
+     y2="350"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line959" />
+  <text
+     x="392.91284"
+     y="314.82016"
+     text-anchor="end"
+     font-size="9px"
+     fill="#333333"
+     id="text961">setDevice()</text>
+  <!-- 6: C2 -> B2 (Qt signal/slot on the worker's yield, NOT ThreadFlag) -->
+  <line
+     x1="460"
+     y1="350"
+     x2="410"
+     y2="290"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line965" />
+  <text
+     x="439.82599"
+     y="314.86621"
+     text-anchor="start"
+     font-size="9px"
+     fill="#333333"
+     id="text967">worker.yielded.connect</text>
+  <!-- 7b: ForwardModel -> Virtual Device Implementations (writes virtualFrame) / reverse (flagSetParameter), offset so both are clearly distinct -->
+  <line
+     x1="390"
+     y1="685"
+     x2="390"
+     y2="615"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line979" />
+  <line
+     x1="430"
+     y1="615"
+     x2="430"
+     y2="685"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line981" />
+  <text
+     x="388.25897"
+     y="644.66907"
+     text-anchor="end"
+     font-size="8px"
+     fill="#333333"
+     id="text983">writes virtualFrame</text>
+  <text
+     x="437.10107"
+     y="646.60547"
+     text-anchor="start"
+     font-size="8px"
+     fill="#333333"
+     id="text985">flagSetParameter</text>
+  <!-- 8: D2 -> D1 dashed extends -->
+  <line
+     x1="270"
+     y1="755"
+     x2="240"
+     y2="755"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line987" />
+  <!-- 9: D2 -> D3 (reads sample.get()) -->
+  <line
+     x1="510"
+     y1="755"
+     x2="540"
+     y2="755"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line989" />
+  <text
+     x="525"
+     y="743"
+     text-anchor="middle"
+     font-size="8"
+     fill="#333"
+     id="text991">reads</text>
+  <text
+     x="525"
+     y="771"
+     text-anchor="middle"
+     font-size="8"
+     fill="#333"
+     id="text993">sample.get()</text>
+  <!-- 10: D2 -> D4 (uses Component for optics calc), routed below D3 -->
+  <polyline
+     points="390,825 390,837 865,837 865,825"
+     fill="none"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="polyline995" />
+  <text
+     x="627"
+     y="834"
+     text-anchor="middle"
+     font-size="9"
+     fill="#333"
+     id="text997">uses (optics calc)</text>
+  <!-- 11: C4 (Real Device Implementations) -> Controller box (calls into), routed via right margin -->
+  <polyline
+     points="940,545 972,545 972,870 640,870 640,877"
+     fill="none"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="polyline999" />
+  <!-- ===================== Legend ===================== -->
+  <line
+     x1="40"
+     y1="1005"
+     x2="90"
+     y2="1005"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line1003" />
+  <text
+     x="98"
+     y="1009"
+     font-size="11"
+     fill="#333"
+     id="text1005">method call / data flow</text>
+  <line
+     x1="330"
+     y1="1005"
+     x2="380"
+     y2="1005"
+     stroke="#666"
+     stroke-width="1.3"
+     stroke-dasharray="4,3"
+     marker-end="url(#arrowDashed)"
+     id="line1007" />
+  <text
+     x="388"
+     y="1009"
+     font-size="11"
+     fill="#333"
+     id="text1009">extends (inheritance)</text>
+  <line
+     x1="510"
+     y1="755"
+     x2="540"
+     y2="755"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line1222" />
+  <line
+     x1="510"
+     y1="755"
+     x2="540"
+     y2="755"
+     stroke="#333"
+     stroke-width="1.5"
+     marker-end="url(#arrow)"
+     id="line818" />
+</svg>
