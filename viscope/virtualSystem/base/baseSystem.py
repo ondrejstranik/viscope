@@ -2,7 +2,7 @@
 virtual basic microscope
 
 components: camera
-sample: default image of astronaout
+sample: default image of cells
 
 @author: ostranik
 """
@@ -28,7 +28,7 @@ class BaseSystem():
         
         # set default sample
         self.sample = Sample()
-        self.sample.setAstronaut()
+        self.sample.setCell()
 
         self.device = {}
 

@@ -43,7 +43,7 @@ class SimpleMicroscope(BaseSystem):
         ''' infinite loop to carry out the microscope state update
         it is a state machine, which should be run in separate thread '''
         while True:
-            yield 
+            yield
             if self.deviceParameterIsChanged():
                 print(f'calculate virtual frame')
                 self.device['camera'].virtualFrame = self.calculateVirtualFrame()
@@ -51,31 +51,33 @@ class SimpleMicroscope(BaseSystem):
 
             time.sleep(0.03)
 
-        
+
+class SimpleMicroscopeNA(SimpleMicroscope):
+    ''' class to emulate microscope with a diffraction limited PSF '''
+    DEFAULT = {'magnification': 20,
+                'NA': 0.1}
+
+    def calculateVirtualFrame(self):
+        ''' update the virtual Frame of the camera '''
+
+        # blur the sample with the diffraction limited PSF
+        iFrame = Component.diffractionBlur(iFrame=self.sample.get(),
+                NA=self.DEFAULT['NA'])
+
+        # image sample onto camera
+        oFrame = Component.ideal4fImagingOnCamera(camera=self.device['camera'],
+                iFrame= iFrame,iPixelSize=self.sample.pixelSize,
+                magnification= self.DEFAULT['magnification'])
+
+        print('virtual Frame updated')
+
+        return oFrame
+
+
 
 #%%
 
 if __name__ == '__main__':
-
-    from viscope.instrument.virtual.virtualCamera import VirtualCamera
-    from viscope.main import Viscope
-    from viscope.gui.allDeviceGUI import AllDeviceGUI
-
-    camera1 = VirtualCamera()
-    camera1.connect()
-    camera1.setParameter('threadingNow',True)
-
-    vM = SimpleMicroscope()
-    vM.setVirtualDevice(camera1)
-    vM.connect()
-
-    viscope = Viscope()
-    viewer  = AllDeviceGUI(viscope)
-    viewer.setDevice([camera1])
-    
-    viscope.run()
-
-    camera1.disconnect()
-    vM.disconnect()
+    pass
 
 

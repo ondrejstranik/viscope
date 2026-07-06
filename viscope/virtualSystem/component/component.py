@@ -8,12 +8,44 @@ class to generate virtual sample
 import numpy as np
 from skimage import data
 from skimage.transform import resize, rescale
+from skimage.filters import gaussian
 
 class Component():
     ''' class to calculate light propagation through different optical componenets'''
     DEFAULT = {}
 
-    @classmethod    
+    @classmethod
+    def psfSize(cls,NA,wavelength=0.55):
+        ''' return the lateral size (radius of the first minimum) of the
+        diffraction limited PSF in [um], classic Rayleigh criterion
+        NA ... numerical aperture of the objective
+        wavelength ... wavelength of the light [um]'''
+
+        size = 0.61*wavelength/NA
+
+        return size
+
+    @classmethod
+    def diffractionBlur(cls,iFrame,NA,wavelength=0.55):
+        ''' blur the image with a Gaussian approximation of the diffraction
+        limited PSF, the blur size (sigma) is set by the psfSize function
+        (pixel size is assumed to be 1 um)
+        for 3D array the shape[0] (first axis) is the spectral dimension and
+        is not blurred
+        iFrame ... input image
+        NA ... numerical aperture of the objective
+        wavelength ... wavelength of the light [um]'''
+
+        sigma = cls.psfSize(NA,wavelength)
+
+        if iFrame.ndim==3:
+            sigma = (0,sigma,sigma)
+
+        oFrame = gaussian(iFrame,sigma=sigma,preserve_range=True)
+
+        return oFrame
+
+    @classmethod
     def laserIllumination(cls,iFrame:np.ndarray, laser):
         ''' modify the number of photon depending on the power of the laser
         simple approximation'''
