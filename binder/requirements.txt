@@ -1,0 +1,2 @@
+-e .[binder]
+jupyter-remote-desktop-proxy

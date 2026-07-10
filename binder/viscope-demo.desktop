@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Viscope Demo
+Comment=Launch the virtual two-camera microscope demo
+Exec=sh -c 'cd "$HOME/binder" && python3 binder.py'
+Terminal=true
+X-GNOME-Autostart-enabled=true

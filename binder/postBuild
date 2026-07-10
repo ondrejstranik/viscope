@@ -1,0 +1,7 @@
+#!/bin/bash
+# repo2docker postBuild: install the autostart entry so the demo launches
+# as soon as the virtual (noVNC) desktop session starts.
+set -e
+
+mkdir -p "${HOME}/.config/autostart"
+cp "$(dirname "${BASH_SOURCE[0]}")/viscope-demo.desktop" "${HOME}/.config/autostart/"

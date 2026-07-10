@@ -32,6 +32,9 @@ docs = [
         'mkdocs',
         'mkdocstrings[python]',
         ]
+binder = [
+        'scikit-image',
+        ]
 
 [project.urls]
 Repository = "https://github.com/ondrejstranik/viscope"

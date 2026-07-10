@@ -1,0 +1,5 @@
+#!/bin/bash
+# repo2docker start script: run before the notebook server starts.
+# nothing to customise here anymore -- the GUI renders on the real
+# virtual display provided by jupyter-remote-desktop-proxy.
+exec "$@"
