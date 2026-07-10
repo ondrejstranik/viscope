@@ -5,3 +5,8 @@ set -e
 
 mkdir -p "${HOME}/.config/autostart"
 cp "$(dirname "${BASH_SOURCE[0]}")/viscope-demo.desktop" "${HOME}/.config/autostart/"
+
+# make sure the "Desktop" launcher registers with Jupyter (some Jupyter
+# server versions don't pick up the entry point automatically)
+jupyter server extension enable --sys-prefix jupyter_server_proxy || true
+jupyter server extension enable --sys-prefix jupyter_remote_desktop_proxy || true
