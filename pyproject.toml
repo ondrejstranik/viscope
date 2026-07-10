@@ -38,3 +38,6 @@ binder = [
 
 [project.urls]
 Repository = "https://github.com/ondrejstranik/viscope"
+
+[tool.setuptools.packages.find]
+include = ["viscope*"]
