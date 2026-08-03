@@ -6,6 +6,7 @@ xfce4-settings
 xfce4-terminal
 xorg
 xubuntu-icon-theme
+tigervnc-standalone-server
 libgl1
 libegl1
 libxkbcommon0

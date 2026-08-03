@@ -1,6 +1,6 @@
 # Viscope
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ondrejstranik/viscope/main?urlpath=desktop%2F)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ondrejstranik/viscope/main?urlpath=desktop)
 
 Viscope is a Python-based framework for instrument control. While other
 packages address this topic, Viscope's strength is the ability to develop
