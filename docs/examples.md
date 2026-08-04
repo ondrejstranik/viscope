@@ -86,3 +86,33 @@ In MVC terms: the View (`AllDeviceGUI`) and the Model (`camera1`, via
 supplies the data underneath the Model object: a real Controller (`cv2`)
 for `WebCamera`, or a Model-internal substitute (`SimpleSpectralMicroscope`)
 for `VirtualCamera`.
+
+## Try it live, in your browser (Binder)
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ondrejstranik/viscope/main?urlpath=desktop)
+
+Click the badge to launch Viscope in a virtual desktop in your browser --
+no local installation required. The environment is built by
+[mybinder.org](https://mybinder.org/) from the
+[`binder/`](https://github.com/ondrejstranik/viscope/tree/main/binder)
+folder of this repository.
+
+It autostarts
+[`binder/binder.py`](https://github.com/ondrejstranik/viscope/blob/main/binder/binder.py),
+a standalone script version of
+[`test_twoCameraMicroscope`](reference/virtualSystem/twoCameraMicroscope.md).
+It wires up a fully virtual instrument -- two cameras, a stage, a laser and
+a switch -- into a
+[`TwoCameraMicroscope`](reference/virtualSystem/twoCameraMicroscope.md)
+virtual system, and opens the [`AllDeviceGUI`](reference/gui/allDeviceGUI.md)
+so you can drive every device live. It's the same idea as above, one level
+up: instead of one virtual camera swapped for a real one, a whole virtual
+microscope runs with no physical hardware at all, through the same
+View/Model code.
+
+The desktop session comes from
+[`jupyter-remote-desktop-proxy`](https://github.com/jupyterhub/jupyter-remote-desktop-proxy),
+which serves an XFCE session at the `desktop` URL path. `binder/postBuild`
+installs `binder/viscope-demo.desktop` as an XFCE autostart entry, so
+`binder.py` launches on its own as soon as the desktop session comes up --
+nothing needs to be typed in a terminal.
