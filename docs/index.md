@@ -1,5 +1,7 @@
 # Viscope
 
+[![GitHub](https://img.shields.io/badge/GitHub-ondrejstranik%2Fviscope-blue?logo=github)](https://github.com/ondrejstranik/viscope)
+
 Viscope is a Python-based framework for instrument control. While other
 packages address this topic, Viscope's strength is the ability to develop
 and debug data acquisition procedures without needing any physical
