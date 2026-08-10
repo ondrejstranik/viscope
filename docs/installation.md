@@ -6,12 +6,25 @@ Use this if you just want to use Viscope in your own project (no need to
 edit Viscope's own source).
 
 0. (optional) create and activate a dedicated conda environment
-   `conda create --name viscope python=3.9` then `conda activate viscope`
+```bash
+conda create --name viscope python=3.10
+conda activate viscope
+```
 1. install directly from the GitHub repository
-   `python -m pip install git+https://github.com/ondrejstranik/viscope.git`
+```bash
+python -m pip install git+https://github.com/ondrejstranik/viscope.git
+```
 
-This installs the latest version from the `main` branch. To upgrade later,
-re-run the same command with `--upgrade`.
+This installs the latest version from the `main` branch.
+
+2. to upgrade later, force a fresh install. A plain `--upgrade` is not
+   enough for git dependencies -- pip only checks that the URL still
+   matches, not whether the remote has new commits -- so
+   `--force-reinstall` is required too (`--no-deps` keeps it from also
+   reinstalling every other dependency):
+```bash
+python -m pip install --upgrade --force-reinstall --no-deps git+https://github.com/ondrejstranik/viscope.git
+```
 
 ## For developers
 
@@ -20,16 +33,23 @@ in editable mode, so changes to the source take effect immediately without
 reinstalling.
 
 0. clone the repository and move into it
-   `git clone https://github.com/ondrejstranik/viscope.git` then
-   `cd viscope`
+```bash
+git clone https://github.com/ondrejstranik/viscope.git
+cd viscope
+```
 1. create and activate a conda environment
-   `conda create --name viscope python=3.9` then `conda activate viscope`
+```bash
+conda create --name viscope python=3.10
+conda activate viscope
+```
 2. install the package in editable mode
-   `python -m pip install -e .`
+```bash
+python -m pip install -e .
+```
 
 If you use Pylance in VS Code, add the following to `.vscode\settings.json`
 so it can resolve the package while it's installed in editable mode:
-```
+```json
     "python.languageServer": "Pylance",
     "python.analysis.extraPaths": [
         "path\to\the\package\folder"

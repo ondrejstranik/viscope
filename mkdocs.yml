@@ -6,7 +6,10 @@ nav:
   - Software Architecture: architecture.md
   - Class Hierarchy: class_hierarchy.md
   - Examples: examples.md
-theme: readthedocs
+theme:
+  name: material
+  features:
+    - content.code.copy
 
 hooks:
   - docs/hooks.py
