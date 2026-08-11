@@ -15,12 +15,10 @@ from viscope.gui.baseGUI import BaseGUI
 class CameraGUI(BaseGUI):
     ''' main class to control camera'''
 
-    DEFAULT = {'nameGUI': 'Camera',
-               'region': 'bottom'}
+    DEFAULT = {'nameGUI': 'Camera'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', CameraGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # widget

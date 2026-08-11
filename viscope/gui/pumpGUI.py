@@ -11,12 +11,10 @@ from viscope.gui.baseGUI import BaseGUI
 class PumpGUI(BaseGUI):
     ''' main class to control pump'''
 
-    DEFAULT = {'nameGUI': 'Pump',
-               'region': 'bottom'}
+    DEFAULT = {'nameGUI': 'Pump'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', PumpGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # widget

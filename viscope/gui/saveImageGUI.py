@@ -11,12 +11,10 @@ from magicgui import magicgui
 class SaveImageGUI(BaseGUI):
     ''' main class to save image'''
 
-    DEFAULT = {'nameGUI': 'Save Image',
-               'region': 'bottom'}
+    DEFAULT = {'nameGUI': 'Save Image'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', SaveImageGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         if 'name' in kwargs: self.DEFAULT['nameGUI']= kwargs['name']

@@ -34,7 +34,7 @@ class BaseGUI(QObject):
                 #'threading': False}
     }
 
-    def __init__(self, viscope, vWindow=None, threading = None, region='top', **kwargs ):
+    def __init__(self, viscope, vWindow=None, threading = None, **kwargs ):
         ''' initialise the class '''
         super().__init__()
 
@@ -49,7 +49,6 @@ class BaseGUI(QObject):
 
         # if not specific window than set the window to the main window of viscope
         self.vWindow = vWindow if vWindow is not None else viscope.vWindow
-        self.vWindow.setRegion(region)
 
         #self.flagLoop = ThreadFlag()
         #self.worker = None

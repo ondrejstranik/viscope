@@ -39,8 +39,12 @@ def test_twoCameraMicroscope():
     vM.connect()
 
     viewer  = AllDeviceGUI(viscope)
-    viewer.setDevice([camera1,camera2,laser,switch,stage])
-    
+    viewer.setDevice([laser,switch,stage,camera1,camera2])
+
+    vWindows = viscope.wManager.allWindows()
+    vWindows[0].setRegion('right')
+    viscope.wManager.setVWindowAlignment('overlap')
+
     viscope.run()
 
     camera1.disconnect()

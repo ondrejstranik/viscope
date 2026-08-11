@@ -16,13 +16,11 @@ import numpy as np
 class StageGUI(BaseGUI):
     ''' main class to control stage'''
 
-    DEFAULT = {'nameGUI': 'Stage',
-               'region': 'bottom'}
+    DEFAULT = {'nameGUI': 'Stage'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', StageGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # widget

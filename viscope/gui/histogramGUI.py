@@ -24,13 +24,11 @@ import numpy as np
 class HistogramGUI(BaseGUI):
     ''' main class to show histogram of data'''
 
-    DEFAULT = {'nameGUI': 'histogram',
-               'region': 'top'}
+    DEFAULT = {'nameGUI': 'histogram'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', HistogramGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # graph widget

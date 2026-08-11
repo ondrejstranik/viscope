@@ -18,13 +18,11 @@ class CameraView2GUI(BaseGUI):
     uses pyqtgraph's imageView'''
 
     DEFAULT = {'nameLayer': 'Camera',
-               'nameGUI': 'Camera',
-               'region': 'top'}
+               'nameGUI': 'Camera'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', CameraView2GUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # viewer parameters

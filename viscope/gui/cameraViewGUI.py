@@ -18,13 +18,11 @@ class CameraViewGUI(BaseGUI):
     ''' main class to show images of a camera'''
 
     DEFAULT = {'nameLayer': 'Camera',
-               'nameGUI': 'Camera',
-               'region': 'top'}
+               'nameGUI': 'Camera'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        kwargs.setdefault('region', CameraViewGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         self.rawLayer = None

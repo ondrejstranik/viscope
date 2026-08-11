@@ -22,9 +22,10 @@ class VISCOPE():
         self.app = QApplication([])
         self.app.aboutToQuit.connect(lambda : print('Viscope is closed'))
 
-        self.wManager = WindowManager()
+        vWindowAlignment = kwargs.get('vWindowAlignment', WindowManager.DEFAULT['vWindowAlignment'])
+        self.wManager = WindowManager(vWindowAlignment=vWindowAlignment)
 
-        name= kwargs['name'] if 'name' in kwargs else VISCOPE.DEFAULT['nameGUI'] 
+        name= kwargs['name'] if 'name' in kwargs else VISCOPE.DEFAULT['nameGUI']
         # vWindow ...this is the main Window of Viscope
         self.vWindow = ViewerWindow(name=name)
         self.wManager.register(self.vWindow)
@@ -34,9 +35,9 @@ class VISCOPE():
         self.dataFolder = str(Path(__file__).parent.joinpath(self.DEFAULT['dataFolder']))
 
 
-    def addViewerWindow(self, name=None):
+    def addViewerWindow(self, name=None, **kwargs):
         ''' adding additional window '''
-        newViewerWindow = ViewerWindow(name=name)
+        newViewerWindow = ViewerWindow(name=name, **kwargs)
         self.wManager.register(newViewerWindow)
         return newViewerWindow
 
