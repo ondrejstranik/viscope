@@ -18,11 +18,13 @@ class CameraViewGUI(BaseGUI):
     ''' main class to show images of a camera'''
 
     DEFAULT = {'nameLayer': 'Camera',
-               'nameGUI': 'Camera'}
+               'nameGUI': 'Camera',
+               'region': 'top'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
+        kwargs.setdefault('region', CameraViewGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         self.rawLayer = None
@@ -43,6 +45,9 @@ class CameraViewGUI(BaseGUI):
         self.rawLayer = self.viewer.add_image(np.ones((2,2)),
                         rgb=False, colormap="gray",
                         name='Raw',  blending='additive')
+        # keep the contrast limits auto-scaling to the data on every update
+        # (same as picking 'continuous' in the layer's auto-contrast control)
+        self.rawLayer._keep_auto_contrast = True
 
     def setDevice(self,device):
         super().setDevice(device)
@@ -55,7 +60,10 @@ class CameraViewGUI(BaseGUI):
         ''' update the data in gui '''
         # napari
         try:
+            resetView = self.rawLayer.data.shape != self.device.rawImage.shape
             self.rawLayer.data = self.device.rawImage
+            if resetView:
+                self.viewer.reset_view()
         except Exception as e:
             print(f'error in updateGui in cameraViewGUI: {e}')
 

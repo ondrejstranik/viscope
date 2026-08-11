@@ -10,10 +10,12 @@ from viscope.gui.baseGUI import BaseGUI
 class LaserGUI(BaseGUI):
     ''' main class to control laser'''
 
-    DEFAULT = {'nameGUI': 'Laser'}
+    DEFAULT = {'nameGUI': 'Laser',
+               'region': 'bottom'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
+        kwargs.setdefault('region', LaserGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # widget

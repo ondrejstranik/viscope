@@ -19,11 +19,13 @@ import numpy as np
 class ADetectorViewGUI(BaseGUI):
     ''' main class to show data from A Detector'''
 
-    DEFAULT = {'nameGUI': 'ADetector'}
+    DEFAULT = {'nameGUI': 'ADetector',
+               'region': 'bottom'}
 
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
+        kwargs.setdefault('region', ADetectorViewGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         self.graph = None

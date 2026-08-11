@@ -34,7 +34,7 @@ class BaseGUI(QObject):
                 #'threading': False}
     }
 
-    def __init__(self, viscope, vWindow=None, threading = None, **kwargs ):
+    def __init__(self, viscope, vWindow=None, threading = None, region='top', **kwargs ):
         ''' initialise the class '''
         super().__init__()
 
@@ -43,12 +43,13 @@ class BaseGUI(QObject):
         self.lastUpdateTime = timer()
         self.guiUpdateTime = BaseGUI.DEFAULT['guiUpdateTime']
 
-        # set new Window 
+        # set new Window
         if vWindow == 'new':
             vWindow = self.viscope.addViewerWindow()
 
-        # if not specific window than set the window to the main window of viscope 
-        self.vWindow = vWindow if vWindow is not None else viscope.vWindow 
+        # if not specific window than set the window to the main window of viscope
+        self.vWindow = vWindow if vWindow is not None else viscope.vWindow
+        self.vWindow.setRegion(region)
 
         #self.flagLoop = ThreadFlag()
         #self.worker = None

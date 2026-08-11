@@ -65,17 +65,52 @@ class WindowManager(QObject):
         if self.top_window is not None:
             self.top_window.close()
 
+    def allWindows(self):
+        """All registered windows, top window first."""
+        windows = [self.top_window] if self.top_window is not None else []
+        return windows + self.windows
+
+    def applyLayout(self):
+        """Size and position every registered window according to its
+        `region` ('top' or 'bottom'): 'top' windows get the top 75% of the
+        screen, 'bottom' windows the bottom 25%, tiled side-by-side within
+        their region so windows sharing a region never overlap."""
+        screen = QApplication.primaryScreen().availableGeometry()
+
+        topWindows = [w for w in self.allWindows() if w.region == 'top']
+        bottomWindows = [w for w in self.allWindows() if w.region == 'bottom']
+
+        topHeight = round(screen.height() * 0.75)
+        bottomHeight = round(screen.height() * 0.25)
+
+        self._tileRow(topWindows, screen, screen.top(), topHeight)
+        self._tileRow(bottomWindows, screen, screen.bottom() - bottomHeight + 1, bottomHeight)
+
+    @staticmethod
+    def _tileRow(windows, screen, y, height):
+        """Place `windows` side-by-side across the full screen width at
+        vertical position `y` with the given `height`."""
+        n = len(windows)
+        if n == 0:
+            return
+        width = screen.width() // n
+        for i, window in enumerate(windows):
+            x = screen.left() + i * width
+            # last window absorbs the rounding remainder
+            w = screen.width() - i * width if i == n - 1 else width
+            window.setGeometry(x, y, w, height)
+
 
 class ViewerWindow(QMainWindow):
     ''' class for the main window'''
-    DEFAULT = {'nameGUI':'viewerWindow'}
+    DEFAULT = {'nameGUI':'viewerWindow', 'region': 'top'}
     sigClose = Signal()
     visibilityChanged = Signal(bool)
     top_window_closed = Signal()  # emitted only by top window
     titleChangedSignal = Signal(str)
 
 
-    def __init__(self, name=DEFAULT['nameGUI'], **kwarg):
+    def __init__(self, name=DEFAULT['nameGUI'], region=DEFAULT['region'], **kwarg):
         """Initialise the viewer window and show it."""
         super().__init__()
         self.setWindowTitle(name)
@@ -84,8 +119,16 @@ class ViewerWindow(QMainWindow):
         self._is_top_window = False
         self._menu_action_map = {}  # window -> QAction for title updates
         #self.topWindow = topWindow
+        self.region = region
 
         self.show()
+
+    def setRegion(self, region):
+        ''' set which part of the screen ('top' or 'bottom') this window is
+        tiled into by WindowManager.applyLayout() '''
+        if region not in ('top', 'bottom'):
+            raise ValueError(f"region must be 'top' or 'bottom', got {region!r}")
+        self.region = region
 
     def setup_menu(self):
         ''' MENU SYSTEM (only for top window) '''

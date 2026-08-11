@@ -9,10 +9,12 @@ from viscope.gui.baseGUI import BaseGUI
 class ADetectorGUI(BaseGUI):
     ''' class for ADetector gui'''
 
-    DEFAULT = {'nameGUI': 'ADetector'}
+    DEFAULT = {'nameGUI': 'ADetector',
+               'region': 'bottom'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
+        kwargs.setdefault('region', ADetectorGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # widget

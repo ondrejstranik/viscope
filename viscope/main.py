@@ -49,6 +49,11 @@ class VISCOPE():
         
         if napari.current_viewer() is not None:
             self.app = QApplication([])
+
+        # now that every window that will exist this run has been created,
+        # lay them all out on screen according to their region
+        self.wManager.applyLayout()
+
         ''' start the gui viewer'''
         # start main event loop
         print('starting main viscope loop')

@@ -19,10 +19,12 @@ class NapariGUI(BaseGUI):
 
     ''' main class to show napari viewer'''
 
-    DEFAULT = {'nameGUI': 'Napari'}
+    DEFAULT = {'nameGUI': 'Napari',
+               'region': 'top'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
+        kwargs.setdefault('region', NapariGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # prepare the gui of the class

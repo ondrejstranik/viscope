@@ -15,11 +15,12 @@ import numpy as np
 class SwitchGUI(BaseGUI):
     ''' main class to control discrete switch'''
 
-    DEFAULT = {'nameGUI': 'Switch'}
+    DEFAULT = {'nameGUI': 'Switch',
+               'region': 'bottom'}
 
     def __init__(self, viscope, **kwargs):
         ''' initialise the class '''
-        
+        kwargs.setdefault('region', SwitchGUI.DEFAULT['region'])
         super().__init__(viscope, **kwargs)
 
         # widget
