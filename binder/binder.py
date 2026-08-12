@@ -40,6 +40,11 @@ vM.connect()
 viewer  = AllDeviceGUI(viscope)
 viewer.setDevice([camera1,camera2,laser,switch,stage])
 
+vWindows = viscope.wManager.allWindows()
+vWindows[0].setRegion('right')
+viscope.wManager.setRegionRatio('right', 0.15) 
+
+
 viscope.run()
 
 camera1.disconnect()

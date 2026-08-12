@@ -46,7 +46,7 @@ class StageGUI(BaseGUI):
 
     def __setWidget(self):
         ''' prepare the gui '''
-        @magicgui()
+        @magicgui(call_button='Set')
         def parameterStageGui(
             relX: Annotated[float, {'widget_type': "FloatSlider", 'min': -1, 'max': 1}] = 0,
             absX: Annotated[float, {'widget_type': "LineEdit"}] = None,

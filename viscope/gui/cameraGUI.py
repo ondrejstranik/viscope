@@ -29,7 +29,7 @@ class CameraGUI(BaseGUI):
 
     def __setWidget(self):
         ''' prepare the gui '''
-        @magicgui()
+        @magicgui(call_button='Set')
         def parameterCameraGui(
             exposure: Annotated[int, {'widget_type': "Slider", 'max': 10000, 'label':'exposure [ms]'}] = None,
             numberOfAverage: int  = None
