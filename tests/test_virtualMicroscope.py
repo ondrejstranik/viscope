@@ -43,7 +43,9 @@ def test_twoCameraMicroscope():
 
     vWindows = viscope.wManager.allWindows()
     vWindows[0].setRegion('right')
-    viscope.wManager.setVWindowAlignment('overlap')
+    viscope.wManager.setRegionRatio('right', 0.15)    
+    #viscope.wManager.setVWindowAlignment('overlap')
+
 
     viscope.run()
 

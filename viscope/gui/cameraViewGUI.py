@@ -43,9 +43,12 @@ class CameraViewGUI(BaseGUI):
         self.rawLayer = self.viewer.add_image(np.ones((2,2)),
                         rgb=False, colormap="gray",
                         name='Raw',  blending='additive')
-        # keep the contrast limits auto-scaling to the data on every update
-        # (same as picking 'continuous' in the layer's auto-contrast control)
-        self.rawLayer._keep_auto_contrast = True
+        # keep the contrast limits auto-scaling to the data on every update:
+        # toggle the actual 'continuous' auto-contrast button (instead of
+        # setting layer._keep_auto_contrast directly) so its icon in the
+        # layer controls panel is highlighted and matches the real state
+        autoScaleBar = self.viewer.window._qt_viewer.controls.widgets[self.rawLayer].autoScaleBar
+        autoScaleBar._auto_btn.setChecked(True)
 
     def setDevice(self,device):
         super().setDevice(device)

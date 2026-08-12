@@ -22,13 +22,15 @@ class WindowManager(QObject):
     """Tracks all windows and handles menu updates and shutdown."""
     sigWindowCreated = Signal(QMainWindow)
 
-    DEFAULT = {'vWindowAlignment': 'horizontal'}
+    DEFAULT = {'vWindowAlignment': 'horizontal', 'regionRatio': 0.4}
 
     def __init__(self, vWindowAlignment=DEFAULT['vWindowAlignment']):
         super().__init__()
         self.top_window = None
         self.windows = []
         self.setVWindowAlignment(vWindowAlignment)
+        self.regionRatio = {region: WindowManager.DEFAULT['regionRatio']
+                             for region in ('left', 'right', 'top', 'bottom')}
 
         # On new window creation → ask top window to add it to menu
         self.sigWindowCreated.connect(self._add_to_menu)
@@ -39,6 +41,15 @@ class WindowManager(QObject):
         if vWindowAlignment not in ('horizontal', 'vertical', 'overlap'):
             raise ValueError(f"vWindowAlignment must be 'horizontal', 'vertical' or 'overlap', got {vWindowAlignment!r}")
         self.vWindowAlignment = vWindowAlignment
+
+    def setRegionRatio(self, region, ratio):
+        ''' set which fraction (0-1) of the screen width/height the 'left',
+        'right', 'top' or 'bottom' region occupies (default 0.4) '''
+        if region not in ('left', 'right', 'top', 'bottom'):
+            raise ValueError(f"region must be 'left', 'right', 'top' or 'bottom', got {region!r}")
+        if not 0 < ratio < 1:
+            raise ValueError(f"ratio must be between 0 and 1, got {ratio!r}")
+        self.regionRatio[region] = ratio
 
     def register(self, window: QMainWindow):
         """Register a window. First registered window becomes the top window."""
@@ -82,36 +93,66 @@ class WindowManager(QObject):
 
     def applyLayout(self):
         """Size and position every registered window according to its
-        `region` ('full', 'right' or 'bottom').
+        `region` ('full', 'left', 'right', 'top' or 'bottom').
 
-        'right' windows form a column along the right edge, 40% of the
-        screen width and the full screen height; several 'right' windows
-        are tiled vertically within that column. 'bottom' windows form a
-        strip along the bottom, 40% of the screen height, spanning whatever
-        width is not already taken by the 'right' column; several 'bottom'
-        windows are tiled horizontally within that strip. 'full' windows
-        fill the remaining top-left area (shrunk to 60% of the width and/or
-        height whenever a 'right'/'bottom' region is present) and are tiled
+        'left'/'right' windows each form a column along their edge, sized by
+        `self.regionRatio` (40% of the screen width by default) and the full
+        screen height; several windows sharing the same column are tiled
+        vertically within it. 'top'/'bottom' windows each form a strip along
+        their edge, sized by `self.regionRatio` (40% of the screen height by
+        default), spanning whatever width is not already taken by the
+        'left'/'right' columns; several windows sharing the same strip are
+        tiled horizontally within it. 'full' windows fill the remaining
+        area in between (shrunk accordingly whenever a
+        'left'/'right'/'top'/'bottom' region is present) and are tiled
         among themselves according to `self.vWindowAlignment`
         ('horizontal', 'vertical' or 'overlap')."""
         screen = QApplication.primaryScreen().availableGeometry()
 
         fullWindows = [w for w in self.allWindows() if w.region == 'full']
+        leftWindows = [w for w in self.allWindows() if w.region == 'left']
         rightWindows = [w for w in self.allWindows() if w.region == 'right']
+        topWindows = [w for w in self.allWindows() if w.region == 'top']
         bottomWindows = [w for w in self.allWindows() if w.region == 'bottom']
 
-        rightWidth = round(screen.width() * 0.4) if rightWindows else 0
-        bottomHeight = round(screen.height() * 0.4) if bottomWindows else 0
+        leftWidth = round(screen.width() * self.regionRatio['left']) if leftWindows else 0
+        rightWidth = round(screen.width() * self.regionRatio['right']) if rightWindows else 0
+        topHeight = round(screen.height() * self.regionRatio['top']) if topWindows else 0
+        bottomHeight = round(screen.height() * self.regionRatio['bottom']) if bottomWindows else 0
+
+        self._tileColumn(leftWindows, screen.left(), screen.top(),
+                          leftWidth, screen.height())
 
         self._tileColumn(rightWindows, screen.right() - rightWidth + 1, screen.top(),
                           rightWidth, screen.height())
 
-        self._tileRow(bottomWindows, screen.left(), screen.bottom() - bottomHeight + 1,
-                       screen.width() - rightWidth, bottomHeight)
+        self._tileRow(topWindows, screen.left() + leftWidth, screen.top(),
+                       screen.width() - leftWidth - rightWidth, topHeight)
 
-        self._tileFull(fullWindows, screen.left(), screen.top(),
-                        screen.width() - rightWidth, screen.height() - bottomHeight,
+        self._tileRow(bottomWindows, screen.left() + leftWidth, screen.bottom() - bottomHeight + 1,
+                       screen.width() - leftWidth - rightWidth, bottomHeight)
+
+        self._tileFull(fullWindows, screen.left() + leftWidth, screen.top() + topHeight,
+                        screen.width() - leftWidth - rightWidth, screen.height() - topHeight - bottomHeight,
                         self.vWindowAlignment)
+
+    @staticmethod
+    def _placeWindow(window, x, y, width, height):
+        """Position/resize `window` so its outer frame (title bar included)
+        occupies exactly (x, y, width, height).
+
+        QWidget.setGeometry() positions the frame-EXCLUDED client area, so
+        calling it directly with y = screen top pushes the title bar above
+        the visible screen (negative y) and it never gets painted. Here we
+        read the window's current frame margins and compensate so the
+        visible outer rect - not just the client area - lands where asked."""
+        frame = window.frameGeometry()
+        client = window.geometry()
+        left = client.left() - frame.left()
+        top = client.top() - frame.top()
+        right = frame.right() - client.right()
+        bottom = frame.bottom() - client.bottom()
+        window.setGeometry(x + left, y + top, width - left - right, height - top - bottom)
 
     @staticmethod
     def _tileRow(windows, x, y, width, height):
@@ -123,7 +164,7 @@ class WindowManager(QObject):
         for i, window in enumerate(windows):
             # last window absorbs the rounding remainder
             windowWidth = width - i * w if i == n - 1 else w
-            window.setGeometry(x + i * w, y, windowWidth, height)
+            WindowManager._placeWindow(window, x + i * w, y, windowWidth, height)
 
     @staticmethod
     def _tileColumn(windows, x, y, width, height):
@@ -135,7 +176,7 @@ class WindowManager(QObject):
         for i, window in enumerate(windows):
             # last window absorbs the rounding remainder
             windowHeight = height - i * h if i == n - 1 else h
-            window.setGeometry(x, y + i * h, width, windowHeight)
+            WindowManager._placeWindow(window, x, y + i * h, width, windowHeight)
 
     @staticmethod
     def _tileFull(windows, x, y, width, height, alignment):
@@ -146,7 +187,7 @@ class WindowManager(QObject):
             WindowManager._tileColumn(windows, x, y, width, height)
         elif alignment == 'overlap':
             for window in windows:
-                window.setGeometry(x, y, width, height)
+                WindowManager._placeWindow(window, x, y, width, height)
         else:  # 'horizontal'
             WindowManager._tileRow(windows, x, y, width, height)
 
@@ -174,10 +215,10 @@ class ViewerWindow(QMainWindow):
         self.show()
 
     def setRegion(self, region):
-        ''' set which part of the screen ('full', 'right' or 'bottom') this
-        window is placed in by WindowManager.applyLayout() '''
-        if region not in ('full', 'right', 'bottom'):
-            raise ValueError(f"region must be 'full', 'right' or 'bottom', got {region!r}")
+        ''' set which part of the screen ('full', 'left', 'right', 'top' or
+        'bottom') this window is placed in by WindowManager.applyLayout() '''
+        if region not in ('full', 'left', 'right', 'top', 'bottom'):
+            raise ValueError(f"region must be 'full', 'left', 'right', 'top' or 'bottom', got {region!r}")
         self.region = region
 
     def setup_menu(self):
