@@ -31,6 +31,7 @@ class WindowManager(QObject):
         self.setVWindowAlignment(vWindowAlignment)
         self.regionRatio = {region: WindowManager.DEFAULT['regionRatio']
                              for region in ('left', 'right', 'top', 'bottom')}
+        self.screenMargin = {'left': 0, 'top': 0, 'right': 0, 'bottom': 0}
 
         # On new window creation → ask top window to add it to menu
         self.sigWindowCreated.connect(self._add_to_menu)
@@ -50,6 +51,24 @@ class WindowManager(QObject):
         if not 0 < ratio < 1:
             raise ValueError(f"ratio must be between 0 and 1, got {ratio!r}")
         self.regionRatio[region] = ratio
+
+    def setScreenMargin(self, left=None, top=None, right=None, bottom=None):
+        ''' manually reserve extra space (in pixels) along one or more
+        screen edges that applyLayout() will never place a window into.
+
+        Useful when the platform under-reports (or misreports) the space
+        taken by a taskbar/panel via QScreen.availableGeometry() - e.g. on
+        some remote-desktop setups (mybinder.org, VNC) where the window
+        manager doesn't keep _NET_WORKAREA in sync with the taskbar, so
+        Qt thinks the full screen is usable and windows end up placed
+        behind it. Only sides passed here are changed; others keep their
+        current value (default 0 for all sides). '''
+        for name, value in (('left', left), ('top', top), ('right', right), ('bottom', bottom)):
+            if value is None:
+                continue
+            if value < 0:
+                raise ValueError(f"screen margin must be >= 0, got {name}={value!r}")
+            self.screenMargin[name] = value
 
     def register(self, window: QMainWindow):
         """Register a window. First registered window becomes the top window."""
@@ -108,6 +127,8 @@ class WindowManager(QObject):
         among themselves according to `self.vWindowAlignment`
         ('horizontal', 'vertical' or 'overlap')."""
         screen = QApplication.primaryScreen().availableGeometry()
+        screen = screen.adjusted(self.screenMargin['left'], self.screenMargin['top'],
+                                  -self.screenMargin['right'], -self.screenMargin['bottom'])
 
         fullWindows = [w for w in self.allWindows() if w.region == 'full']
         leftWindows = [w for w in self.allWindows() if w.region == 'left']

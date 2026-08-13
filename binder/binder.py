@@ -42,7 +42,11 @@ viewer.setDevice([camera1,camera2,laser,switch,stage])
 
 vWindows = viscope.wManager.allWindows()
 vWindows[0].setRegion('right')
-viscope.wManager.setRegionRatio('right', 0.15) 
+viscope.wManager.setRegionRatio('right', 0.15)
+# mybinder.org's remote desktop doesn't keep its taskbar's reserved space
+# in sync with QScreen.availableGeometry(), so windows can end up placed
+# behind it - reserve that space manually instead
+viscope.wManager.setScreenMargin(bottom=40)
 
 
 viscope.run()
