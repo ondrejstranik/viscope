@@ -9,6 +9,7 @@ sample: default image of cells
 #%%
 
 import time
+import traceback
 
 from napari.qt.threading import create_worker
 from viscope.instrument.base.baseInstrument import ThreadFlag
@@ -17,15 +18,16 @@ from viscope.virtualSystem.component.sample import Sample
 
 class BaseSystem():
     ''' base class for virtual microscope '''
-    DEFAULT = {}
-    
+    DEFAULT = {'loopDelay': 0.03} # default delay between iterations of the thread loop, in s
+
     def __init__(self, **kwargs):
         ''' initialisation '''
         super(BaseSystem,self).__init__(**kwargs)
 
         self.flagLoop = ThreadFlag()
         self.worker = None
-        
+        self.loopDelay = BaseSystem.DEFAULT['loopDelay']
+
         # set default sample
         self.sample = Sample()
         self.sample.setCell()
@@ -76,9 +78,14 @@ class BaseSystem():
         ''' infinite loop to carry out the microscope state update
         it is a state machine, which should be run in separate thread '''
         while True:
-            yield
-            print(f'loop of the {self.__class__.__name__}') 
-            time.sleep(1)
+            try:
+                yield
+                print(f'loop of the {self.__class__.__name__}')
+                time.sleep(1)
+            except:
+                print(f"An exception occurred in thread of {self.__class__.__name__}:\n")
+                traceback.print_exc()
+            time.sleep(self.loopDelay)
 
         
 

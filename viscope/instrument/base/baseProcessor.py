@@ -21,8 +21,8 @@ class BaseProcessor(BaseInstrument):
             calls processData() each time this flag is set.
     """
     DEFAULT = {'name':'baseProcessor',
-                  } 
-        
+                  }
+
     def __init__(self, name: str = None, **kwargs):
         ''' initialisation '''
 
@@ -60,16 +60,15 @@ class BaseProcessor(BaseInstrument):
                     self.processData()
                     self.flagLoop.set()
                     self.flagToProcess.clear()
-                    #print(f'{self.name} yielding new Data')  
+                    #print(f'{self.name} yielding new Data')
                     yield True
                 else:
                     yield False
-
-                time.sleep(0.03)
             except:
                 print(f"An exception occurred in thread of {self.name}:\n")
                 traceback.print_exc()
                 yield False
+            time.sleep(self.loopDelay)
 
 
 #%%

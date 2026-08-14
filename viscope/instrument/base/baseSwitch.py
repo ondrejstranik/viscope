@@ -68,11 +68,11 @@ class BaseSwitch(BaseInstrument):
                     self.flagSetPosition.clear()
                     self.flagLoop.set()
                     yield True
-                time.sleep(0.03)
             except:
                 print(f"An exception occurred in thread of {self.name}:\n")
                 traceback.print_exc()
-                yield False                
+                yield False
+            time.sleep(self.loopDelay)
 
 if __name__ == '__main__':
 

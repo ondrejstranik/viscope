@@ -56,8 +56,9 @@ class BaseInstrument():
             immediately. Pass False (default) to defer threading.
     """
     DEFAULT = {'name': 'baseInstrument',
-                'threading':False}
-    
+                'threading':False,
+                'loopDelay': 0.03} # default delay between iterations of the thread loop, in s
+
     def __init__(self, name: str = None,threading:bool=None,*args, **kwargs):
         ''' initialisation '''
         #super(BaseInstrument,self).__init__(*args, **kwargs)
@@ -66,6 +67,7 @@ class BaseInstrument():
 
         self.flagLoop = ThreadFlag()
         self.worker = None
+        self.loopDelay = BaseInstrument.DEFAULT['loopDelay']
 
         self.lock = Lock()
 
@@ -98,8 +100,10 @@ class BaseInstrument():
             self._setWorker(value)
         if name== 'threadingNow':
             self._setWorker(True)
-            if value: self.worker.start()  
-        
+            if value: self.worker.start()
+        if name== 'loopDelay':
+            self.loopDelay = value
+
 
     def getParameter(self,name):
         ''' get parameter of the instrument'''
@@ -107,6 +111,8 @@ class BaseInstrument():
             return self.name
         if name=='threading':
             return True if self.worker is not None else False
+        if name=='loopDelay':
+            return self.loopDelay
 
     def _setWorker(self,value:bool):
         ''' set the worker for the base instrument '''
@@ -123,12 +129,13 @@ class BaseInstrument():
             try:
                 print('output from BaseInstrument thread loop')
                 self.flagLoop.set('output')
-                yield True 
+                yield True
                 time.sleep(1)
             except:
                 print(f"An exception occurred in thread of {self.name}:\n")
                 traceback.print_exc()
-                yield False                
+                yield False
+            time.sleep(self.loopDelay)
 
 
 if __name__ == '__main__':

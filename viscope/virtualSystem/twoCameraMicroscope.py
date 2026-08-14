@@ -9,6 +9,7 @@ sample: default image of astronaout
 #%%
 
 import time
+import traceback
 import numpy as np
 #from qtpy.QtCore import QObject, Signal
 #from skimage import data
@@ -85,14 +86,17 @@ class TwoCameraMicroscope(BaseSystem):
         ''' infinite loop to carry out the microscope state update
         it is a state machine, which should be run in separate thread '''
         while True:
-            yield
-            if self.deviceParameterIsChanged():
-                print(f'calculate virtual frame')
-                self.device['camera1'].virtualFrame = self.calculateVirtualFrame(1)
-                self.device['camera2'].virtualFrame = self.calculateVirtualFrame(2)
-                self.deviceParameterFlagClear()
-
-            time.sleep(0.03)
+            try:
+                yield
+                if self.deviceParameterIsChanged():
+                    print(f'calculate virtual frame')
+                    self.device['camera1'].virtualFrame = self.calculateVirtualFrame(1)
+                    self.device['camera2'].virtualFrame = self.calculateVirtualFrame(2)
+                    self.deviceParameterFlagClear()
+            except:
+                print(f"An exception occurred in thread of {self.__class__.__name__}:\n")
+                traceback.print_exc()
+            time.sleep(self.loopDelay)
 
 
 class TwoCameraMicroscopeNA(TwoCameraMicroscope):

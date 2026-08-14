@@ -8,6 +8,7 @@ components: camera
 #%%
 
 import time
+import traceback
 
 from viscope.virtualSystem.base.baseSystem import BaseSystem
 from viscope.virtualSystem.component.component import Component
@@ -43,13 +44,16 @@ class SimpleMicroscope(BaseSystem):
         ''' infinite loop to carry out the microscope state update
         it is a state machine, which should be run in separate thread '''
         while True:
-            yield
-            if self.deviceParameterIsChanged():
-                print(f'calculate virtual frame')
-                self.device['camera'].virtualFrame = self.calculateVirtualFrame()
-                self.deviceParameterFlagClear()
-
-            time.sleep(0.03)
+            try:
+                yield
+                if self.deviceParameterIsChanged():
+                    print(f'calculate virtual frame')
+                    self.device['camera'].virtualFrame = self.calculateVirtualFrame()
+                    self.deviceParameterFlagClear()
+            except:
+                print(f"An exception occurred in thread of {self.__class__.__name__}:\n")
+                traceback.print_exc()
+            time.sleep(self.loopDelay)
 
 
 class SimpleMicroscopeNA(SimpleMicroscope):
