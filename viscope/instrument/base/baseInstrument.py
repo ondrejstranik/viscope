@@ -81,12 +81,23 @@ class BaseInstrument():
         print(f'connecting instrument - {self.name}  ')
 
     def disconnect(self):
-        """Disconnect from the instrument and stop the worker thread if running."""
+        """Disconnect from the instrument and stop the worker thread if running.
+
+        Waits (bounded by loopDelay) for the worker to actually finish -
+        quit() only requests an abort, which the loop notices only between
+        iterations, so without waiting here the thread can still be mid-
+        iteration by the time the caller proceeds to tear down more state.
+        """
         print(f'disconnecting instrument - {self.name} ')
         if self.worker is not None:
-            if self.worker.is_running: 
+            if self.worker.is_running:
                 print(f'quitting the thread loop of instrument  - {self.name} ')
                 self.worker.quit()
+                deadline = time.time() + self.loopDelay + 1
+                while self.worker.is_running and time.time() < deadline:
+                    time.sleep(0.01)
+                if self.worker.is_running:
+                    print(f'warning: worker of instrument - {self.name} did not stop within the timeout')
             else:
                 print(f'the thread loop of instrument  - {self.name} is already closed')
             # TODO: check if it not create errors!

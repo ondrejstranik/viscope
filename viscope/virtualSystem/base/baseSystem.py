@@ -51,12 +51,19 @@ class BaseSystem():
 
     def disconnect(self):
         ''' stop the virtual microscope '''
-        if self.worker is not None: 
+        if self.worker is not None:
             print(f'quitting the thread loop of {self.__class__.__name__}')
-            self.worker.quit()
+            worker = self.worker
+            worker.quit()
+            # wait (bounded by loopDelay) for the worker to actually finish -
+            # quit() only requests an abort, checked between loop iterations
+            deadline = time.time() + self.loopDelay + 1
+            while worker.is_running and time.time() < deadline:
+                time.sleep(0.01)
+            if worker.is_running:
+                print(f'warning: worker of {self.__class__.__name__} did not stop within the timeout')
             self.worker = None
             self.flagLoop = None
-            time.sleep(1)
 
     def deviceParameterIsChanged(self):
         ''' set true if any of the instruments changed parameter '''
