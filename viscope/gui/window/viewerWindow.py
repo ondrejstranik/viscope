@@ -125,7 +125,25 @@ class WindowManager(QObject):
         area in between (shrunk accordingly whenever a
         'left'/'right'/'top'/'bottom' region is present) and are tiled
         among themselves according to `self.vWindowAlignment`
-        ('horizontal', 'vertical' or 'overlap')."""
+        ('horizontal', 'vertical' or 'overlap').
+
+        A window's own minimum size (set by its docked widgets) is never
+        violated: a region grows past its ratio-based size if one of its
+        windows needs more room, and space shared among tiled windows is
+        split unevenly if needed so every window keeps at least its
+        minimum."""
+        # a widget's minimumSizeHint() can still be stale here: adding a
+        # dock widget/central widget posts a LayoutRequest event that Qt
+        # only processes once the event loop runs, and applyLayout() is
+        # called before self.app.exec() ever does. Without this, a window
+        # with many/wide docked widgets (e.g. a tabified dock holding a
+        # widget full of input fields) reports a too-small minimum size,
+        # so it gets squeezed into an equal share of the screen here and
+        # only reveals its real minimum - by growing into whatever is
+        # placed next to it - once Qt actually settles the layout later.
+        for _ in range(5):
+            QApplication.processEvents()
+
         screen = QApplication.primaryScreen().availableGeometry()
         screen = screen.adjusted(self.screenMargin['left'], self.screenMargin['top'],
                                   -self.screenMargin['right'], -self.screenMargin['bottom'])
@@ -136,37 +154,101 @@ class WindowManager(QObject):
         topWindows = [w for w in self.allWindows() if w.region == 'top']
         bottomWindows = [w for w in self.allWindows() if w.region == 'bottom']
 
-        leftWidth = round(screen.width() * self.regionRatio['left']) if leftWindows else 0
-        rightWidth = round(screen.width() * self.regionRatio['right']) if rightWindows else 0
-        topHeight = round(screen.height() * self.regionRatio['top']) if topWindows else 0
-        bottomHeight = round(screen.height() * self.regionRatio['bottom']) if bottomWindows else 0
+        leftWidthReq = self._regionExtent(leftWindows, screen.width() * self.regionRatio['left'],
+                                           WindowManager._minWidth)
+        rightWidthReq = self._regionExtent(rightWindows, screen.width() * self.regionRatio['right'],
+                                            WindowManager._minWidth)
+        topHeightReq = self._regionExtent(topWindows, screen.height() * self.regionRatio['top'],
+                                           WindowManager._minHeight)
+        bottomHeightReq = self._regionExtent(bottomWindows, screen.height() * self.regionRatio['bottom'],
+                                              WindowManager._minHeight)
 
-        self._tileColumn(leftWindows, screen.left(), screen.top(),
-                          leftWidth, screen.height())
+        # left/top sit "before" the top/bottom/full regions along their axis:
+        # if one of their windows refuses to shrink below its minimum, Qt
+        # grows it *towards* those regions, so use the actual applied
+        # extent (>= the requested one) to keep them from being overlapped.
+        # right/bottom sit "after" - an oversized window there only grows
+        # further off-screen, away from the other regions - so the
+        # requested extent stays valid for sizing/positioning around them.
+        leftWidth = self._tileColumn(leftWindows, screen.left(), screen.top(),
+                                      leftWidthReq, screen.height())
 
-        self._tileColumn(rightWindows, screen.right() - rightWidth + 1, screen.top(),
-                          rightWidth, screen.height())
+        self._tileColumn(rightWindows, screen.right() - rightWidthReq + 1, screen.top(),
+                          rightWidthReq, screen.height())
 
-        self._tileRow(topWindows, screen.left() + leftWidth, screen.top(),
-                       screen.width() - leftWidth - rightWidth, topHeight)
+        topHeight = self._tileRow(topWindows, screen.left() + leftWidth, screen.top(),
+                                   screen.width() - leftWidth - rightWidthReq, topHeightReq)
 
-        self._tileRow(bottomWindows, screen.left() + leftWidth, screen.bottom() - bottomHeight + 1,
-                       screen.width() - leftWidth - rightWidth, bottomHeight)
+        self._tileRow(bottomWindows, screen.left() + leftWidth, screen.bottom() - bottomHeightReq + 1,
+                       screen.width() - leftWidth - rightWidthReq, bottomHeightReq)
 
         self._tileFull(fullWindows, screen.left() + leftWidth, screen.top() + topHeight,
-                        screen.width() - leftWidth - rightWidth, screen.height() - topHeight - bottomHeight,
+                        screen.width() - leftWidth - rightWidthReq, screen.height() - topHeight - bottomHeightReq,
                         self.vWindowAlignment)
+
+    @staticmethod
+    def _minWidth(window):
+        """Smallest width `window` can be resized to without Qt clamping it
+        back up, given its own minimum size and the minimum size hint
+        imposed by its central/docked widgets."""
+        return max(window.minimumWidth(), window.minimumSizeHint().width())
+
+    @staticmethod
+    def _minHeight(window):
+        """Smallest height `window` can be resized to without Qt clamping it
+        back up, given its own minimum size and the minimum size hint
+        imposed by its central/docked widgets."""
+        return max(window.minimumHeight(), window.minimumSizeHint().height())
+
+    @staticmethod
+    def _regionExtent(windows, ratioExtent, minFunc):
+        """Width/height a region should occupy: at least `ratioExtent`
+        (the regionRatio-based size), but grown to fit whichever of its
+        windows needs the most room."""
+        if not windows:
+            return 0
+        return round(max(ratioExtent, max(minFunc(w) for w in windows)))
+
+    @staticmethod
+    def _distribute(minimums, total):
+        """Split `total` across len(minimums) slots, giving each at least
+        its `minimums[i]`, spreading any leftover space evenly. If the
+        minimums alone add up to more than `total`, every slot simply gets
+        its minimum (the windows will end up larger than the region -
+        there is no smaller size that keeps them usable)."""
+        n = len(minimums)
+        if n == 0:
+            return []
+        sizes = list(minimums)
+        extra = total - sum(minimums)
+        if extra <= 0:
+            return sizes
+        share, remainder = divmod(extra, n)
+        for i in range(n):
+            sizes[i] += share
+        sizes[-1] += remainder
+        return sizes
 
     @staticmethod
     def _placeWindow(window, x, y, width, height):
         """Position/resize `window` so its outer frame (title bar included)
-        occupies exactly (x, y, width, height).
+        occupies exactly (x, y, width, height), and report back the outer
+        frame Qt actually applied.
 
         QWidget.setGeometry() positions the frame-EXCLUDED client area, so
         calling it directly with y = screen top pushes the title bar above
         the visible screen (negative y) and it never gets painted. Here we
         read the window's current frame margins and compensate so the
-        visible outer rect - not just the client area - lands where asked."""
+        visible outer rect - not just the client area - lands where asked.
+
+        `width`/`height` are a request, not a guarantee: if they are
+        smaller than what the window's own widgets need, Qt keeps (x, y)
+        fixed and silently grows the window's right/bottom edge past what
+        was asked for instead of shrinking it. Callers that tile several
+        windows in a row/column must use the returned actual size - not
+        the requested one - to position the next window, or an
+        under-estimated minimum size here will make it overlap the next
+        window instead of just this one growing harmlessly on its own."""
         frame = window.frameGeometry()
         client = window.geometry()
         left = client.left() - frame.left()
@@ -175,29 +257,48 @@ class WindowManager(QObject):
         bottom = frame.bottom() - client.bottom()
         window.setGeometry(x + left, y + top, width - left - right, height - top - bottom)
 
+        applied = window.frameGeometry()
+        return applied.width(), applied.height()
+
     @staticmethod
     def _tileRow(windows, x, y, width, height):
-        """Place `windows` side-by-side, spanning `width` at vertical position `y`."""
-        n = len(windows)
-        if n == 0:
-            return
-        w = width // n
-        for i, window in enumerate(windows):
-            # last window absorbs the rounding remainder
-            windowWidth = width - i * w if i == n - 1 else w
-            WindowManager._placeWindow(window, x + i * w, y, windowWidth, height)
+        """Place `windows` side-by-side, spanning `width` at vertical
+        position `y`. Each window keeps at least its own minimum width; the
+        extra space (if any) is split evenly among them.
+
+        Returns the tallest actual height any window ended up with (equal
+        to `height`, unless one of them refused to shrink to it - see
+        `_placeWindow`)."""
+        if not windows:
+            return height
+        widths = WindowManager._distribute([WindowManager._minWidth(w) for w in windows], width)
+        cursor = x
+        usedHeight = height
+        for window, w in zip(windows, widths):
+            actualWidth, actualHeight = WindowManager._placeWindow(window, cursor, y, w, height)
+            cursor += actualWidth
+            usedHeight = max(usedHeight, actualHeight)
+        return usedHeight
 
     @staticmethod
     def _tileColumn(windows, x, y, width, height):
-        """Place `windows` stacked top-to-bottom, spanning `height` at horizontal position `x`."""
-        n = len(windows)
-        if n == 0:
-            return
-        h = height // n
-        for i, window in enumerate(windows):
-            # last window absorbs the rounding remainder
-            windowHeight = height - i * h if i == n - 1 else h
-            WindowManager._placeWindow(window, x, y + i * h, width, windowHeight)
+        """Place `windows` stacked top-to-bottom, spanning `height` at
+        horizontal position `x`. Each window keeps at least its own minimum
+        height; the extra space (if any) is split evenly among them.
+
+        Returns the widest actual width any window ended up with (equal to
+        `width`, unless one of them refused to shrink to it - see
+        `_placeWindow`)."""
+        if not windows:
+            return width
+        heights = WindowManager._distribute([WindowManager._minHeight(w) for w in windows], height)
+        cursor = y
+        usedWidth = width
+        for window, h in zip(windows, heights):
+            actualWidth, actualHeight = WindowManager._placeWindow(window, x, cursor, width, h)
+            cursor += actualHeight
+            usedWidth = max(usedWidth, actualWidth)
+        return usedWidth
 
     @staticmethod
     def _tileFull(windows, x, y, width, height, alignment):
