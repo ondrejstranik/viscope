@@ -9,11 +9,13 @@ sample: default image of cells
 #%%
 
 import time
-import traceback
+import logging
 
 from napari.qt.threading import create_worker
 from viscope.instrument.base.baseInstrument import ThreadFlag
 from viscope.virtualSystem.component.sample import Sample
+
+logger = logging.getLogger(__name__)
 
 
 class BaseSystem():
@@ -44,7 +46,7 @@ class BaseSystem():
 
     def connect(self):
         ''' start the virtual microscope '''
-        print(f'starting thread loop of {self.__class__.__name__}')
+        logger.info(f'starting thread loop of {self.__class__.__name__}')
         
         self.worker = create_worker(self.loop)
         self.worker.start()
@@ -52,7 +54,7 @@ class BaseSystem():
     def disconnect(self):
         ''' stop the virtual microscope '''
         if self.worker is not None:
-            print(f'quitting the thread loop of {self.__class__.__name__}')
+            logger.info(f'quitting the thread loop of {self.__class__.__name__}')
             worker = self.worker
             worker.quit()
             # wait (bounded by loopDelay) for the worker to actually finish -
@@ -61,7 +63,7 @@ class BaseSystem():
             while worker.is_running and time.time() < deadline:
                 time.sleep(0.01)
             if worker.is_running:
-                print(f'warning: worker of {self.__class__.__name__} did not stop within the timeout')
+                logger.warning(f'worker of {self.__class__.__name__} did not stop within the timeout')
             self.worker = None
             self.flagLoop = None
 
@@ -87,11 +89,10 @@ class BaseSystem():
         while True:
             try:
                 yield
-                print(f'loop of the {self.__class__.__name__}')
+                logger.debug(f'loop of the {self.__class__.__name__}')
                 time.sleep(1)
             except:
-                print(f"An exception occurred in thread of {self.__class__.__name__}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.__class__.__name__}")
             time.sleep(self.loopDelay)
 
         

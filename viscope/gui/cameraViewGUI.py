@@ -3,6 +3,7 @@ class for live viewing spectral images
 '''
 #%%
 #import napari
+import logging
 from magicgui import magicgui
 #from typing import Annotated, Literal
 
@@ -12,6 +13,8 @@ from viscope.gui.baseGUI import BaseGUI
 from timeit import default_timer as timer
 from viscope.gui.napariViewer.napariViewer import NapariViewer
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 
 class CameraViewGUI(BaseGUI):
@@ -73,8 +76,8 @@ class CameraViewGUI(BaseGUI):
             self.rawLayer.data = self.device.rawImage
             if resetView:
                 self.viewer.reset_view()
-        except Exception as e:
-            print(f'error in updateGui in cameraViewGUI: {e}')
+        except Exception:
+            logger.exception('error in updateGui in cameraViewGUI')
 
 
 if __name__ == "__main__":

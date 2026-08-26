@@ -9,8 +9,10 @@ shared by all stage subclasses.
 
 import time
 import numpy as np
-import traceback
+import logging
 from viscope.instrument.base.baseInstrument import BaseInstrument, ThreadFlag
+
+logger = logging.getLogger(__name__)
 
 
 class BaseStage(BaseInstrument):
@@ -70,8 +72,7 @@ class BaseStage(BaseInstrument):
                     self.flagLoop.set()
                     yield True
             except:
-                print(f"An exception occurred in thread of {self.name}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)
 

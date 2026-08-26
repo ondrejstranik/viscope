@@ -7,8 +7,10 @@ worker thread, yielding between steps to keep the thread interruptible.
 #%%
 
 import time
+import logging
 from viscope.instrument.base.baseInstrument import BaseInstrument
-import traceback
+
+logger = logging.getLogger(__name__)
 
 class BaseSequencer(BaseInstrument):
     ''' base class for carry out a sequence of hardware / software steps
@@ -27,16 +29,15 @@ class BaseSequencer(BaseInstrument):
         ''' finite (infinite) loop of the sequence'''
         try:
             for ii in range(10):
-                print(f'sequence step number {ii}')
+                logger.debug(f'sequence step number {ii}')
                 yield True
                 time.sleep(1)
-            
+
             # finishing
             self.flagLoop = None
 
         except:
-            print(f"An exception occurred in thread of {self.name}:\n")
-            traceback.print_exc()
+            logger.exception(f"An exception occurred in thread of {self.name}")
             # finishing
             self.flagLoop = None
 

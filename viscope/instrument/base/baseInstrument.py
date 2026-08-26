@@ -6,11 +6,13 @@ synchronisation mechanism shared by every instrument subclass.
 """
 #%%
 import time
+import logging
 #from napari.qt.threading import create_worker
 from superqt.utils._qthreading import create_worker
 from threading import Event, Lock
-import traceback
 #from dataclasses import dataclass,field
+
+logger = logging.getLogger(__name__)
 
 class ThreadFlag:
     """Thread-safe flag that can carry a list of data payloads.
@@ -78,7 +80,7 @@ class BaseInstrument():
 
     def connect(self):
         """Connect to the instrument hardware."""
-        print(f'connecting instrument - {self.name}  ')
+        logger.info(f'connecting instrument - {self.name}  ')
 
     def disconnect(self):
         """Disconnect from the instrument and stop the worker thread if running.
@@ -88,18 +90,18 @@ class BaseInstrument():
         iterations, so without waiting here the thread can still be mid-
         iteration by the time the caller proceeds to tear down more state.
         """
-        print(f'disconnecting instrument - {self.name} ')
+        logger.info(f'disconnecting instrument - {self.name} ')
         if self.worker is not None:
             if self.worker.is_running:
-                print(f'quitting the thread loop of instrument  - {self.name} ')
+                logger.info(f'quitting the thread loop of instrument  - {self.name} ')
                 self.worker.quit()
                 deadline = time.time() + self.loopDelay + 1
                 while self.worker.is_running and time.time() < deadline:
                     time.sleep(0.01)
                 if self.worker.is_running:
-                    print(f'warning: worker of instrument - {self.name} did not stop within the timeout')
+                    logger.warning(f'worker of instrument - {self.name} did not stop within the timeout')
             else:
-                print(f'the thread loop of instrument  - {self.name} is already closed')
+                logger.info(f'the thread loop of instrument  - {self.name} is already closed')
             # TODO: check if it not create errors!
             #self.flagLoop = None
 
@@ -128,7 +130,7 @@ class BaseInstrument():
     def _setWorker(self,value:bool):
         ''' set the worker for the base instrument '''
         if value:
-            print(f'starting thread loop of instrument - {self.name}')
+            logger.info(f'starting thread loop of instrument - {self.name}')
             self.worker = create_worker(self.loop)
         else:
             self.worker = None
@@ -138,13 +140,12 @@ class BaseInstrument():
         ''' base threading loop of the instrument '''
         while True:
             try:
-                print('output from BaseInstrument thread loop')
+                logger.debug('output from BaseInstrument thread loop')
                 self.flagLoop.set('output')
                 yield True
                 time.sleep(1)
             except:
-                print(f"An exception occurred in thread of {self.name}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)
 

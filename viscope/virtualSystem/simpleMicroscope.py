@@ -8,10 +8,12 @@ components: camera
 #%%
 
 import time
-import traceback
+import logging
 
 from viscope.virtualSystem.base.baseSystem import BaseSystem
 from viscope.virtualSystem.component.component import Component
+
+logger = logging.getLogger(__name__)
 
 
 class SimpleMicroscope(BaseSystem):
@@ -35,7 +37,7 @@ class SimpleMicroscope(BaseSystem):
                 iFrame= self.sample.get(),iPixelSize=self.sample.pixelSize,
                 magnification= self.DEFAULT['magnification'])
 
-        print('virtual Frame updated')
+        logger.debug('virtual Frame updated')
 
         return oFrame
 
@@ -47,12 +49,11 @@ class SimpleMicroscope(BaseSystem):
             try:
                 yield
                 if self.deviceParameterIsChanged():
-                    print(f'calculate virtual frame')
+                    logger.debug('calculate virtual frame')
                     self.device['camera'].virtualFrame = self.calculateVirtualFrame()
                     self.deviceParameterFlagClear()
             except:
-                print(f"An exception occurred in thread of {self.__class__.__name__}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.__class__.__name__}")
             time.sleep(self.loopDelay)
 
 
@@ -73,7 +74,7 @@ class SimpleMicroscopeNA(SimpleMicroscope):
                 iFrame= iFrame,iPixelSize=self.sample.pixelSize,
                 magnification= self.DEFAULT['magnification'])
 
-        print('virtual Frame updated')
+        logger.debug('virtual Frame updated')
 
         return oFrame
 

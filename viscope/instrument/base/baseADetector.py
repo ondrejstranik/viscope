@@ -10,7 +10,9 @@ sets flagLoop whenever new data is present.
 import numpy as np
 from viscope.instrument.base.baseInstrument import BaseInstrument
 import time
-import traceback
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class BaseADetector(BaseInstrument):
@@ -100,8 +102,7 @@ class BaseADetector(BaseInstrument):
                     yield False
                 time.sleep(self.stackTime)
             except:
-                print(f"An exception occurred in thread of {self.name}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
 
 

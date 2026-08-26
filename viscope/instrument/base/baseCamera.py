@@ -8,9 +8,11 @@ subclasses.
 #%%
 
 import time
+import logging
 import numpy as np
 from viscope.instrument.base.baseInstrument import BaseInstrument
-import traceback
+
+logger = logging.getLogger(__name__)
 
 class BaseCamera(BaseInstrument):
     """Base class for all cameras.
@@ -55,7 +57,7 @@ class BaseCamera(BaseInstrument):
        
     def getLastImage(self):
         ''' get the last image from the camera '''
-        print('getLastImage of baseCamera')
+        logger.debug('getLastImage of baseCamera')
         time.sleep(self.exposureTime/1000*self.nFrame)
         self.rawImage = np.ones((self.height,self.width))
         return self.rawImage
@@ -124,8 +126,7 @@ class BaseCamera(BaseInstrument):
                 self.flagLoop.set()
                 yield True
             except:
-                print(f"An exception occurred in thread of {self.name}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)
 

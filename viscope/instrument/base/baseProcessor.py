@@ -7,8 +7,10 @@ processData() each time new data arrives.
 #%%
 
 import time
+import logging
 from viscope.instrument.base.baseInstrument import BaseInstrument
-import traceback
+
+logger = logging.getLogger(__name__)
 
 class BaseProcessor(BaseInstrument):
     """Base class for all data processors.
@@ -65,8 +67,7 @@ class BaseProcessor(BaseInstrument):
                 else:
                     yield False
             except:
-                print(f"An exception occurred in thread of {self.name}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)
 

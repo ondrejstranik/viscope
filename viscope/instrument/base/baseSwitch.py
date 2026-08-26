@@ -8,8 +8,10 @@ and an optional threaded switching loop.
 
 import numpy as np
 import time
-import traceback
+import logging
 from viscope.instrument.base.baseInstrument import BaseInstrument, ThreadFlag
+
+logger = logging.getLogger(__name__)
 
 class BaseSwitch(BaseInstrument):
     ''' main class to control a switch with discrete positions'''
@@ -69,8 +71,7 @@ class BaseSwitch(BaseInstrument):
                     self.flagLoop.set()
                     yield True
             except:
-                print(f"An exception occurred in thread of {self.name}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)
 

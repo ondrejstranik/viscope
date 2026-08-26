@@ -8,10 +8,13 @@ state visible during virtual-microscope experiments.
 
 import numpy as np
 import time
+import logging
 
 #from qtpy.QtCore import QObject, Signal
 from viscope.instrument.base.basePump import BasePump
 from viscope.instrument.base.baseInstrument import ThreadFlag
+
+logger = logging.getLogger(__name__)
 
 class VirtualPump(BasePump):
     ''' main class to emulate pump'''
@@ -34,18 +37,18 @@ class VirtualPump(BasePump):
         """Set flow rate and print the resulting effective flow rate."""
         super()._setFlowRate(value)
         try:
-            print(f'setting FlowRate realFlowRate = {self.flowRate*self.flow}')
+            logger.debug(f'setting FlowRate realFlowRate = {self.flowRate*self.flow}')
         except:
-            print('flowRate not defined')
+            logger.warning('flowRate not defined')
 
     def _setFlow(self, value):
         """Enable or disable flow and print the resulting effective flow rate."""
         super()._setFlow(value)
         try:
-            print(f'setting flow realFlowRate = {self.flowRate*self.flow}')
-            print(f'setting flow flow = {self.flow}')
+            logger.debug(f'setting flow realFlowRate = {self.flowRate*self.flow}')
+            logger.debug(f'setting flow flow = {self.flow}')
         except:
-            print('flowRate not defined')
+            logger.warning('flowRate not defined')
 
 
 

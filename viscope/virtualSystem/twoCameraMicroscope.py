@@ -9,7 +9,7 @@ sample: default image of astronaout
 #%%
 
 import time
-import traceback
+import logging
 import numpy as np
 #from qtpy.QtCore import QObject, Signal
 #from skimage import data
@@ -21,6 +21,8 @@ import numpy as np
 
 from viscope.virtualSystem.base.baseSystem import BaseSystem
 from viscope.virtualSystem.component.component import Component
+
+logger = logging.getLogger(__name__)
 
 class TwoCameraMicroscope(BaseSystem):
     ''' class to emulate microscope '''
@@ -65,7 +67,7 @@ class TwoCameraMicroscope(BaseSystem):
                 oFrame /= 2
             if self.device['switch'].getParameter('position') ==2:
                 oFrame *= 0
-            print(f'virtual Frame of camera - {self.device["camera1"].name}  - updated')
+            logger.debug(f'virtual Frame of camera - {self.device["camera1"].name}  - updated')
             return oFrame
 
         # camera 2 
@@ -79,7 +81,7 @@ class TwoCameraMicroscope(BaseSystem):
                 oFrame /= 2
             if self.device['switch'].getParameter('position') ==0:
                 oFrame *= 0
-            print(f'virtual Frame of camera - {self.device["camera2"].name}  - updated')
+            logger.debug(f'virtual Frame of camera - {self.device["camera2"].name}  - updated')
             return oFrame
 
     def loop(self):
@@ -89,13 +91,12 @@ class TwoCameraMicroscope(BaseSystem):
             try:
                 yield
                 if self.deviceParameterIsChanged():
-                    print(f'calculate virtual frame')
+                    logger.debug('calculate virtual frame')
                     self.device['camera1'].virtualFrame = self.calculateVirtualFrame(1)
                     self.device['camera2'].virtualFrame = self.calculateVirtualFrame(2)
                     self.deviceParameterFlagClear()
             except:
-                print(f"An exception occurred in thread of {self.__class__.__name__}:\n")
-                traceback.print_exc()
+                logger.exception(f"An exception occurred in thread of {self.__class__.__name__}")
             time.sleep(self.loopDelay)
 
 
@@ -132,7 +133,7 @@ class TwoCameraMicroscopeNA(TwoCameraMicroscope):
                 oFrame /= 2
             if self.device['switch'].getParameter('position') ==2:
                 oFrame *= 0
-            print(f'virtual Frame of camera - {self.device["camera1"].name}  - updated')
+            logger.debug(f'virtual Frame of camera - {self.device["camera1"].name}  - updated')
             return oFrame
 
         # camera 2
@@ -146,7 +147,7 @@ class TwoCameraMicroscopeNA(TwoCameraMicroscope):
                 oFrame /= 2
             if self.device['switch'].getParameter('position') ==0:
                 oFrame *= 0
-            print(f'virtual Frame of camera - {self.device["camera2"].name}  - updated')
+            logger.debug(f'virtual Frame of camera - {self.device["camera2"].name}  - updated')
             return oFrame
 
 

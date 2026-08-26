@@ -3,6 +3,7 @@ class for live viewing spectral images
 '''
 #%%
 import napari
+import logging
 from magicgui import magicgui
 from typing import Annotated, Literal
 
@@ -12,6 +13,8 @@ from qtpy.QtGui import QKeySequence
 from viscope.gui.baseGUI import BaseGUI
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 class StageGUI(BaseGUI):
     ''' main class to control stage'''
@@ -74,9 +77,9 @@ class StageGUI(BaseGUI):
             self.parameterStageGui.relY.value = relP[1]
             self.parameterStageGui.relZ.value = relP[2]
 
-            print(f'relative movement X: {relP[0]:.04f}')
-            print(f'relative movement Y: {relP[1]:.04f}')
-            print(f'relative movement Z: {relP[2]:.04f}')
+            logger.debug(f'relative movement X: {relP[0]:.04f}')
+            logger.debug(f'relative movement Y: {relP[1]:.04f}')
+            logger.debug(f'relative movement Z: {relP[2]:.04f}')
 
             currentPosition = self.device.getParameter('position')
 

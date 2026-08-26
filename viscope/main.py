@@ -4,11 +4,14 @@ class for live viewing spectral images
 #%%
 
 import sys
+import logging
 from qtpy.QtWidgets import QApplication, QMainWindow
 from viscope.gui.window.viewerWindow import ViewerWindow, WindowManager
 
 from pathlib import Path
 import napari
+
+logger = logging.getLogger(__name__)
 
 class VISCOPE():
     ''' base top class for control'''
@@ -20,7 +23,7 @@ class VISCOPE():
         ''' initialise the class '''
 
         self.app = QApplication([])
-        self.app.aboutToQuit.connect(lambda : print('Viscope is closed'))
+        self.app.aboutToQuit.connect(lambda : logger.info('Viscope is closed'))
 
         vWindowAlignment = kwargs.get('vWindowAlignment', WindowManager.DEFAULT['vWindowAlignment'])
         self.wManager = WindowManager(vWindowAlignment=vWindowAlignment)
@@ -57,7 +60,7 @@ class VISCOPE():
 
         ''' start the gui viewer'''
         # start main event loop
-        print('starting main viscope loop')
+        logger.info('starting main viscope loop')
         self.app.exec()
 
 viscope = VISCOPE()

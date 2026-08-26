@@ -9,8 +9,11 @@ Created on Mon Nov 15 12:08:51 2021
 
 import os
 import time
+import logging
 import numpy as np
 from viscope.instrument.base.baseProcessor import BaseProcessor
+
+logger = logging.getLogger(__name__)
 
 
 class ADetectorProcessor(BaseProcessor):
@@ -87,7 +90,7 @@ class ADetectorProcessor(BaseProcessor):
                 #self.time = self.time - self.timeStart
 
         except:
-            print(f'from {self.DEFAULT["name"]}: can not process the data')
+            logger.exception(f'from {self.DEFAULT["name"]}: can not process the data')
             #print(f'self.stack {self.self.stack}')
             #print(f'time {self.time}')
             #print(f'signal {self.signal}')

@@ -6,11 +6,14 @@ shows pixel coordinates and value under the mouse cursor.
 """
 #%%
 #import napari
+import logging
 import pyqtgraph as pg
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 from viscope.gui.baseGUI import BaseGUI
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 
 class CameraView2GUI(BaseGUI):
@@ -130,8 +133,8 @@ class CameraView2GUI(BaseGUI):
             self.viewer.setImage(self.device.rawImage.T,
                                     autoRange=False,
                                     autoLevels=True)
-        except Exception as e:
-            print(f'error in updateGui in cameraView2GUI: {e}')
+        except Exception:
+            logger.exception('error in updateGui in cameraView2GUI')
 
 
 if __name__ == "__main__":
