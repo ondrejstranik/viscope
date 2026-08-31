@@ -22,6 +22,8 @@ class VirtualCamera(BaseCamera):
                 'width': 900,
                 'cameraOffset':10,
                 'electronicNoise': 3,
+                'quantumEfficiency': 1,
+                'gain': 1,
                 'cameraPixelSize': 1} # um
     
 
@@ -34,6 +36,8 @@ class VirtualCamera(BaseCamera):
         # camera parameters
         self.cameraOffset = VirtualCamera.DEFAULT['cameraOffset']
         self.electronicNoise = VirtualCamera.DEFAULT['electronicNoise']
+        self.quantumEfficiency = VirtualCamera.DEFAULT['quantumEfficiency']
+        self.gain = VirtualCamera.DEFAULT['gain']
         self.height = VirtualCamera.DEFAULT['height']
         self.width = VirtualCamera.DEFAULT['width']
 
@@ -48,22 +52,25 @@ class VirtualCamera(BaseCamera):
 
     def getLastImage(self):
         ''' get the last image from the camera '''
-        myFrame = None
-        for ii in range(self.nFrame):
-            time.sleep(self.exposureTime/1000)
-            if myFrame is None:
-                myFrame = self.virtualFrame.astype(float)
-            else:
-                myFrame = myFrame + self.virtualFrame.astype(float)
-            
-            # add offset and electronic noise
-            myFrame = (myFrame + 
-                    np.random.normal(self.cameraOffset,
-                                    self.electronicNoise,
-                                    np.shape(myFrame))
-                        )            
+        time.sleep(self.nFrame*self.exposureTime/1000)
 
-        myFrame = myFrame/self.nFrame
+        # photon shot noise (virtualFrame is in photon numbers): the sum of
+        # nFrame iid Poisson(lambda) draws is exactly Poisson(nFrame*lambda),
+        # so the average over nFrame exposures can be drawn exactly with a
+        # single Poisson call instead of nFrame separate ones
+        photonFrame = np.random.poisson(self.virtualFrame*self.nFrame)/self.nFrame
+
+        # convert photons to electrons, then electrons to counts
+        meanFrame = photonFrame*self.quantumEfficiency*self.gain
+
+        # electronic noise: Gaussian, scaled down by sqrt(nFrame) since it
+        # is the noise of an average of nFrame independent exposures
+        electronicNoiseStd = self.electronicNoise/np.sqrt(self.nFrame)
+
+        myFrame = (meanFrame + self.cameraOffset +
+                    np.random.normal(0, electronicNoiseStd, np.shape(meanFrame))
+                    )
+
         self.rawImage = myFrame
         return self.rawImage
 
