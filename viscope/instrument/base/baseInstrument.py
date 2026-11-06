@@ -144,7 +144,7 @@ class BaseInstrument():
                 self.flagLoop.set('output')
                 yield True
                 time.sleep(1)
-            except:
+            except Exception:
                 logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)

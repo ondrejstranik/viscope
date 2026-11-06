@@ -50,6 +50,11 @@ class BaseGUI(QObject):
         # if not specific window than set the window to the main window of viscope
         self.vWindow = vWindow if vWindow is not None else viscope.vWindow
 
+        # new data arrived while the window was hidden or minimised
+        self._updatePending = False
+        # catch up with the latest data when the window is shown / restored
+        self.vWindow.visibilityChanged.connect(self._onVisibilityChanged)
+
         #self.flagLoop = ThreadFlag()
         #self.worker = None
 
@@ -86,13 +91,28 @@ class BaseGUI(QObject):
         ''' update gui according the update time 
         connect with corresponding yield of the device '''
 
+        if not newData: return
+
+        # do not redraw a closed (hidden) or minimised window
+        if not self.vWindow.isVisible() or self.vWindow.isMinimized():
+            self._updatePending = True
+            return
+
         timeNow = timer()
-        if newData and ((timeNow -self.lastUpdateTime) > self.guiUpdateTime):
+        if (timeNow -self.lastUpdateTime) > self.guiUpdateTime:
             self.updateGui()
             self.lastUpdateTime = timeNow
 
         #if newData:
-        #    print('newDataArrived') 
+        #    print('newDataArrived')
+
+    def _onVisibilityChanged(self, visible):
+        ''' redraw once with the latest data, if some arrived while the
+        window was hidden or minimised '''
+        if visible and self._updatePending and not self.vWindow.isMinimized():
+            self._updatePending = False
+            self.updateGui()
+            self.lastUpdateTime = timer()
 
     def updateGui(self):
         ''' update the data in gui '''

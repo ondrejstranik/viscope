@@ -70,7 +70,7 @@ class BaseSwitch(BaseInstrument):
                     self.flagSetPosition.clear()
                     self.flagLoop.set()
                     yield True
-            except:
+            except Exception:
                 logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)

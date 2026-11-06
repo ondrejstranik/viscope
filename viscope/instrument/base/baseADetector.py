@@ -101,7 +101,7 @@ class BaseADetector(BaseInstrument):
                 else:
                     yield False
                 time.sleep(self.stackTime)
-            except:
+            except Exception:
                 logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
 

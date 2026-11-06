@@ -59,14 +59,17 @@ class BaseProcessor(BaseInstrument):
             try:
                 if ((self.flagToProcess is not None) and
                     (self.flagToProcess.is_set())):
+                    # clear before processing - new data arriving during
+                    # processData() sets the flag again and is processed in
+                    # the next iteration instead of being discarded
+                    self.flagToProcess.clear()
                     self.processData()
                     self.flagLoop.set()
-                    self.flagToProcess.clear()
                     #print(f'{self.name} yielding new Data')
                     yield True
                 else:
                     yield False
-            except:
+            except Exception:
                 logger.exception(f"An exception occurred in thread of {self.name}")
                 yield False
             time.sleep(self.loopDelay)
