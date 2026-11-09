@@ -22,8 +22,10 @@ from viscope.instrument.base.baseInstrument import ThreadFlag
 
 #from magicgui.widgets import MainWindow, Container, MainFunctionGui, FunctionGui
 
+import logging
 from timeit import default_timer as timer
 
+logger = logging.getLogger(__name__)
 
 class BaseGUI(QObject):
     ''' base class for all GUI. It is inherited from QObject, so that it can generate Signals'''
@@ -101,6 +103,7 @@ class BaseGUI(QObject):
         timeNow = timer()
         if (timeNow -self.lastUpdateTime) > self.guiUpdateTime:
             self.updateGui()
+            logger.debug('%s updateGui time %.4f s', type(self).__name__, timer() - timeNow)
             self.lastUpdateTime = timeNow
 
         #if newData:
